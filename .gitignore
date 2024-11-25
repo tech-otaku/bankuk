@@ -1,0 +1,6 @@
+
+mysqldump/
+public_html/admin/
+public_html/dist/
+public_html/index.old.php
+public_html/bs/pages_index.php
