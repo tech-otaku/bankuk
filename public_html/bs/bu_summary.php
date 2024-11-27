@@ -3,26 +3,22 @@
     include('conf/pdoconfig.php');
     include('conf/checklogin.php');
     include('conf/bu_custom.php');
-    echo $_SESSION['admin_id'];
     check_login();
     $admin_id = $_SESSION['admin_id'];
     $page_name = "Summary";
     
     // NOTE: $pdo is an instance of a pdo() object declared in conf/pdoconfig.php
 
-// Get the current accounting period based upon today's date
+// Get settings data
     $stmt = $pdo->prepare("
         CALL 
-            bu_accounting_periods_current(?);
+            bu_settings_get_settings();
     ");
-    $stmt->execute(
-        [
-            date('Y-m-d')   // Today's date as YYYY-MM-DD
-        ]
-    );
-
-    $bu_accounting_period = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    
+    $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,7 +56,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header p-6">
-                                    <h2 id="filter-total" class="card-title"><?php echo date('l jS F Y', strtotime($bu_accounting_period['start'])) . ' to ' . date('l jS F Y', strtotime($bu_accounting_period['end'])) . ' [Period ' . $bu_accounting_period['period'] .']'; ?></h2>
+                                    <h2 id="filter-total" class="card-title"><?php echo date('l jS F Y', strtotime($bu_settings['current_start'])) . ' to ' . date('l jS F Y', strtotime($bu_settings['current_end'])) . ' [Period ' . $bu_settings['current_period'] .']'; ?></h2>
                                 </div>
                                 <div class="card-body">
                                     <table id="summary" class="table table-hover table-bordered table-striped">

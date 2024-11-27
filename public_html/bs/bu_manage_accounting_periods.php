@@ -44,25 +44,22 @@
                                 <div class="card-header p-6">
                                     <h3 class="card-title">
                                         <?php
-                                            // Get the current accounting period based upon today's date
+
+                                        // Get settings data
                                             $stmt = $pdo->prepare("
                                                 CALL 
-                                                    bu_accounting_periods_current(?);
+                                                    bu_settings_get_settings();
                                             ");
-                                            $stmt->execute(
-                                                [
-                                                    date('Y-m-d')   // Today's date as YYYY-MM-DD
-                                                ]
-                                            );
-                                        
-                                            $bu_accounting_period = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $stmt->execute();
+
+                                            $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
                                             $stmt = null;
 
-                                            $start = new DateTime($bu_accounting_period['start']);
-                                            $end = new DateTime($bu_accounting_period['end']);
+                                            $start = new DateTime($bu_settings['current_start']);
+                                            $end = new DateTime($bu_settings['current_end']);
                                         ?>
 
-                                        <p>Current period is <span class="current-period"><?php echo $bu_accounting_period['period']; ?></span> starting on <span class="period-start"><?php echo $start->format('D d/m/Y'); ?></span> and ending on <span class="period-end"><?php echo $end->format('D d/m/Y'); ?></span></p>
+                                        <p>Current period is <span class="current-period"><?php echo $bu_settings['current_period']; ?></span> starting on <span class="period-start"><?php echo $start->format('D d/m/Y'); ?></span> and ending on <span class="period-end"><?php echo $end->format('D d/m/Y'); ?></span></p>
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -91,8 +88,10 @@
                                                         bu_accounting_periods ac1
                                                     LEFT JOIN
                                                         bu_transactions t1 ON ac1.period = t1.period
-                                                    GROUP BY ac1.id , ac1.period
-                                                    ORDER BY ac1.period DESC;
+                                                    GROUP BY 
+                                                        ac1.id , ac1.period
+                                                    ORDER BY 
+                                                        ac1.period DESC;
                                                 ");
                                                 $stmt->execute();
 

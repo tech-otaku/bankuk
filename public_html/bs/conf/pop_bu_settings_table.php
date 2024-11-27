@@ -1,5 +1,7 @@
 <?php
 
+// This file is executed by public_html/bs/partials/head.php
+
 // Get the current accounting period data based upon today's date
     $stmt = $pdo->prepare("
         CALL 
@@ -20,7 +22,8 @@
             id
         FROM 
             bu_settings
-        ORDER BY id DESC
+        ORDER BY 
+            id DESC
         LIMIT 1;
         
     ");        

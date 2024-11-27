@@ -9,37 +9,14 @@
     
     // NOTE: $pdo is an instance of a pdo() object declared in conf/pdoconfig.php
 
-    // Get the current accounting period based upon today's date
+// Get settings data
     $stmt = $pdo->prepare("
-        CALL 
-            bu_accounting_periods_current(?);
+    CALL 
+        bu_settings_get_settings();
     ");
-    $stmt->execute(
-        [
-            date('Y-m-d')   // Today's date as YYYY-MM-DD
-        ]
-    );
+    $stmt->execute();
 
-    $bu_accounting_period = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt = null;
-
-    $stmt = $pdo->prepare("
-        SELECT 
-            SUM(IF(date <= ?,amount,0)) AS total_today,
-            SUM(IF(period <= ?,amount,0)) AS total_period_end,
-            SUM(amount) AS total_all
-        FROM
-            bu_transactions;
-        ");
-    $stmt->execute(
-        [
-            date('Y-m-d'),
-            $bu_accounting_period['period']
-
-        ]
-    );
-
-    $totals = $stmt->fetch(PDO::FETCH_ASSOC);
+    $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
 
 ?>
@@ -77,19 +54,19 @@
                                     <span class="text-grey" style="font-size: .75em;">Today</span>
                                     &nbsp;
                                     <span class="today-total currency">
-                                        <?php //echo $fmt_currency->formatCurrency($totals['total_today'], "GBP");?>
+                                        <!-- Populated with JavaScript variable 'todayTotal' by DataTables footerCallback event -->
                                     </span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="text-grey" style="font-size: .75em;">Period End [<?php echo $bu_accounting_period['period']; ?>]</span>
+                                    <span class="text-grey" style="font-size: .75em;">Period End [<?php echo $bu_settings['current_period']; ?>]</span>
                                     &nbsp;
                                     <span class="period-total currency">
-                                        <?php //echo $fmt_currency->formatCurrency($totals['total_period_end'], "GBP");?>
+                                        <!-- Populated with JavaScript variable 'periodTotal' by DataTables footerCallback event -->
                                     </span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span class="text-grey" style="font-size: .75em;">All</span>
                                     &nbsp;
                                     <span class="all-total currency">
-                                        <?php //echo $fmt_currency->formatCurrency($totals['total_all'], "GBP");?>
+                                        <!-- Populated with JavaScript variable 'total' by DataTables footerCallback event -->
                                     </span>
                                 </h1>
                             </div>
@@ -378,7 +355,7 @@
                         return transactionDate.getTime() <= todaysDate.getTime() ? true : false;    // Return 'true' if the transaction date is today or earlier, otherwise false
                     }
 
-                    var currentPeriod = <?php echo $bu_accounting_period['period']; ?> 
+                    var currentPeriod = <?php echo $bu_settings['current_period']; ?> 
                     console.log(currentPeriod)
             
                     // Total over all pages

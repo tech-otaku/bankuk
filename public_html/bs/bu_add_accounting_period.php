@@ -59,7 +59,8 @@
                                                             `end`
                                                         FROM
                                                             bu_accounting_periods
-                                                        ORDER BY period DESC
+                                                        ORDER BY 
+                                                            period DESC
                                                         LIMIT 1;
                                                     ");
                                                     $stmt->execute(); 

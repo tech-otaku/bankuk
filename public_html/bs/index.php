@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include('conf/pdoconfig.php');
 ?>
 <!DOCTYPE html>
 <html>

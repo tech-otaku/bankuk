@@ -10,20 +10,6 @@
     $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
     
-// Get the current accounting period based upon today's date
-    $stmt = $pdo->prepare("
-        CALL 
-            bu_accounting_periods_current(?);
-    ");
-    $stmt->execute(
-        [
-            date('Y-m-d')   // Today's date as YYYY-MM-DD
-        ]
-    );
-
-    $bu_accounting_period = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt = null;
-    
 // Delete all records in the bu_monthly_spend table
     $stmt = $pdo->prepare("
         TRUNCATE TABLE 
@@ -74,7 +60,7 @@
     $stmt->execute(
         [
             $bu_settings['monthly_spend_first_period'],     // Default is 11
-            $bu_accounting_period['period']
+            $bu_settings['current_period']
         ]
     );
     $stmt = null;
