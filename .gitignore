@@ -1,4 +1,5 @@
 
+mysql-credentials.ini
 mysqldump/
 public_html/admin/
 public_html/dist/
