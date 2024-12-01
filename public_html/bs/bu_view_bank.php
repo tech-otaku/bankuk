@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="pages_dashboard.php">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
                                     <li class="breadcrumb-item"><a href="bu_manage_banks.php">Manage Banks</a></li>
                                     <li class="breadcrumb-item"><?php echo $page_name; ?></li>
                                 </ol>

@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="pages_dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
                                     <li class="breadcrumb-item"><a href="bu_manage_regular_debits.php">Manage Regular Debits</a></li>
                                     <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
                                 </ol>
