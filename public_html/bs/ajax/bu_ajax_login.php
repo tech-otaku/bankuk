@@ -6,12 +6,24 @@
     include_once('../conf/pdoconfig.php');
 
     $stmt = $pdo->prepare("
+        CALL 
+            bu_password(?,?);
+    ");
+    $stmt->execute(
+        [
+            $_POST['email'],
+            sha1(md5($_POST['password']))
+        ]
+    );
+
+    /*
+    $stmt = $pdo->prepare("
         SELECT 
             email, 
             password, 
             admin_id  
         FROM 
-            ib_admin 
+            bu_admin 
         WHERE 
             email = ? AND password = ?;
     ");
@@ -21,6 +33,7 @@
             sha1(md5($_POST['password']))
         ]
     );
+    */
 
     $bu_user = $stmt->fetch(PDO::FETCH_ASSOC);
 

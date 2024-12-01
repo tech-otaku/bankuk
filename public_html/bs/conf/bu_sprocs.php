@@ -171,3 +171,28 @@
                 bu_settings;
         END;
     ");
+
+// Password
+    $pdo->query("
+        DROP PROCEDURE IF EXISTS 
+            bu_password
+        ");
+
+
+    $pdo->query("
+        CREATE PROCEDURE 
+            bu_password(
+                IN _email VARCHAR(200),
+                IN _password VARCHAR(200)
+            ) 
+        BEGIN 
+            SELECT 
+                email, 
+                password, 
+                admin_id  
+            FROM 
+                bu_admin 
+            WHERE 
+                email = _email AND password = _password;
+        END;
+    ");

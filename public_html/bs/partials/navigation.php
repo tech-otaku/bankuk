@@ -52,10 +52,10 @@
                 </li>
             <!-- Add Record Dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-add" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Add Record
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-add">
                         <li><a class="dropdown-item" href="bu_add_accounting_period.php">Accounting Period</a></li>
                         <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
                         <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
@@ -66,10 +66,16 @@
                         <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
                     </ul>
                 </li>
-            <!-- Settings -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_view_settings.php">Settings</a>
-                </li>
+            <!-- System -->
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-system" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        System
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-system">
+                        <li><a class="dropdown-item" href="bu_view_settings.php">Settings</a></li>
+                        <li><a class="dropdown-item" href="bu_password.php">Change Password</a></li>
+                    </ul>
+                </li>  
             <!-- Logout -->
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>

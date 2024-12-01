@@ -138,6 +138,54 @@
 
             break;
 
+    // UPDATE ADMIN PASSWORD
+
+        case 'update-password':
+
+            // $_POST['current-password'],
+            // $_POST['new-password'],
+            // $_POST['new-password-confirm'],
+
+            $stmt = $pdo->prepare("
+            UPDATE
+                bu_accounting_periods 
+            SET
+                `start` = ?, 
+                `end` = ?,
+                period = ?
+            WHERE
+                id = ?;
+            ");        
+            $stmt->execute(
+                [ 
+                    $_POST['start'],
+                    $_POST['end'],
+                    $_POST['period'],
+                    intval($_POST['record-id'])
+                ]
+            );
+
+            if ($stmt->rowCount() != 0) {   // $stmt->rowCount() should only be used for DELETE, INSERT or UPDATE statements. 
+            // Success
+                echo json_encode(array(
+                    'success' => 1,  // True
+                    'message' => 'Record for Accounting Period <span class="record-updated">' . $_POST['period'] . '</span> Updated'
+                ));
+            } else { 
+            // Failure
+                echo json_encode(array(
+                    'success' => 0,  // False
+                    'message' => 'Record for Accounting Period <span class="record-updated">' . $_POST['period'] . '</span> NOT Updated'
+
+                ));
+            }
+
+            // Close connections 
+            $stmt = null; 
+            $pdo = null;
+
+            break;
+
     // UPDATE PARTY RECORD
         case 'update-party':
 
@@ -176,6 +224,7 @@
             $pdo = null;
 
             break;
+            
 
     // UPDATE REGULAR DEBIT RECORD
         case 'update-regular-debit':
