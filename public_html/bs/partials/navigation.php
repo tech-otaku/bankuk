@@ -6,14 +6,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <!-- Home -->
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                </li>
-            <!-- Link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
             <!-- Summary -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_summary.php">Summary</a>
