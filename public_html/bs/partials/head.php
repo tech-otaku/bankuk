@@ -24,4 +24,6 @@
     <link href="styles/sticky-footer-navbar.css" rel="stylesheet">
 <!-- Update Current Accounting Period Data in bu_settings -->
     <?php include('conf/pop_bu_settings_table.php'); ?>
+<!-- Manage Stored Procedures -->
+    <?php include('conf/bu_sprocs.php'); ?>
 
