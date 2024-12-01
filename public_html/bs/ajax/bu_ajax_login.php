@@ -11,7 +11,7 @@
             password, 
             admin_id  
         FROM 
-            iB_admin 
+            ib_admin 
         WHERE 
             email = ? AND password = ?;
     ");
