@@ -1,32 +1,38 @@
 $(function() {
-    $('#login').on('submit', function(event) {
 
-        event.preventDefault();
+// Change Password
+    $('#update-password').on('submit', function(event) {                     
+        event.preventDefault(); // Prevent form from submitting normally
 
-        formData = new FormData($(this)[0]);
+        formData = new FormData($(this)[0]);    // Bind the FormData object and the form element
+        //formData.append('form-id', $(this).attr('id'))
 
         for (var pair of formData.entries()) {
             console.log(pair[0]+ ', ' + pair[1]); 
         }
-        
+
         $.ajax({
             method: "POST",
             dataType: "json",       // The type of data expected back from the server
             contentType: false,		// Will throw an error when using a FormData object if omitted or set to anything other than 'false'  
             processData: false,		// Will throw an error when using a FormData object if omitted or set to 'true' (default) 
-            url: "ajax/bu_ajax_login.php",
+            url: "ajax/bu_ajax_password.php",
             data: formData
         })  // $.ajax
         .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
             if ( dataReturnedByServer['success'] == 1 ) { 
-            // Login successful
-                $(".login-box").fadeOut(1000, function() {
-                    window.location.href = "bu_dashboard.php"
+            // Update successful
+                Swal.fire({
+                    title: "<strong>Success</strong>",
+                    icon: "success",
+                    html: dataReturnedByServer['message']
+                }).then(function(){ 
+                    location.reload();
                 });
             } else {
-            // Login failed
+            // Update failed
                 Swal.fire({
-                    title: "There was a problem",
+                    title: "Failure",
                     icon: "error",
                     html: dataReturnedByServer['message']
                 });          
@@ -44,9 +50,9 @@ $(function() {
                 title: "The server encountered an error!",
                 icon: "error",
                 html: message
-            });    
+            });   
         }); // fail
-            
+
     });
-    
+
 });

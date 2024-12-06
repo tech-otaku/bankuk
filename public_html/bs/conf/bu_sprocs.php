@@ -182,17 +182,19 @@
     $pdo->query("
         CREATE PROCEDURE 
             bu_password(
-                IN _email VARCHAR(200),
-                IN _password VARCHAR(200)
+                IN _email VARCHAR(200)
             ) 
         BEGIN 
             SELECT 
-                email, 
-                password, 
-                admin_id  
+                email,
+                md5_password, 
+                password_hash, 
+                admin_id,
+                locked,
+                login_attempts  
             FROM 
                 bu_admin 
             WHERE 
-                email = _email AND password = _password;
+                email = _email;
         END;
     ");

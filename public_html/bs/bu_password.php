@@ -74,26 +74,26 @@
                                             <div class="tab-pane active" id="update_Profile">
                                                 <form id="update-password" class="update-form" method="post" enctype="multipart/form-data" role="form">
                                                 <!-- Record ID [Hidden] -->
-                                                    <input type="hidden" name="record-id" id="record-id" value="<?php echo $bu_settings['id']; ?>">
+                                                    <input type="hidden" name="email" id="email" value="<?php echo $_SESSION['email']; ?>"> <!-- The email of the logged-in user. Set when user logs in. -->
                                                 <!-- Current Password --> 
                                                     <div class="form-group row">
                                                         <label for="current-password" class="col-sm-2 col-form-label">Current Password</label>
                                                         <div class="col-sm-1">
-                                                            <input type="text" name="current-password" id="current-password" class="form-control" readonly value="<?php echo $bu_settings['current_period']; ?>">
+                                                            <input type="password" name="current-password" id="current-password" class="form-control" required>
                                                         </div>
                                                     </div>
                                                 <!-- New Password --> 
                                                     <div class="form-group row">
                                                         <label for="new-password" class="col-sm-2 col-form-label">New Password</label>
                                                         <div class="col-sm-1">
-                                                            <input type="text" name="new-password" id="new-password" class="form-control" readonly value="<?php echo date('D d/m/Y', strtotime($bu_settings['current_start'])); ?>">
+                                                            <input type="password" name="new-password" id="new-password" class="form-control" required>
                                                         </div>
                                                     </div>
                                                 <!-- Confirm New Password --> 
                                                     <div class="form-group row">
                                                         <label for="new-password-confirm" class="col-sm-2 col-form-label">Confirm New Password</label>
                                                         <div class="col-sm-1">
-                                                            <input type="text" name="new-password-confirm" id="new-password-confirm" class="form-control" readonly value="<?php echo date('D d/m/Y', strtotime($bu_settings['current_end'])); ?>">
+                                                            <input type="password" name="new-password-confirm" id="new-password-confirm" class="form-control" required>
                                                         </div>
                                                     </div>
                                                 <!-- Form Submit -->
@@ -126,10 +126,8 @@
         </div>  <!-- ./wrapper -->
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
-    <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update.js"></script>
-    <!-- AJAX Reset Settings -->
-        <script src="ajax/bu_ajax_reset_settings.js"></script>
+    <!-- AJAX Update Password -->
+        <script src="ajax/bu_ajax_password.js"></script>
         <script>
             $(function() {
                 // Something here
