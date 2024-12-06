@@ -23,8 +23,6 @@
         
         if ($bu_user['locked'] != 0) {                                      // User's account is not locked
 
-            //if ($bu_user['md5_password'] === sha1(md5($_POST['password']))) {   
-
             if ( password_verify($_POST['password'], $bu_user['password_hash']) ) { // User's password is correct
 
                 // Reset login attempts to '0' as user may have had 1 or 2 previous failed login attempts
@@ -45,6 +43,8 @@
 
                 $stmt = null;
 
+                $lifetime = strtotime('+5 minutes', 0);
+                session_set_cookie_params($lifetime);
                 session_start();
                 $_SESSION['admin_id'] = $bu_user['admin_id'];
                 $_SESSION['email'] = $bu_user['email'];

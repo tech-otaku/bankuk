@@ -21,7 +21,7 @@ $(function() {
             if ( dataReturnedByServer['success'] == 1 ) { 
             // Login successful
                 $(".login-box").fadeOut(1000, function() {
-                    window.location.href = "bu_dashboard.php"
+                    window.location.href = "bu_summary.php"
                 });
             } else {
             // Login failed

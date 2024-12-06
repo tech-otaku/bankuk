@@ -23,14 +23,11 @@
     // The values echoed below (1 or 0) are passed to the 'dataReturnedByServer' argument of the function defined in the done() method of the AJAX request (bu_ajax_login.js)
     if ($bu_user) {   // User's login email is correct (record found in bu_admin table). Do not use '$stmt->rowCount() != 0'. See https://stackoverflow.com/a/16776839
         
-        //if ($bu_user['password_hash'] === sha1(md5($_POST['current-password']))) {   // User's password is correct
-
         if ( password_verify($_POST['current-password'], $bu_user['password_hash']) ) { // User's password is correct
 
             if ($_POST['new-password'] === $_POST['new-password-confirm']) {
 
                 // Update password
-                
                 $stmt = $pdo->prepare("
                     UPDATE
                         bu_admin
