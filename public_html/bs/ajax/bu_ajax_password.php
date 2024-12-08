@@ -21,11 +21,11 @@
     
 
     // The values echoed below (1 or 0) are passed to the 'dataReturnedByServer' argument of the function defined in the done() method of the AJAX request (bu_ajax_login.js)
-    if ($bu_user) {   // User's login email is correct (record found in bu_admin table). Do not use '$stmt->rowCount() != 0'. See https://stackoverflow.com/a/16776839
+    if ($bu_user) {   // Record for email found in bu_admin table. Do not use '$stmt->rowCount() != 0'. See https://stackoverflow.com/a/16776839
         
-        if ( password_verify($_POST['current-password'], $bu_user['password_hash']) ) { // User's password is correct
+        if ( password_verify($_POST['current-password'], $bu_user['password_hash']) ) {     // User's current password is correct
 
-            if ($_POST['new-password'] === $_POST['new-password-confirm']) {
+            if ($_POST['new-password'] === $_POST['new-password-confirm']) {                // New password entries match
 
                 // Update password
                 $stmt = $pdo->prepare("
@@ -51,25 +51,21 @@
                     'message' => 'Password updated.'
                 ));
             } else {
-                // Log failed login attempts
                 echo json_encode(array(
                     'success' => 0, // False
                     'message' => 'Passwords do not match'
                 ));
 
-               // New password matches
+            }   // New password matches
 
-            }
-
-        } else {                                                        // User's password is incorrect
-            // Log failed login attempts
+        } else {                                                                            // User's current password is incorrect
             echo json_encode(array(
                 'success' => 0, // False
                 'message' => 'Current password is incorrect'
             ));
-        }   // Password
+        }   // Current password
 
-    } else {                                                                // User's login email isn't correct
+    } else {                                                                                // User's login email isn't correct
         echo json_encode(array(
             'success' => 0,  // False
             'message' => 'Your email address was not recognised.'

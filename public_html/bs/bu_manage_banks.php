@@ -85,9 +85,7 @@
                                                 <td><?php echo $row->bank_id; ?></td>
                                                 <td><?php echo $row->legal_name; ?></td>
                                                 <td><?php echo $row->trading_name; ?></td>
-                                                <td>
-                                                    <a href="bu_manage_banks.php?search=<?php echo $row->trading_name; ?>"><?php echo $row->_used; ?></a>
-                                                </td>
+                                                <td><?php echo $row->_used; ?></td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_bank.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=account">
                                                         <i class="fa fa-edit"></i>

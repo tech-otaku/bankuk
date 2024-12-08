@@ -205,7 +205,7 @@
     <!-- DataTable Table -->
         <script>
             var transactions = new DataTable('#transactions', {
-                stateSave: true,
+                stateSave: false,
                 select: true,
                 pageLength: 25,
                 lengthMenu: [
@@ -288,7 +288,7 @@
                             var column = this;
             
                             // Create select element and listener
-                            var select = $('<select><option value="">Show all</option></select>')
+                            var select = $('<select id="filter-col-' + column.index() +'"><option value="">Show all</option></select>')
                                 .appendTo($(column.header()))
                                 .on('change', function () {
                                     column
@@ -494,12 +494,21 @@
                 }
             });
             $(function() {
+
+                console.log('BALLS')
+
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                $("#" + urlParams.get('filter')).val(urlParams.get('value'));
+                $("#" + urlParams.get('filter')).trigger("change");
+                /*
                 var query = getUrlVars()['search'];
                 //console.log(query)
                 //console.log(decodeURIComponent(query));
                 if (query) {
                     transactions.search(decodeURIComponent(query)).draw();
                 }
+                */
             });
         </script>
     <!-- Ajax Delete -->

@@ -103,7 +103,11 @@
                                                 <td><?php echo $row->end; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->period; ?>"><?php echo $row->_used; ?></a>
+                                                    <?php if ($row->_used != 0) { ?>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-8&value=<?php echo rawurlencode($row->period); ?>"><?php echo $row->_used; ?></a>
+                                                    <?php } else { 
+                                                        echo $row->_used;
+                                                    } ?>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_accounting_period.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">

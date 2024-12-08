@@ -104,10 +104,18 @@
                                                 <td><?php echo $row->type; ?></td>
                                                 <td><?php echo $row->description; ?></td>
                                                 <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->type; ?>"><?php echo $row->_used_type; ?></a>
+                                                    <?php if ($row->_used_type != 0) { ?>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-4&value=<?php echo rawurlencode($row->description); ?>"><?php echo $row->_used_type; ?></a>
+                                                    <?php } else { 
+                                                        echo $row->_used_type;
+                                                    } ?>
                                                 </td>
                                                 <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->type; ?>"><?php echo $row->_used_subtype; ?></a>
+                                                    <?php if ($row->_used_subtype != 0) { ?>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-5&value=<?php echo rawurlencode($row->description); ?>"><?php echo $row->_used_subtype; ?></a>
+                                                    <?php } else { 
+                                                        echo $row->_used_subtype;
+                                                    } ?>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_transaction_type.php?id=<?php echo $row->id; ?>&used_type=<?php echo $row->_used_type; ?>&used_subtype=<?php echo $row->_used_subtype; ?>&record=transaction">

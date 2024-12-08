@@ -82,7 +82,11 @@
                                                 <td><?php echo $row->party_id; ?></td>
                                                 <td><?php echo $row->party; ?></td>
                                                 <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->party; ?>"><?php echo $row->_used; ?></a>
+                                                    <?php if ($row->_used != 0) { ?>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->party); ?>"><?php echo $row->_used; ?></a>
+                                                    <?php } else { 
+                                                        echo $row->_used;
+                                                    } ?>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_party.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">

@@ -2,7 +2,7 @@
 // Global PDO exception handler to avoid using explicit individual try/catch blocks
 set_exception_handler(function($e) {
     error_log($e->getMessage());
-    exit('Whoops! Something odd just happened.');
+    exit($e->getMessage());
 });
 
 $mysql_credentials = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/../mysql-credentials.ini');    // file containing mysql connection information

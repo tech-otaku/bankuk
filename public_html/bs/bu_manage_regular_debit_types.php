@@ -51,7 +51,7 @@
                                                 <th>#</th>
                                                 <th>Type</th>
                                                 <th>Description</th>
-                                                <th>Used [Type]</th>
+                                                <th>Used</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -80,9 +80,7 @@
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->type; ?></td>
                                                 <td><?php echo $row->description; ?></td>
-                                                <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->type; ?>"><?php echo $row->_used; ?></a>
-                                                </td>
+                                                <td><?php echo $row->_used; ?></td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_regular_debit_type.php?id=<?php echo $row->id; ?>&used_type=<?php echo $row->_used; ?>&record=regular debit">
                                                         <i class="fa fa-edit"></i>

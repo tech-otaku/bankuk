@@ -51,8 +51,10 @@
                                                 <th>#</th>
                                                 <th>Account ID [Alpha]</th>
                                                 <th>Account ID</th>
-                                                <th>Bank / Account Name</th>
-                                                <th>Sort Code / Account Number </th>
+                                                <th>Bank</th>
+                                                <th>Account Name</th>
+                                                <th>Sort Code</th>
+                                                <th>Account Number</th>
                                                 <th>Status</th>
                                                 <th>Used</th>
                                                 <th>Actions</th>
@@ -67,6 +69,7 @@
                                                     a1.id,
                                                     a1.account_id_alpha,
                                                     a1.account_id,
+                                                    b1.legal_name,
                                                     b1.trading_name,
                                                     a1.name,
                                                     a1.sort_code,
@@ -83,6 +86,7 @@
                                                     a1.id, 
                                                     a1.account_id_alpha, 
                                                     a1.account_id, 
+                                                    b1.legal_name,
                                                     b1.trading_name, 
                                                     a1.name, 
                                                     a1.sort_code, 
@@ -97,11 +101,17 @@
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->account_id; ?></td>
-                                                <td><?php echo $row->trading_name . ' ' . $row->name; ?></td>
-                                                <td><?php echo $row->sort_code . ' ' . $row->account_number;?></td>
+                                                <td><?php echo $row->trading_name ?></td>
+                                                <td><?php echo $row->name; ?></td>
+                                                <td><?php echo $row->sort_code ;?></td>
+                                                <td><?php echo $row->account_number; ?></td>
                                                 <td><?php echo $row->status; ?></td>
                                                 <td>
-                                                    <a href="bu_manage_transactions.php?search=<?php echo $row->trading_name . ' ' . $row->name; ?>"><?php echo $row->_used; ?></a>
+                                                    <?php if ($row->_used != 0) { ?>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-2&value=<?php echo rawurlencode($row->trading_name . ' ' . $row->name); ?>"><?php echo $row->_used; ?></a>
+                                                    <?php } else { 
+                                                        echo $row->_used;
+                                                    } ?>   
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm" href="bu_view_account.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
@@ -155,7 +165,9 @@
                     {className: 'counter'}, 
                     {className: 'account-id-alpha'},
                     {className: 'account-id'},
+                    {className: 'bank-name'},
                     {className: 'account-name'},
+                    {className: 'sort-code'},
                     {className: 'account-number'},
                     {className: 'status'},
                     {className: 'used', type: 'num'},

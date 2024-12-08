@@ -189,7 +189,7 @@ label[for='dt-length-0'] {
     font-weight: bold;
 }
 
-.account-number, .counter, .savings-3, .record-id, .record-updated, .text-grey {
+.counter, .savings-3, .record-id, .record-updated, .text-grey {
     color: #aaa;
 }
 
