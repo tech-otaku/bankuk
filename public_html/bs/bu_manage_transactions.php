@@ -205,7 +205,7 @@
     <!-- DataTable Table -->
         <script>
             var transactions = new DataTable('#transactions', {
-                stateSave: false,
+                stateSave: true,
                 select: true,
                 pageLength: 25,
                 lengthMenu: [
@@ -330,7 +330,36 @@
                                     });
 
                             }
-                        });
+
+                            // When a column filter is applied - say Party = BT - and stateSave is true, if the page is reloaded the filter is still in effect, but the filter dropdown now displays 'Show all' and not 'BT'.
+                            // To overcome this, the correct dropdown filter value is restored from the saved 'state' object. See https://stackoverflow.com/a/49878256
+                            // See https://datatables.net/reference/api/state() for the structure of the 'state' object 
+                            var state = this.state.loaded();
+                            if (state) {
+                                var val = state.columns[this.index()];
+                                select.val(val.search.search);
+                            }
+
+                        }); //every
+
+                        // When the URL contains a filter parameter, all filters should be cleared before applying the filter contained in the URL 
+                        // This happens after any filters are restored from the save 'state' object.
+
+                        const urlParams = new URLSearchParams(window.location.search);
+
+                        if (urlParams.has('filter')) {                                          // URL contains filter paramater; 'bu_manage_transactions.php?filter=filter-col-6&value=BT'
+
+                            $('select').each(function() {                                       // Effective for all select elements on the page
+                                // $(this) now refers to one specific <select> element
+                                $(this).prop("selectedIndex", 0).val();                         // Set the option of the select element to its first (0) option which is 'Show all' 
+                                $(this).trigger('change');                                      // Update the display based on the filter condition; 'Show all'
+                            });
+
+                            $("#" + urlParams.get('filter')).val(urlParams.get('value'));       // Set the appropriate filter to the value included in the URL
+                            $("#" + urlParams.get('filter')).trigger("change");                 // Update the display based on the new filter condition
+
+                        }
+                        
                 },
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
@@ -494,21 +523,6 @@
                 }
             });
             $(function() {
-
-                console.log('BALLS')
-
-                const urlParams = new URLSearchParams(window.location.search);
-                
-                $("#" + urlParams.get('filter')).val(urlParams.get('value'));
-                $("#" + urlParams.get('filter')).trigger("change");
-                /*
-                var query = getUrlVars()['search'];
-                //console.log(query)
-                //console.log(decodeURIComponent(query));
-                if (query) {
-                    transactions.search(decodeURIComponent(query)).draw();
-                }
-                */
             });
         </script>
     <!-- Ajax Delete -->
