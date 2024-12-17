@@ -86,19 +86,19 @@
                                                     <div class="form-group row">
                                                         <label for="start" class="col-sm-2 col-form-label">Start Date</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="start" id="start" class="form-control" required readonly style="cursor:text; background:white;">
+                                                            <input type="text" name="start" id="start" class="form-control" required readonly style="cursor:text; background:white;" value="<?php echo $bu_accounting_period['start']; ?>">
                                                         </div>
                                                     </div>
                                                 <!-- End --> 
                                                 <div class="form-group row">
                                                         <label for="end" class="col-sm-2 col-form-label">End Date</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="end" id="end" class="form-control" required readonly style="cursor:text; background:white;">
+                                                            <input type="text" name="end" id="end" class="form-control" required readonly style="cursor:text; background:white;" value="<?php echo $bu_accounting_period['end']; ?>">
                                                         </div>
                                                     </div>
                                                 <!-- Period --> 
                                                     <div class="form-group row">
-                                                        <label for="period" class="col-sm-2 col-form-label">Party</label>
+                                                        <label for="period" class="col-sm-2 col-form-label">Period</label>
                                                         <div class="col-sm-10">
                                                             <input type="text" name="period" id="period" class="form-control" required value="<?php echo $bu_accounting_period['period']; ?>">
                                                         </div>

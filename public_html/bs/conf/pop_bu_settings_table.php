@@ -13,7 +13,7 @@
         ]
     );
 
-    $bu_accounting_period = $stmt->fetch(PDO::FETCH_ASSOC);
+    $bu_accounting_period_current = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
 
 // Get the id of the only, single settings record (should be '1')
@@ -45,9 +45,9 @@
     ");        
     $stmt->execute(
         [ 
-            $bu_accounting_period['period'],
-            $bu_accounting_period['start'],
-            $bu_accounting_period['end'],
+            $bu_accounting_period_current['period'],
+            $bu_accounting_period_current['start'],
+            $bu_accounting_period_current['end'],
             $id
         ]
     );
