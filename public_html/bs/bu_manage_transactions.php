@@ -128,6 +128,9 @@
                                                         t1.account_id_alpha,
                                                         b1.trading_name,
                                                         a1.name,
+                                                        a1.sort_code,
+                                                        a1.account_number,
+                                                        a1.status,
                                                         t1.amount,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
@@ -157,7 +160,7 @@
                                             <tr>
                                                 <td <?php echo ((!empty($row->notes)) ? 'class="has-note"' : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
-                                                <td><?php echo $row->trading_name . ' ' . $row->name; ?></td>
+                                                <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
