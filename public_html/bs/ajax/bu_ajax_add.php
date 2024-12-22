@@ -30,13 +30,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Accounting Period <span class="record-updated">' . $_POST['period'] . '</span> Added'
+                    'message' => 'Record for Accounting Period <span class="text-grey">' . $_POST['period'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Accounting Period <span class="record-updated">' . $_POST['period'] . '</span> NOT Added'
+                    'message' => 'Record for Accounting Period <span class="text-grey">' . $_POST['period'] . '</span> NOT Added'
 
                 ));
             }
@@ -80,13 +80,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Account ID <span class="record-updated">' . $_POST['account-id'] . '</span> Added'
+                    'message' => 'Record for Account ID <span class="text-grey">' . $_POST['account-id'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Account ID <span class="record-updated">' . $_POST['account-id'] . '</span> NOT Added'
+                    'message' => 'Record for Account ID <span class="text-grey">' . $_POST['account-id'] . '</span> NOT Added'
 
                 ));
             }
@@ -122,13 +122,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Bank ID <span class="record-updated">' . $_POST['bank-id'] . '</span> Added'
+                    'message' => 'Record for Bank ID <span class="text-grey">' . $_POST['bank-id'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Bank ID <span class="record-updated">' . $_POST['bank-id'] . '</span> NOT Added'
+                    'message' => 'Record for Bank ID <span class="text-grey">' . $_POST['bank-id'] . '</span> NOT Added'
 
                 ));
             }
@@ -161,13 +161,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Party ID <span class="record-updated">' . $_POST['party-id'] . '</span> Added'
+                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Party ID <span class="record-updated">' . $_POST['party-id'] . '</span> NOT Added'
+                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> NOT Added'
 
                 ));
             }
@@ -232,13 +232,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for ID <span class="record-updated">' . $id . '</span> Added'
+                    'message' => 'Record for ID <span class="text-grey">' . $id . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for ID <span class="record-updated">' . $id . '</span> NOT Added'
+                    'message' => 'Record for ID <span class="text-grey">' . $id . '</span> NOT Added'
 
                 ));
             }
@@ -272,13 +272,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Regular Debit Type <span class="record-updated">' . $_POST['type'] . '</span> Added'
+                    'message' => 'Record for Regular Debit Type <span class="text-grey">' . $_POST['type'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Regular Debit Type <span class="record-updated">' . $_POST['type'] . '</span> NOT Added'
+                    'message' => 'Record for Regular Debit Type <span class="text-grey">' . $_POST['type'] . '</span> NOT Added'
                 ));
             }
 
@@ -356,13 +356,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for ID <span class="record-updated">' . $id . '</span> Added'
+                    'message' => 'Record for ID <span class="text-grey">' . $id . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for ID <span class="record-updated">' . $id . '</span> NOT Added'
+                    'message' => 'Record for ID <span class="text-grey">' . $id . '</span> NOT Added'
 
                 ));
             }
@@ -395,13 +395,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Transaction Type <span class="record-updated">' . $_POST['type'] . '</span> Added'
+                    'message' => 'Record for Transaction Type <span class="text-grey">' . $_POST['type'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Transaction Type <span class="record-updated">' . $_POST['type'] . '</span> NOT Added'
+                    'message' => 'Record for Transaction Type <span class="text-grey">' . $_POST['type'] . '</span> NOT Added'
 
                 ));
             }

@@ -65,13 +65,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record ID <span class="record-updated">' . $_POST['record-id'] . '</span> Deleted'
+                    'message' => 'Record ID <span class="text-grey">' . $_POST['record-id'] . '</span> Deleted'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for ID <span class="record-updated">' . $_POST['period'] . '</span> NOT Deleted'
+                    'message' => 'Record for ID <span class="text-grey">' . $_POST['period'] . '</span> NOT Deleted'
 
                 ));
             }
@@ -88,11 +88,11 @@
         }
         */
 
-       // echo 'Record for ID <span class="record-updated">' . $_POST['record-id'] . '</span> Deleted';
+       // echo 'Record for ID <span class="text-grey">' . $_POST['record-id'] . '</span> Deleted';
 
     }
 
-    //echo 'Record for ID <span class="record-updated">' . $_POST['record-id'] . '</span> Deleted';
+    //echo 'Record for ID <span class="text-grey">' . $_POST['record-id'] . '</span> Deleted';
     
 ?>
     
