@@ -116,6 +116,10 @@ tr.account-code-k td.has-note {
     background-color: #ffff8e !important;
 }
 
+tr.regular-debit td.has-note {
+    background-color: #aaaaaa !important;
+}
+
 td.has-note {
     color: #000 !important;
 }
@@ -209,4 +213,26 @@ label[for='dt-length-0'] {
     background-color: white !important;
     font-size: small !important;
 }
+
+/* CSS pseudo-element styling */
+
+/* general reset/setup styling for icons - needed on all */
+/*
+td.has-note::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block; 
+    font-style: normal;
+    font-variant: normal;
+    font-size: 1.25em;
+    text-rendering: auto;
+    line-height: 1;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f05a";
+    padding-right: 5px;
+  }
+  */
+  
+  
 

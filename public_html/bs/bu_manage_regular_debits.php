@@ -142,8 +142,8 @@
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
-                                            <tr>
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note"' : "") . '>' . $counter; ?></td>
+                                            <tr class="regular-debit">
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-note="' . $row->notes .'" data-party="' . $row->party . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->id; ?></td>
                                                 <td>
                                                     <a data-id="<?php echo $row->id; ?>" class="btn btn-primary btn-sm add-current-due-date" href="#">

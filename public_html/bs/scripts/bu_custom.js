@@ -1,3 +1,12 @@
+/***
+     * The following DataTables callback functions appear to be triggered BEFORE the DOM is fully loaded;
+     * 1. createdRow    (Not fired when paging)
+     * 2. footerCallback
+     * 3. drawCallback
+     * 4. initComplete  (Not fired when paging)
+     * Consequently, any user-defined functions used by these callbacks should be declared outside of any `$(document).ready(function() {})`
+    */ 
+
 /*
 $(document).ready(function() {
     //console.log('Document Ready')
@@ -6,6 +15,22 @@ $(document).ready(function() {
     });
  });
 */
+
+
+
+// Remove the formatting to get integer data for summation
+var intVal = function (i) {
+    //console.log(i);
+    return typeof i === 'string'
+        //? i.replace(/[\$,]/g, '') * 1
+        ? i.replace(/[^0-9.-]+/g, '') * 1
+        : typeof i === 'number'
+        ? i
+        : 0;
+};
+
+
+
 
 function getUrlVars()
 {
@@ -156,3 +181,22 @@ function excludedDates(date, excludedDays){           //  See https://stackoverf
 
     return [true];
 }
+
+$(document).ready(function() {
+    console.log('$(document).ready() Fired')
+
+    $("table.bu-data-table").on("click", ".has-note", function(event) {
+        direction = ' to '
+        if (intVal($(this).data("amount")) >= 0) {
+            direction = ' from '
+        }
+        Swal.fire(
+            {
+                //title: "Note",
+                html: '<div class="text-left">[<span class="text-grey">' + $(this).data("counter") + '</span>]<br /><br /><span class="text-grey">' + $(this).data("amount") + '</span>' + direction + '<span class="text-grey">' + $(this).data("party") + '</span> on <span class="text-grey">' + $(this).data("date") + '</span><br /><br /><i>' + $(this).data("note") + '</></div>',
+                icon: "info",
+                position: "top-end"
+            }
+        );
+    })
+});

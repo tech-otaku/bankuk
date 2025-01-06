@@ -158,7 +158,8 @@
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr>
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note"' : "") . '>' . $counter; ?></td>
+                                                <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-party="' . $row->party . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
@@ -208,7 +209,7 @@
     <!-- DataTable Table -->
         <script>
             var transactions = new DataTable('#transactions', {
-                stateSave: true,
+                stateSave: false,
                 select: true,
                 pageLength: 25,
                 lengthMenu: [
@@ -224,7 +225,7 @@
                     header: true,
                     footer: false
                     },
-                columns: [ 
+                columns: [
                     {   // Column Index 0
                         className: 'counter', 
                         searchable: false, 
@@ -285,6 +286,7 @@
                 ],
             // Callbacks
                 initComplete: function () {
+                    console.log('DataTables initComplete Fired')
                     this.api()
                         .columns([1,2,3,4,5,6,8],)
                         .every(function () {
@@ -295,7 +297,10 @@
                                 .appendTo($(column.header()))
                                 .on('change', function () {
                                     column
-                                        .search($(this).val(), {exact: true})
+                                        .search(    
+                                            $(this).val(), 
+                                            {exact: true}
+                                        )
                                         .draw();
                                 });
             
@@ -365,18 +370,10 @@
                         
                 },
                 footerCallback: function (row, data, start, end, display) {
+                    console.log('DataTables footerCallback Fired')
                     var api = this.api();
             
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function (i) {
-                        //console.log(i);
-                        return typeof i === 'string'
-                            //? i.replace(/[\$,]/g, '') * 1
-                            ? i.replace(/[^0-9.-]+/g, '') * 1
-                            : typeof i === 'number'
-                            ? i
-                            : 0;
-                    };
+                    
 
                     // Check if the transaction date is today or earlier
                     var todayOrEarlier = function (d) {
@@ -516,15 +513,67 @@
 
                 },
                 drawCallback: function (settings) {
+                    console.log('DataTables drawCallback Fired')
                     //customClass('account-code', 'account-code-')
                     //customClass('currency', 'debit')
                     //customClass('transaction-date', '')
                 },
                 createdRow: function (row, data, dataIndex) {
+                    console.log('DataTables createdRow Fired')
                     // data[1] contains the alpha account code A, B, ..., K
                     $(row).addClass('account-code-' + data[1].toLowerCase());   // 'account-code-a' where data[1] = 'A', for example
                 }
             });
+            /* Plugin API method to determine is a column is sortable */
+            $.fn.dataTable.Api.register('column().searchable()', function() {
+            var ctx = this.context[0];
+            return ctx.aoColumns[this[0]].bSearchable;
+            });
+
+            function createDropdowns(api) {
+                api.columns([1,2,3,4,5,6,8],).every(function () {
+                    //if (this.searchable()) {
+                        var that = this;
+                        var column = this;
+
+                        // Only create if not there or blank
+                        var selected = $('thead tr:eq(1) td:eq(' + column + ') select').val();
+                        if (selected === undefined || selected === '') {
+                            // Create the `select` element
+                            
+                            $('thead tr:eq(0) td')
+                                .eq(column)
+                                .empty();
+                                var select = $('<select id="filter-col-' + column.index() +'"><option value="">Show all</option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    that
+                                        .search(    
+                                            $(this).val(), 
+                                            {exact: true}
+                                        )
+                                        .draw();
+                                    createDropdowns(api);
+                                });
+
+                                $( select ).click( function(e) {
+                                    e.stopPropagation();
+                                });
+
+                            api
+                                .cells(null, column, {
+                                    search: 'applied'
+                                })
+                                .data()
+                                .sort()
+                                .unique()
+                                .each(function (d) {
+                                    select.append($('<option>' + d + '</option>'));
+                                });
+                        //}
+                    }
+                });
+            }
             $(function() {
             });
         </script>
