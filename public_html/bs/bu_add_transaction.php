@@ -46,7 +46,9 @@
                                 <!-- general form elements -->
                                 <div class="card">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title">
+                                            <a class="btn btn-outline-primary btn-sm prefill-supermarket">Supermarket</a>
+                                        </h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-transaction" class="add-form" method="post" enctype="multipart/form-data" role="form">
@@ -74,6 +76,8 @@
                                                             echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
                                                         }
                                                         echo '</select>';
+
+                                                        
 
                                                         $stmt = null;
                                                     ?>
@@ -136,7 +140,7 @@
                                                         ");
                                                         $stmt->execute();
 
-                                                        echo '<select name="party-id" name="party-id" class="form-control" required>';
+                                                        echo '<select name="party-id" id="party-id" class="form-control" required>';
                                                         echo "<option value='' selected disabled hidden>Select party...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                                             echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
@@ -170,6 +174,7 @@
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-submit" id="add-transaction-submit" class="btn btn-success">Add</button>
+                                            
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->
@@ -186,7 +191,7 @@
     <!-- IS THIS NEEDED ? -->
         <script type="text/javascript">
             $(document).ready(function() {
-                bsCustomFileInput.init();
+                //bsCustomFileInput.init();
             });
         </script>
     <!-- AJAX Add -->

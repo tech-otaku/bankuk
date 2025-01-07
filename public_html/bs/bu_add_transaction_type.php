@@ -87,7 +87,7 @@
     <!-- IS THIS NEEDED ? -->
         <script type="text/javascript">
             $(document).ready(function() {
-                bsCustomFileInput.init();
+                //bsCustomFileInput.init();
             });
         </script>
     <!-- AJAX Add -->

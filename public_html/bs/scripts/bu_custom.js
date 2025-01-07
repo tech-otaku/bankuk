@@ -199,4 +199,11 @@ $(document).ready(function() {
             }
         );
     })
+
+    $(".prefill-supermarket").on("click", function(event) {
+        $("#account-id-alpha").val('G');    // Santander Edge Up Current Account - XXX9151 [G]
+        $("#type").val('5');                // Supermarket
+        $("#party-id").val('P1280');        // Sainsbury's
+
+    })
 });
