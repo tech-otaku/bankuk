@@ -207,4 +207,45 @@ $(document).ready(function() {
         $("#party-id").val('P1280');        // Sainsbury's
 
     })
+
+
+    $('#prefill').on('change', function() {
+        var selected = $(this).find('option:selected');     // See https://stackoverflow.com/a/4564711
+        //var extra = selected.data('foo'); 
+        //console.log(selected.data('party') );
+        //$("#account-id-alpha option[value='G']").attr("selected", true);
+        $("#account-id-alpha").val(selected.data('account-id-alpha'));
+        $("#type").val(selected.data('type'));
+        $("#party-id").val(selected.data('party'));
+        
+        /*
+        switch(this.value) {
+            case 'co-op':
+                // code block
+                $("#type").val(selected.data('type'));
+                $("#party-id").val(selected.data('party'));    // Co-op
+                break;
+            case 'dunelm':
+                // code block
+                $("#type").val('6');
+                $("#party-id").val('P6038');    // Dunelm
+                break;
+            case 'national-lottery':
+                $("#type").val('6');
+                // code block
+                $("#party-id").val('P0700');    // National Lottery
+                break;
+            case 'sainsburys':
+                $("#type").val('5');
+                $("#party-id").val('P1280');    // Sainsbury's
+                break;
+            case 'tesco-express':
+                $("#type").val('5');
+                $("#party-id").val('P0186');    // Tesco Express
+                break;
+            default:
+                // code block
+          }
+                */
+      });
 });

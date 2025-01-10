@@ -177,6 +177,69 @@
             $pdo = null;
 
             break;
+
+    // ADD PRE-FILL RECORD
+    case 'add-prefill':
+
+        // Get account_id from bu_accounts based on the value of $_POST['account-id-alpha']
+         $stmt = $pdo->prepare("
+             CALL 
+                 bu_accounts_get_data(?);
+         ");
+         $stmt->execute(
+             [
+                 $_POST['account-id-alpha']
+             ]
+         );
+     
+         $bu_account = $stmt->fetch(PDO::FETCH_ASSOC);
+         $stmt = null;
+     
+         $stmt = $pdo->prepare("
+             INSERT INTO 
+                 bu_prefills (
+                     account_id, 
+                     account_id_alpha, 
+                     `type`, 
+                     sub_type, 
+                     party_id
+                 ) 
+             VALUES (?,?,?,?,?);
+         ");
+
+         $stmt->execute(
+             [
+                 $bu_account['account_id'],
+                 $_POST['account-id-alpha'],  
+                 $_POST['type'], 
+                 (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
+                 $_POST['party-id'], 
+             ]
+         );
+         
+         // Get the id of the record just added to bu_regular_debits
+         $id = $pdo->lastInsertId();
+     
+         if ($stmt->rowCount() != 0) {   // $stmt->rowCount() should only be used for DELETE, INSERT or UPDATE statements. 
+         // Success
+             echo json_encode(array(
+                 'success' => 1,  // True
+                 'message' => 'Record for ID <span class="text-grey">' . $id . '</span> Added'
+             ));
+         } else { 
+         // Failure
+             echo json_encode(array(
+                 'success' => 0,  // False
+                 'message' => 'Record for ID <span class="text-grey">' . $id . '</span> NOT Added'
+
+             ));
+         }
+
+         // Close connections 
+         $stmt = null; 
+         $pdo = null;
+
+         break;
     
     // ADD REGULAR DEBIT RECORD
         case 'add-regular-debit':

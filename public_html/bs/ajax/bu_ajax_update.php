@@ -224,6 +224,68 @@
             $pdo = null;
 
             break;
+
+
+// UPDATE PRE-FILL RECORD
+        case 'update-prefill':
+
+        // Get account_id from bu_accounts based on the value of $_POST['account-id-alpha']
+            $stmt = $pdo->prepare("
+                CALL 
+                    bu_accounts_get_data(?);
+            ");
+            $stmt->execute(
+                [
+                    $_POST['account-id-alpha']
+                ]
+            );
+            
+            $bu_account = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = null;
+        
+            $stmt = $pdo->prepare("
+                UPDATE 
+                    bu_prefills 
+                SET 
+                    account_id = ?, 
+                    account_id_alpha = ?, 
+                    `type` = ?, 
+                    sub_type = ?, 
+                    party_id = ?
+                WHERE 
+                    id = ?;
+            ");        
+            $stmt->execute(
+                [
+                    $bu_account['account_id'],
+                    $_POST['account-id-alpha'], 
+                    $_POST['type'], 
+                    (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
+                    $_POST['party-id'], 
+                    intval($_POST['record-id'])
+                ]
+            );
+
+            if ($stmt->rowCount() != 0) {   // $stmt->rowCount() should only be used for DELETE, INSERT or UPDATE statements. 
+            // Success
+                echo json_encode(array(
+                    'success' => 1,  // True
+                    'message' => 'Record for ID <span class="text-grey">' . $_POST['record-id'] . '</span> Updated'
+                ));
+            } else { 
+            // Failure
+                echo json_encode(array(
+                    'success' => 0,  // False
+                    'message' => 'Record for ID <span class="text-grey">' . $_POST['record-id'] . '</span> NOT Updated'
+
+                ));
+            }
+
+            // Close connections 
+            $stmt = null; 
+            $pdo = null;
+
+            break;
             
 
     // UPDATE REGULAR DEBIT RECORD

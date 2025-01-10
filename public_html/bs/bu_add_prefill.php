@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Add Transaction";
+    $page_name = "Add Prefill";
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_transactions.php">Manage Transactions</a></li>
+                                    <li class="breadcrumb-item"><a href="bu_manage_prefills.php">Manage Pre-fills</a></li>
                                     <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
                                 </ol>
                             </div>
@@ -47,55 +47,36 @@
                                 <div class="card">
                                     <div class="card-header p-6">
                                         <h3 class="card-title">
-                                            <!--
-                                            <a class="btn btn-outline-primary btn-sm prefill-supermarket">Supermarket</a>
-                                            -->
-                                            <!-- <select id="prefill" class="form-select form-select-sm" aria-label=".form-select-sm example"> -->
-                                            <?php 
-                                                $stmt = $pdo->prepare("
-                                                    SELECT 
-                                                        pf1.account_id_alpha,
-                                                        pf1.party_id,
-                                                        pf1.type,
-                                                        p1.party
-                                                    FROM
-                                                        bu_prefills AS pf1
-                                                    LEFT JOIN
-                                                        bu_parties AS p1 ON pf1.party_id = p1.party_id
-                                                    ORDER BY 
-                                                        p1.party ASC
-                                                ");
-                                                $stmt->execute();
-
-                                                echo '<select name="prefill" id="prefill" class="form-control">';
-                                                echo '<option value="" selected disabled hidden>Pre-fill...</option>';
-                                                echo '<option value="clear" data-account-id-alpha="" data-type="" data-party="">Clear</option>';
-                                                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                    echo '<option value="' . $row->party . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-party="' . $row->party_id . '">' . $row->party . '</option>';
-                                                }
-                                                echo '</select>';
-
-                                                $stmt = null;
-                                                ?>
-                                            <!--
-                                            <select id="prefill" class="form-control">
-                                                <option value="" selected disabled hidden>Pre-fill...</option>';
-                                                <option value="co-op" data-type="5" data-party="P5723">Co-op</option>
-                                                <option value="dunelm" data-type="6" data-party="P6038">Dunelm</option>
-                                                <option value="national-lottery" data-type="6" data-party="P0700">National Lottery</option>
-                                                <option value="sainsburys" data-type="5" data-party="P1280">Sainsbury's</option>
-                                                <option value="tesco-express" data-type="5" data-party="P0186">Tesco Express</option>
-                                            </select>
-                                            -->
+                                            Card Title
                                         </h3>
                                     </div>
                                     <!-- form start -->
-                                    <form id="add-transaction" class="add-form" method="post" enctype="multipart/form-data" role="form">
+                                    <form id="add-prefill" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
-                                        <!-- Account Name -->
                                             <div class="row">
+                                            <!-- Party -->
                                                 <div class="col-md-2 form-group">
-                                                <!-- Account Name -->
+                                                    <label for="party">Party</label>
+                                                    <?php
+                                                        $stmt = $pdo->prepare("
+                                                            CALL 
+                                                                bu_parties_dropdown();
+                                                        ");
+                                                        $stmt->execute();
+
+                                                        echo '<select name="party-id" id="party-id" class="form-control" required>';
+                                                        echo "<option value='' selected disabled hidden>Select party...</option>";
+                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                            echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
+                                                        }
+                                                        echo '</select>';
+                                                        
+                                                        $stmt = null;
+
+                                                    ?>    
+                                                </div>
+                                            <!-- Account Name -->
+                                                <div class="col-md-2 form-group">
                                                     <label for="account-id-alpha">Account Name</label>
                                                     <?php
                                                         // This stored procedure uses a WHERE clause to select rows whose `status` column is equal to a specific value. This value is passed as a parameter to the procedure: 'open', 'closed' or '%' = ALL
@@ -105,7 +86,7 @@
                                                         ");
                                                         $stmt->execute(
                                                             [
-                                                                '%'
+                                                                'open'
                                                             ]
                                                         );
                                                         
@@ -120,11 +101,6 @@
 
                                                         $stmt = null;
                                                     ?>
-                                                </div>
-                                            <!-- Amount -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="amount">Amount</label>
-                                                    <input type="text" name="amount" id="amount" class="form-control" required placeholder="Enter transaction amount...">
                                                 </div>
                                             <!-- Type -->
                                                 <div class="col-md-2 form-group">
@@ -169,44 +145,12 @@
 
                                                     ?>
                                                 </div>
-                                            <!-- Party -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="party">Party</label>
-                                                    <?php
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_parties_dropdown();
-                                                        ");
-                                                        $stmt->execute();
 
-                                                        echo '<select name="party-id" id="party-id" class="form-control" required>';
-                                                        echo "<option value='' selected disabled hidden>Select party...</option>";
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
-                                                        }
-                                                        echo '</select>';
-                                                        
-                                                        $stmt = null;
-
-                                                    ?>    
-                                                </div>
-                                            <!-- Date -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="date">Date</label>
-                                                    <input type="text" name="date" required class="form-control" id="datepicker" required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
-                                                </div>
                                             </div>
 
                                             <div class="row">
                                             </div>
                                             <div class="row">
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12 form-group">
-                                                    <label for="notes">Notes</label>
-                                                    <textarea name="notes" id="notes" class="form-control" placeholder="Enter note..."></textarea>
-                                                </div>
                                             </div>
 
                                         </div>
