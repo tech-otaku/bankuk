@@ -12,6 +12,7 @@
         "bu_banks",
         "bu_monthly_spend",
         "bu_parties",
+        "bu_prefills",
         "bu_reconcilliation",
         "bu_regular_debits",
         "bu_regular_debit_types",

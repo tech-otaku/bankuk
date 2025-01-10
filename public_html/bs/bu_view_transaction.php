@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Manage Transactions";
+    $page_name = "View | Edit Transactions";
 
     // Get the transaction record to view/update
     $stmt = $pdo->prepare("

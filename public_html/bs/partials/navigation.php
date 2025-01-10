@@ -34,6 +34,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_parties.php">Parties</a>
                 </li>
+            <!-- Pre-fills -->
+                <li class="nav-item">
+                    <a class="nav-link" href="bu_manage_prefills.php">Pre-fills</a>
+                </li>
             <!-- Regular Debits -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_regular_debits.php">Regular Debits</a>
@@ -60,6 +64,7 @@
                         <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
                         <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
                         <li><a class="dropdown-item" href="bu_add_party.php">Party</a></li>
+                        <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
                         <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
