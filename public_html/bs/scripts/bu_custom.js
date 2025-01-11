@@ -211,12 +211,20 @@ $(document).ready(function() {
 
     $('#prefill').on('change', function() {
         var selected = $(this).find('option:selected');     // See https://stackoverflow.com/a/4564711
+        console.log(selected.val())
         //var extra = selected.data('foo'); 
         //console.log(selected.data('party') );
         //$("#account-id-alpha option[value='G']").attr("selected", true);
         $("#account-id-alpha").val(selected.data('account-id-alpha'));
         $("#type").val(selected.data('type'));
         $("#party-id").val(selected.data('party'));
+
+        if (selected.val() === "clear") {
+            //$("option:eq(0)").prop("selected", true);
+            $("option")[0].selected = true
+
+            //$("option").val('Pre-fill...');
+        }
         
         /*
         switch(this.value) {

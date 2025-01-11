@@ -51,32 +51,51 @@
                                             <a class="btn btn-outline-primary btn-sm prefill-supermarket">Supermarket</a>
                                             -->
                                             <!-- <select id="prefill" class="form-select form-select-sm" aria-label=".form-select-sm example"> -->
-                                            <?php 
+                                            <?php
+
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        pf1.account_id_alpha,
-                                                        pf1.party_id,
-                                                        pf1.type,
-                                                        p1.party
+                                                        COUNT(
+                                                            *
+                                                        )
                                                     FROM
-                                                        bu_prefills AS pf1
-                                                    LEFT JOIN
-                                                        bu_parties AS p1 ON pf1.party_id = p1.party_id
-                                                    ORDER BY 
-                                                        p1.party ASC
+                                                        bu_prefills
                                                 ");
                                                 $stmt->execute();
-
-                                                echo '<select name="prefill" id="prefill" class="form-control">';
-                                                echo '<option value="" selected disabled hidden>Pre-fill...</option>';
-                                                echo '<option value="clear" data-account-id-alpha="" data-type="" data-party="">Clear</option>';
-                                                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                    echo '<option value="' . $row->party . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-party="' . $row->party_id . '">' . $row->party . '</option>';
-                                                }
-                                                echo '</select>';
-
+                                                $nRows = $stmt->fetchColumn();
                                                 $stmt = null;
-                                                ?>
+                                                //echo $nRows;
+
+                                                if ($nRows > 0) {
+
+                                                    $stmt = $pdo->prepare("
+                                                        SELECT 
+                                                            pf1.account_id_alpha,
+                                                            pf1.party_id,
+                                                            pf1.type,
+                                                            p1.party
+                                                        FROM
+                                                            bu_prefills AS pf1
+                                                        LEFT JOIN
+                                                            bu_parties AS p1 ON pf1.party_id = p1.party_id
+                                                        ORDER BY 
+                                                            p1.party ASC
+                                                    ");
+                                                    $stmt->execute();
+
+                                                    echo '<select name="prefill" id="prefill" class="form-control">';
+                                                    echo '<option value="" selected disabled hidden>Pre-fill (optional)...</option>';
+                                                    echo '<option value="clear" data-account-id-alpha="" data-type="" data-party="">Clear</option>';
+                                                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                        echo '<option value="' . $row->party . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-party="' . $row->party_id . '">' . $row->party . '</option>';
+                                                    }
+                                                    echo '</select>';
+
+                                                    $stmt = null;
+
+                                                }
+
+                                            ?>
                                             <!--
                                             <select id="prefill" class="form-control">
                                                 <option value="" selected disabled hidden>Pre-fill...</option>';
