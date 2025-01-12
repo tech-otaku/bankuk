@@ -93,7 +93,7 @@
                                                     <div class="form-group row">
                                                         <label for="entity-name" class="col-sm-2 col-form-label">Entity</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="entity-name" id="entity-name" class="form-control" required value="<?php echo $bu_entity['entity']; ?>">
+                                                            <input type="text" name="entity-name" id="entity-name" class="form-control" required value="<?php echo $bu_entity['entity_name']; ?>">
                                                         </div>
                                                     </div>
                                                 <!-- Form Submit -->
