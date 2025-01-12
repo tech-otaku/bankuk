@@ -83,7 +83,7 @@
                                                 <td><?php echo $row->entity_name; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity); ?>"><?php echo $row->_used; ?></a>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity_name); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>

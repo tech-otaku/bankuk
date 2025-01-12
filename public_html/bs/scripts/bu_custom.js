@@ -193,7 +193,7 @@ $(document).ready(function() {
         Swal.fire(
             {
                 //title: "Note",
-                html: '<div class="text-left">[<span class="text-grey">' + $(this).data("counter") + '</span>]<br /><br /><span class="text-grey">' + $(this).data("amount") + '</span>' + direction + '<span class="text-grey">' + $(this).data("entity-name") + '</span> on <span class="text-grey">' + $(this).data("date") + '</span><br /><br /><i>' + $(this).data("note") + '</></div>',
+                html: '<div class="text-left">[<span class="text-grey">' + $(this).data("counter") + '</span>]&nbsp;<span class="text-grey">' + $(this).data("amount") + '</span>' + direction + '<span class="text-grey">' + $(this).data("entity-name") + '</span> on <span class="text-grey">' + $(this).data("date") + '</span><br /><br /><i>' + $(this).data("note") + '</></div>',
                 icon: "info",
                 position: "top-end"
             }
