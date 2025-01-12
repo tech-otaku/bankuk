@@ -76,7 +76,7 @@
                                                     <th>Amount</th>
                                                     <th>Type</th>
                                                     <th>Sub-type</th>
-                                                    <th>Party</th>
+                                                    <th>Entity</th>
                                                     <th>Date</th>
                                                     <th>Period</th>
                                                     <th>Action</th>
@@ -113,7 +113,7 @@
                                                     rd1.amount,
                                                     tt1.description AS _type,
                                                     tt2.description AS _subtype,
-                                                    p1.party,
+                                                    e1.entity_name,
                                                     rd1.day,
                                                     -- rd1.period,
                                                     rd1.notes,
@@ -128,7 +128,7 @@
                                                 LEFT JOIN
                                                     bu_banks AS b1 ON a1.bank_id = b1.bank_id
                                                 LEFT JOIN
-                                                    bu_parties AS p1 ON rd1.party_id = p1.party_id
+                                                    bu_entities AS e1 ON rd1.entity_id = e1.entity_id
                                                 LEFT JOIN
                                                     bu_transaction_types AS tt1 ON rd1.type = tt1.type
                                                 LEFT JOIN
@@ -143,7 +143,7 @@
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr class="regular-debit">
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-party="' . $row->party . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-entity-name="' . $row->entity_name . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->id; ?></td>
                                                 <td>
                                                     <a data-id="<?php echo $row->id; ?>" class="btn btn-primary btn-sm add-current-due-date" href="#">
@@ -155,7 +155,7 @@
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td><?php echo $row->party; ?></td>
+                                                <td><?php echo $row->entity_name; ?></td>
                                                 <td><?php echo $row->description; ?></td>
                                                 <td><?php echo $row->day; ?></td>
                                                 <td><?php echo $row->last; ?></td>  <!-- The display format is defined using a DataTable render -->
@@ -313,7 +313,7 @@
                     }, 
                     {className: 'transaction-type', width: '100px'/*, width: '5%'*/}, 
                     {className: 'transaction-subtype', width: '100px'/*, width: '5%'*/}, 
-                    {className: 'party', width: '200px'/*width: '15%'*/}, 
+                    {className: 'entity', width: '200px'/*width: '15%'*/}, 
                     {className: 'regular-debit-type', width: '250px'/*width: '15%'*/}, 
                     {className: 'transaction-day', type: 'num', width: '75px'/*, width: '7%'*/, orderable: false},
                     {className: 'transaction-date current-due-date', type: 'date', width: '150px', render: DataTable.render.datetime('ddd DD/MM/YYYY')/*, width: '5%'*/},   // requires moment.js

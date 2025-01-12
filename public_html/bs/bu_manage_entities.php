@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Manage Parties";
+    $page_name = "Manage Entities";
 ?>
 
 <!DOCTYPE html>
@@ -45,12 +45,12 @@
                                     <h3 class="card-title"></h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="parties" class="table table-hover table-bordered table-striped bu-data-table">
+                                    <table id="entities" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Party ID</th>
-                                                <th>Party</th>
+                                                <th>Entity ID</th>
+                                                <th>Entity</th>
                                                 <th>Used</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -61,39 +61,39 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        p1.id,
-                                                        p1.party_id,
-                                                        p1.party,
-                                                        COUNT(t1.party_id) AS _used
+                                                        e1.id,
+                                                        e1.entity_id,
+                                                        e1.entity_name,
+                                                        COUNT(t1.entity_id) AS _used
                                                     FROM
-                                                        bu_parties AS p1
+                                                        bu_entities AS e1
                                                     LEFT JOIN
-                                                        bu_transactions AS t1 ON p1.party_id = t1.party_id
+                                                        bu_transactions AS t1 ON e1.entity_id = t1.entity_id
                                                     GROUP BY 
-                                                        p1.id
+                                                        e1.id
                                                     ORDER BY 
-                                                        p1.party ASC;
+                                                        e1.entity_name ASC;
                                                 ");
                                                 $stmt->execute(); 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $counter; ?></td>
-                                                <td><?php echo $row->party_id; ?></td>
-                                                <td><?php echo $row->party; ?></td>
+                                                <td><?php echo $row->entity_id; ?></td>
+                                                <td><?php echo $row->entity_name; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->party); ?>"><?php echo $row->_used; ?></a>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_party.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
+                                                    <a class="btn btn-success btn-sm" href="bu_view_entity.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_parties" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
+                                                    <a data-mysql-table="bu_entities" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
@@ -112,7 +112,7 @@
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <a class="btn btn-success" href="bu_add_party.php">Add Party</a>
+                                    <a class="btn btn-success" href="bu_add_entity.php">Add Entity</a>
                                 </div>
                             </div>  <!-- /.card -->
                         </div>  <!-- /.col -->
@@ -126,7 +126,7 @@
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
         <script>
-            var parties = new DataTable('#parties', {
+            var entities = new DataTable('#entities', {
                 
                 pageLength: 25,
                 lengthMenu: [

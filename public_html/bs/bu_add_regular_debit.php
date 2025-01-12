@@ -128,21 +128,21 @@
                                                         
                                                     ?>                
                                                 </div>
-                                            <!-- Party -->
+                                            <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party">Party</label>
+                                                    <label for="entity-name">Entity</label>
                                                     <?php
 
                                                         $stmt = $pdo->prepare("
                                                         CALL 
-                                                            bu_parties_dropdown();
+                                                            bu_entities_dropdown();
                                                         ");
                                                         $stmt->execute();
 
-                                                        echo '<select name="party-id" name="party-id" class="form-control" required>';
-                                                        echo "<option value='' selected disabled hidden>Select party...</option>";
+                                                        echo '<select name="entity-id" name="entity-id" class="form-control" required>';
+                                                        echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
                                                         }
                                                         echo '</select>';
                                                         
@@ -152,7 +152,7 @@
                                                 </div>
                                             <!-- Regular Debit Type -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party">Regular Debit Type</label>
+                                                    <label for="entity-name">Regular Debit Type</label>
                                                     <?php
 
                                                         $stmt = $pdo->prepare("

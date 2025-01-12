@@ -41,7 +41,7 @@
                             <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <!-- <li class="breadcrumb-item"><a href="bu_manage_parties.php">Manage Parties</a></li> -->
+                                    <!-- <li class="breadcrumb-item"><a href="bu_manage_entities.php">Manage Entities</a></li> -->
                                     <li class="breadcrumb-item"><?php echo $page_name; ?></li>
                                 </ol>
                             </div>
@@ -59,7 +59,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header p-6">
-                                        <?php //echo '<span class="record-id">Record ID</span> ' . $bu_party['id']; ?>
+                                        <?php //echo '<span class="record-id">Record ID</span> ' . $bu_entity['id']; ?>
                                         <!-- 
                                         <ul class="nav nav-pills">
                                             <li class="nav-item"><a class="nav-link active" href="#update_Profile" data-toggle="tab">Update Transaction</a></li>

@@ -11,7 +11,7 @@
         "bu_accounts",
         "bu_banks",
         "bu_monthly_spend",
-        "bu_parties",
+        "bu_entities",
         "bu_prefills",
         "bu_reconcilliation",
         "bu_regular_debits",

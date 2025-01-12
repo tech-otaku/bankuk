@@ -84,7 +84,7 @@
                                                     <th>Amount</th>
                                                     <th>Type</th>
                                                     <th>Sub-type</th>
-                                                    <th>Party</th>
+                                                    <th>Entity</th>
                                                     <th>Date</th>
                                                     <th>Period</th>
                                                     <th>Action</th>
@@ -112,7 +112,7 @@
                                                         a1.status,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
-                                                        p1.party
+                                                        e1.entity_name
                                                     FROM
                                                         bu_prefills AS pf1
                                                     LEFT JOIN
@@ -120,13 +120,13 @@
                                                     LEFT JOIN
                                                         bu_banks AS b1 ON a1.bank_id = b1.bank_id
                                                     LEFT JOIN
-                                                        bu_parties AS p1 ON pf1.party_id = p1.party_id
+                                                        bu_entities AS e1 ON pf1.entity_id = e1.entity_id
                                                     LEFT JOIN
                                                         bu_transaction_types AS tt1 ON pf1.type = tt1.type
                                                     LEFT JOIN
                                                         bu_transaction_types AS tt2 ON pf1.sub_type = tt2.type
                                                     ORDER BY 
-                                                        p1.party ASC
+                                                        e1.entity_name ASC
                                                 ");
                                                 $stmt->execute();
 
@@ -135,7 +135,7 @@
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
                                                 <td><?php echo $counter; ?></td>
-                                                <td><?php echo $row->party; ?></td>
+                                                <td><?php echo $row->entity_name; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->_type; ?></td>
@@ -203,7 +203,7 @@
                         width: '60px'
                     }, 
                     {   // Column Index 1
-                        className: 'party', 
+                        className: 'entity', 
                         width: '500px'
                     }, 
                     {
@@ -215,7 +215,7 @@
                         width: '175px'
                     }, 
                     {
-                        className: 'party', 
+                        className: 'entity', 
                         width: '500px'
                     }, 
                     {   className: 'actions', 
@@ -280,7 +280,7 @@
 
                             }
 
-                            // When a column filter is applied - say Party = BT - and stateSave is true, if the page is reloaded the filter is still in effect, but the filter dropdown now displays 'Show all' and not 'BT'.
+                            // When a column filter is applied - say Entity = BT - and stateSave is true, if the page is reloaded the filter is still in effect, but the filter dropdown now displays 'Show all' and not 'BT'.
                             // To overcome this, the correct dropdown filter value is restored from the saved 'state' object. See https://stackoverflow.com/a/49878256
                             // See https://datatables.net/reference/api/state() for the structure of the 'state' object 
                             var state = this.state.loaded();

@@ -193,7 +193,7 @@ $(document).ready(function() {
         Swal.fire(
             {
                 //title: "Note",
-                html: '<div class="text-left">[<span class="text-grey">' + $(this).data("counter") + '</span>]<br /><br /><span class="text-grey">' + $(this).data("amount") + '</span>' + direction + '<span class="text-grey">' + $(this).data("party") + '</span> on <span class="text-grey">' + $(this).data("date") + '</span><br /><br /><i>' + $(this).data("note") + '</></div>',
+                html: '<div class="text-left">[<span class="text-grey">' + $(this).data("counter") + '</span>]<br /><br /><span class="text-grey">' + $(this).data("amount") + '</span>' + direction + '<span class="text-grey">' + $(this).data("entity-name") + '</span> on <span class="text-grey">' + $(this).data("date") + '</span><br /><br /><i>' + $(this).data("note") + '</></div>',
                 icon: "info",
                 position: "top-end"
             }
@@ -204,7 +204,7 @@ $(document).ready(function() {
         $("#account-id-alpha option[value='G']").attr("selected", true);
         //$("#account-id-alpha").val('G');    // Santander Edge Up Current Account - XXX9151 [G]
         $("#type").val('5');                // Supermarket
-        $("#party-id").val('P1280');        // Sainsbury's
+        $("#entity-id").val('P1280');        // Sainsbury's
 
     })
 
@@ -213,11 +213,11 @@ $(document).ready(function() {
         var selected = $(this).find('option:selected');     // See https://stackoverflow.com/a/4564711
         console.log(selected.val())
         //var extra = selected.data('foo'); 
-        //console.log(selected.data('party') );
+        console.log(selected.data('entity-id') );
         //$("#account-id-alpha option[value='G']").attr("selected", true);
         $("#account-id-alpha").val(selected.data('account-id-alpha'));
         $("#type").val(selected.data('type'));
-        $("#party-id").val(selected.data('party'));
+        $("#entity-id").val(selected.data('entity-id'));
 
         if (selected.val() === "clear") {
             //$("option:eq(0)").prop("selected", true);
@@ -231,25 +231,25 @@ $(document).ready(function() {
             case 'co-op':
                 // code block
                 $("#type").val(selected.data('type'));
-                $("#party-id").val(selected.data('party'));    // Co-op
+                $("#entity-id").val(selected.data('entity'));    // Co-op
                 break;
             case 'dunelm':
                 // code block
                 $("#type").val('6');
-                $("#party-id").val('P6038');    // Dunelm
+                $("#entity-id").val('P6038');    // Dunelm
                 break;
             case 'national-lottery':
                 $("#type").val('6');
                 // code block
-                $("#party-id").val('P0700');    // National Lottery
+                $("#entity-id").val('P0700');    // National Lottery
                 break;
             case 'sainsburys':
                 $("#type").val('5');
-                $("#party-id").val('P1280');    // Sainsbury's
+                $("#entity-id").val('P1280');    // Sainsbury's
                 break;
             case 'tesco-express':
                 $("#type").val('5');
-                $("#party-id").val('P0186');    // Tesco Express
+                $("#entity-id").val('P0186');    // Tesco Express
                 break;
             default:
                 // code block

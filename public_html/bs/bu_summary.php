@@ -69,7 +69,7 @@
                                                     <th>Amount</th>
                                                     <th>Type</th>
                                                     <th>Sub-type</th>
-                                                    <th>Party</th>
+                                                    <th>Entity</th>
                                                     <th>Date</th>
                                                     <th>Period</th>
                                                     <th>Action</th>
@@ -330,7 +330,7 @@
                     {className: 'transaction-amount', searchable: false}, 
                     {className: 'transaction-type'}, 
                     {className: 'transaction-subtype'}, 
-                    {className: 'party'}, 
+                    {className: 'entity'}, 
                     {className: 'transaction-date'}, 
                     {className: 'period'}, 
                     {className: 'actions', searchable: false}

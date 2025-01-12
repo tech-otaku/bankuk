@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Add Party";    
+    $page_name = "Add Entity";    
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_parties.php">Manage Parties</a></li>
+                                    <li class="breadcrumb-item"><a href="bu_manage_entities.php">Manage Entities</a></li>
                                     <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
                                 </ol>
                             </div>
@@ -48,18 +48,18 @@
                                         <h3 class="card-title">Card Header</h3>
                                     </div>
                                     <!-- form start -->
-                                    <form id="add-party" class="add-form" method="post" enctype="multipart/form-data" role="form">
+                                    <form id="add-entity" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
-                                            <!-- Party ID -->
+                                            <!-- Entity ID -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party-id">Party ID</label>
-                                                    <input type="text" name="party-id" id="party-id" class="form-control" readonly value="<?php echo "P" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
+                                                    <label for="entity-id">Entity ID</label>
+                                                    <input type="text" name="entity-id" id="entity-id" class="form-control" readonly value="<?php echo "E" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
                                                 </div>
-                                            <!-- Party Name -->
+                                            <!-- Entity Name -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party">Party</label>
-                                                    <input type="text" name="party" required class="form-control" id="party" placeholder="Enter party name...">
+                                                    <label for="entity-name">Entity</label>
+                                                    <input type="text" name="entity-name" required class="form-control" id="entity-name" placeholder="Enter entity name...">
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -83,7 +83,7 @@
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" name="add-party-submit" class="btn btn-success">Add</button>
+                                            <button type="submit" name="add-entity-submit" class="btn btn-success">Add</button>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

@@ -5,14 +5,14 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "View | Edit Party";
+    $page_name = "View | Edit Entity";
 
-    // Get the party record to view/update
+    // Get the entity_name record to view/update
     $stmt = $pdo->prepare("
         SELECT 
             * 
         FROM 
-            bu_parties 
+            bu_entities 
         WHERE 
             id = ?;"
     );
@@ -23,7 +23,7 @@
         ]
     );
 
-    $bu_party = $stmt->fetch(PDO::FETCH_ASSOC);
+    $bu_entity = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
                             <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_parties.php">Manage Parties</a></li>
+                                    <li class="breadcrumb-item"><a href="bu_manage_entities.php">Manage Entities</a></li>
                                     <li class="breadcrumb-item"><?php echo $page_name; ?></li>
                                 </ol>
                             </div>
@@ -66,7 +66,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header p-6">
-                                        <?php echo '<span class="record-id">Record ID</span> ' . $bu_party['id']; ?>
+                                        <?php echo '<span class="record-id">Record ID</span> ' . $bu_entity['id']; ?>
                                         <!-- 
                                         <ul class="nav nav-pills">
                                             <li class="nav-item"><a class="nav-link active" href="#update_Profile" data-toggle="tab">Update Transaction</a></li>
@@ -79,27 +79,27 @@
                                         <div class="tab-content">
                                             <!-- / Update Profile -->
                                             <div class="tab-pane active" id="update_Profile">
-                                                <form id="update-party" class="update-form" method="post" enctype="multipart/form-data" role="form">
+                                                <form id="update-entity" class="update-form" method="post" enctype="multipart/form-data" role="form">
                                                 <!-- Record ID [Hidden] -->
-                                                    <input type="hidden" name="record-id" id="record-id" value="<?php echo $bu_party['id']; ?>">
-                                                <!-- Party ID --> 
+                                                    <input type="hidden" name="record-id" id="record-id" value="<?php echo $bu_entity['id']; ?>">
+                                                <!-- Entity ID --> 
                                                 <div class="form-group row">
-                                                        <label for="party-id" class="col-sm-2 col-form-label">Party ID</label>
+                                                        <label for="entity-id" class="col-sm-2 col-form-label">Entity ID</label>
                                                         <div class="col-sm-1">
-                                                            <input type="text" name="party-id" id="party-id" class="form-control" readonly value="<?php echo $bu_party['party_id']; ?>">
+                                                            <input type="text" name="entity-id" id="entity-id" class="form-control" readonly value="<?php echo $bu_entity['entity_id']; ?>">
                                                         </div>
                                                     </div>
-                                                <!-- Party Name --> 
+                                                <!-- Entity Name --> 
                                                     <div class="form-group row">
-                                                        <label for="party" class="col-sm-2 col-form-label">Party</label>
+                                                        <label for="entity-name" class="col-sm-2 col-form-label">Entity</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="party" id="party" class="form-control" required value="<?php echo $bu_party['party']; ?>">
+                                                            <input type="text" name="entity-name" id="entity-name" class="form-control" required value="<?php echo $bu_entity['entity']; ?>">
                                                         </div>
                                                     </div>
                                                 <!-- Form Submit -->
                                                     <div class="form-group row">
                                                         <div class="offset-sm-2 col-sm-10">
-                                                            <button type="submit" name="update-party-submit" id="update-party-submit" class="btn btn-outline-success">Update Party</button>
+                                                            <button type="submit" name="update-entity-submit" id="update-entity-submit" class="btn btn-outline-success">Update Entity</button>
                                                         </div>
                                                     </div>
                                                 </form>

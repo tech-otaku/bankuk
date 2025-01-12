@@ -71,23 +71,23 @@
     ");
 
 
-// Parties Dropdown
+// Entities Dropdown
     $pdo->query("
         DROP PROCEDURE IF EXISTS 
-            bu_parties_dropdown
+            bu_entities_dropdown
     ");
 
     $pdo->query("
         CREATE PROCEDURE 
-            bu_parties_dropdown() 
+            bu_entities_dropdown() 
         BEGIN 
             SELECT 
-                party_id, 
-                party
+                entity_id, 
+                entity_name
             FROM 
-                bu_parties 
+                bu_entities 
             ORDER BY 
-                party ASC;
+                entity_name ASC;
         END;
     ");
 

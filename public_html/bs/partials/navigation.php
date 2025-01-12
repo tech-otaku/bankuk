@@ -30,9 +30,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_banks.php">Banks</a>
                 </li>
-            <!-- Parties -->
+            <!-- Entities -->
                 <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_parties.php">Parties</a>
+                    <a class="nav-link" href="bu_manage_entities.php">Entities</a>
                 </li>
             <!-- Pre-fills -->
                 <li class="nav-item">
@@ -63,7 +63,7 @@
                         <li><a class="dropdown-item" href="bu_add_accounting_period.php">Accounting Period</a></li>
                         <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
                         <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
-                        <li><a class="dropdown-item" href="bu_add_party.php">Party</a></li>
+                        <li><a class="dropdown-item" href="bu_add_entity.php">Entity</a></li>
                         <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>

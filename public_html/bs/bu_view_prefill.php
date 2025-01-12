@@ -16,7 +16,7 @@
             CONCAT(a1.sort_code, ' ', a1.account_number) AS _account, 
             pf1.`type`, 
             pf1.sub_type, 
-            pf1.party_id, 
+            pf1.entity_id, 
             a1.bank_id, 
             b1.bank_id 
         FROM 
@@ -90,20 +90,20 @@
                                                 <form id="update-prefill" class="update-form" method="post" enctype="multipart/form-data" role="form">
                                                 <!-- Record ID [Hidden] -->
                                                     <input type="hidden" name="record-id" id="record-id" value="<?php echo $bu_prefill['id']; ?>">
-                                                <!-- Party -->
+                                                <!-- Entity -->
                                                     <div class="form-group row">
-                                                        <label for="party-id" class="col-sm-2 col-form-label">Party</label>
+                                                        <label for="entity-id" class="col-sm-2 col-form-label">Entity</label>
                                                         <div class="col-sm-10">
                                                             <?php
                                                                 $stmt = $pdo->prepare("
                                                                     CALL 
-                                                                        bu_parties_dropdown();
+                                                                        bu_entities_dropdown();
                                                                 ");
                                                                 $stmt->execute();
                                                                 
-                                                                echo '<select name="party-id" name="party-id" class="form-control" required>';
+                                                                echo '<select name="entity-id" name="entity-id" class="form-control" required>';
                                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                                    echo '<option value="'.$row->party_id.'" '.($row->party_id === $bu_prefill['party_id'] ? 'selected="selected"' : '').'>'.$row->party .'</option>';
+                                                                    echo '<option value="'.$row->entity_id.'" '.($row->entity_id === $bu_prefill['entity_id'] ? 'selected="selected"' : '').'>'.$row->entity_name .'</option>';
                                                                 }
                                                                 echo '</select>';
 

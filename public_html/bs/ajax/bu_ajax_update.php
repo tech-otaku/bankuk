@@ -187,19 +187,19 @@
             break;
 
     // UPDATE PARTY RECORD
-        case 'update-party':
+        case 'update-entity':
 
             $stmt = $pdo->prepare("
                 UPDATE 
-                    bu_parties 
+                    bu_entities 
                 SET 
-                    party = ?  
+                    entity_name = ?  
                 WHERE 
                     id = ?;
             ");        
             $stmt->execute(
                 [ 
-                    $_POST['party'], 
+                    $_POST['entity'], 
                     intval($_POST['record-id'])
                 ]
             );
@@ -208,13 +208,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> Updated'
+                    'message' => 'Record for Entity ID <span class="text-grey">' . $_POST['entity-id'] . '</span> Updated'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> NOT Updated'
+                    'message' => 'Record for Entity ID <span class="text-grey">' . $_POST['entity-id'] . '</span> NOT Updated'
 
                 ));
             }
@@ -251,7 +251,7 @@
                     account_id_alpha = ?, 
                     `type` = ?, 
                     sub_type = ?, 
-                    party_id = ?
+                    entity_id = ?
                 WHERE 
                     id = ?;
             ");        
@@ -261,7 +261,7 @@
                     $_POST['account-id-alpha'], 
                     $_POST['type'], 
                     (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
-                    $_POST['party-id'], 
+                    $_POST['entity-id'], 
                     intval($_POST['record-id'])
                 ]
             );
@@ -315,7 +315,7 @@
                     `type` =? , 
                     sub_type = ?,
                     regular_debit_type = ?,
-                    party_id = ?,
+                    entity_id = ?,
                     `day` = ?,
                     `last` = ?,
                     `next` = ?, 
@@ -331,7 +331,7 @@
                     $_POST['type'], 
                     (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''),
                     $_POST['regular-debit-type'], 
-                    $_POST['party-id'], 
+                    $_POST['entity-id'], 
                     $_POST['day'],
                     $_POST['last'],
                     $_POST['next'],
@@ -483,7 +483,7 @@
                     amount = ?, 
                     `type` = ?, 
                     sub_type = ?, 
-                    party_id = ?, 
+                    entity_id = ?, 
                     `date` = ?, 
                     period = ?, 
                     notes =?  
@@ -497,7 +497,7 @@
                     $_POST['amount'],
                     $_POST['type'], 
                     (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
-                    $_POST['party-id'], 
+                    $_POST['entity-id'], 
                     $_POST['date'], 
                     $bu_accounting_period['period'], 
                     $_POST['notes'],

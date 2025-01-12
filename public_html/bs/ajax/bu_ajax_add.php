@@ -140,20 +140,20 @@
             break;
     
     // ADD PARTY RECORD
-        case 'add-party':
+        case 'add-entity':
 
             $stmt = $pdo->prepare("
                 INSERT INTO
-                    bu_parties (
-                        party_id, 
-                        party
+                    bu_entities (
+                        entity_id, 
+                        entity_name
                     )
                 VALUES (?, ?);
             ");        
             $stmt->execute(
                 [
-                    $_POST['party-id'],
-                    $_POST['party']
+                    $_POST['entity-id'],
+                    $_POST['entity-name']
                 ]
             );
         
@@ -161,13 +161,13 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> Added'
+                    'message' => 'Record for Entity ID <span class="text-grey">' . $_POST['entity-id'] . '</span> Added'
                 ));
             } else { 
             // Failure
                 echo json_encode(array(
                     'success' => 0,  // False
-                    'message' => 'Record for Party ID <span class="text-grey">' . $_POST['party-id'] . '</span> NOT Added'
+                    'message' => 'Record for Entity ID <span class="text-grey">' . $_POST['entity-id'] . '</span> NOT Added'
 
                 ));
             }
@@ -202,7 +202,7 @@
                      account_id_alpha, 
                      `type`, 
                      sub_type, 
-                     party_id
+                     entity_id
                  ) 
              VALUES (?,?,?,?,?);
          ");
@@ -213,7 +213,7 @@
                  $_POST['account-id-alpha'],  
                  $_POST['type'], 
                  (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
-                 $_POST['party-id'], 
+                 $_POST['entity-id'], 
              ]
          );
          
@@ -266,7 +266,7 @@
                         amount, 
                         `type`, 
                         sub_type, 
-                        party_id, 
+                        entity_id, 
                         regular_debit_type, 
                         `day`, 
                         notes
@@ -280,7 +280,7 @@
                     $_POST['amount'],
                     $_POST['type'], 
                     (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
-                    $_POST['party-id'],
+                    $_POST['entity-id'],
                     $_POST['regular-debit-type'],  
                     $_POST['day'], 
                     $_POST['notes']            
@@ -323,7 +323,7 @@
                  VALUES (?, ?);
             ");
              //bind paramaters
-             //$rc = $stmt->bind_param('s', $party);
+             //$rc = $stmt->bind_param('s', $entity);
              $stmt->execute(
                  [
                      $_POST['type'],
@@ -390,7 +390,7 @@
                         amount, 
                         `type`, 
                         sub_type, 
-                        party_id, 
+                        entity_id, 
                         `date`, 
                         period, 
                         notes
@@ -405,7 +405,7 @@
                     $_POST['amount'],
                     $_POST['type'], 
                     (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
-                    $_POST['party-id'], 
+                    $_POST['entity-id'], 
                     $_POST['date'], 
                     $bu_accounting_period['period'], 
                     $_POST['notes']            

@@ -102,7 +102,7 @@
                                                     <th>Amount</th>
                                                     <th>Type</th>
                                                     <th>Sub-type</th>
-                                                    <th>Party</th>
+                                                    <th>Entity</th>
                                                     <th>Date</th>
                                                     <th>Period</th>
                                                     <th>Action</th>
@@ -134,7 +134,7 @@
                                                         t1.amount,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
-                                                        p1.party,
+                                                        e1.entity_name,
                                                         t1.date,
                                                         t1.period,
                                                         t1.notes
@@ -145,7 +145,7 @@
                                                     LEFT JOIN
                                                         bu_banks AS b1 ON a1.bank_id = b1.bank_id
                                                     LEFT JOIN
-                                                        bu_parties AS p1 ON t1.party_id = p1.party_id
+                                                        bu_entities AS e1 ON t1.entity_id = e1.entity_id
                                                     LEFT JOIN
                                                         bu_transaction_types AS tt1 ON t1.type = tt1.type
                                                     LEFT JOIN
@@ -159,14 +159,14 @@
                                             ?>
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-party="' . $row->party . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-entity-name="' . $row->entity_name . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td><?php echo $row->party; ?></td>
+                                                <td><?php echo $row->entity_name; ?></td>
                                                 <td><?php echo $row->date; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>
@@ -260,7 +260,7 @@
                         width: '175px'
                     }, 
                     {
-                        className: 'party', 
+                        className: 'entity', 
                         width: '500px'
                     }, 
                     {
@@ -339,7 +339,7 @@
 
                             }
 
-                            // When a column filter is applied - say Party = BT - and stateSave is true, if the page is reloaded the filter is still in effect, but the filter dropdown now displays 'Show all' and not 'BT'.
+                            // When a column filter is applied - say Entity = BT - and stateSave is true, if the page is reloaded the filter is still in effect, but the filter dropdown now displays 'Show all' and not 'BT'.
                             // To overcome this, the correct dropdown filter value is restored from the saved 'state' object. See https://stackoverflow.com/a/49878256
                             // See https://datatables.net/reference/api/state() for the structure of the 'state' object 
                             var state = this.state.loaded();

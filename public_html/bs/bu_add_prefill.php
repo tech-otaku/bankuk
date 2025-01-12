@@ -54,20 +54,20 @@
                                     <form id="add-prefill" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
-                                            <!-- Party -->
+                                            <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party">Party</label>
+                                                    <label for="entity-name">Entity</label>
                                                     <?php
                                                         $stmt = $pdo->prepare("
                                                             CALL 
-                                                                bu_parties_dropdown();
+                                                                bu_entities_dropdown();
                                                         ");
                                                         $stmt->execute();
 
-                                                        echo '<select name="party-id" id="party-id" class="form-control" required>';
-                                                        echo "<option value='' selected disabled hidden>Select party...</option>";
+                                                        echo '<select name="entity-id" id="entity-id" class="form-control" required>';
+                                                        echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
                                                         }
                                                         echo '</select>';
                                                         

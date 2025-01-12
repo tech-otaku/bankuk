@@ -64,7 +64,7 @@
                     amount, 
                     type, 
                     sub_type, 
-                    party_id, 
+                    entity_id, 
                     date, 
                     period, 
                     notes
@@ -81,7 +81,7 @@
                 $bu_regular_debit->type, 
                 (isset($bu_regular_debit->sub_type) ? $bu_regular_debit->sub_type : ''),
                 //'P5283',
-                $bu_regular_debit->party_id, 
+                $bu_regular_debit->entity_id, 
                 $bu_regular_debit->next, 
                 $bu_accounting_period->period, 
                 $bu_regular_debit->notes
@@ -90,20 +90,20 @@
 
         $stmt = $pdo->prepare("
             SELECT 
-                party 
+                entity_name 
             FROM 
-                bu_parties
+                bu_entities
             WHERE 
-                party_id = ?;
+                entity_id = ?;
         ");
 
         $stmt->execute(
             [
-                $bu_regular_debit->party_id
+                $bu_regular_debit->entity_id
             ]
         );
 
-        $bu_party = $stmt->fetch(PDO::FETCH_OBJ);   
+        $bu_entity = $stmt->fetch(PDO::FETCH_OBJ);   
         $stmt = null;
 
     // 3. Re-calculate bu_regular_debits.next for next month
@@ -157,8 +157,8 @@
         // Success
             echo json_encode(array(
                 'success' => 1,  // True
-                'message' => 'Transaction added for <span class="text-grey">' . $bu_party->party . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span>',
-                'party' => $bu_party->party,
+                'message' => 'Transaction added for <span class="text-grey">' . $bu_entity->entity_name . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span>',
+                'entity' => $bu_entity->entity,
                 "current" => $bu_regular_debit->next,
                 "next" => $next_recalculated->format('Y-m-d'),
                 "period" => $bu_accounting_period->period

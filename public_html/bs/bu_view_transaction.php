@@ -18,7 +18,7 @@
             t1.amount, 
             t1.`type`, 
             t1.sub_type, 
-            t1.party_id, 
+            t1.entity_id, 
             t1.`date`, 
             t1.period, 
             t1.notes, 
@@ -178,20 +178,20 @@
                                                             ?>   
                                                         </div>
                                                     </div>
-                                                <!-- Party -->
+                                                <!-- Entity -->
                                                     <div class="form-group row">
-                                                        <label for="party-id" class="col-sm-2 col-form-label">Party</label>
+                                                        <label for="entity-id" class="col-sm-2 col-form-label">Entity</label>
                                                         <div class="col-sm-10">
                                                             <?php
                                                                 $stmt = $pdo->prepare("
                                                                     CALL 
-                                                                        bu_parties_dropdown();
+                                                                        bu_entities_dropdown();
                                                                 ");
                                                                 $stmt->execute();
                                                                 
-                                                                echo '<select name="party-id" name="party-id" class="form-control" required>';
+                                                                echo '<select name="entity-id" name="entity-id" class="form-control" required>';
                                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                                    echo '<option value="'.$row->party_id.'" '.($row->party_id === $bu_transaction['party_id'] ? 'selected="selected"' : '').'>'.$row->party .'</option>';
+                                                                    echo '<option value="'.$row->entity_id.'" '.($row->entity_id === $bu_transaction['entity_id'] ? 'selected="selected"' : '').'>'.$row->entity_name .'</option>';
                                                                 }
                                                                 echo '</select>';
 

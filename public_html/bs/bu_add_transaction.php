@@ -71,23 +71,23 @@
                                                     $stmt = $pdo->prepare("
                                                         SELECT 
                                                             pf1.account_id_alpha,
-                                                            pf1.party_id,
+                                                            pf1.entity_id,
                                                             pf1.type,
-                                                            p1.party
+                                                            e1.entity_name
                                                         FROM
                                                             bu_prefills AS pf1
                                                         LEFT JOIN
-                                                            bu_parties AS p1 ON pf1.party_id = p1.party_id
+                                                            bu_entities AS e1 ON pf1.entity_id = e1.entity_id
                                                         ORDER BY 
-                                                            p1.party ASC
+                                                            e1.entity_name ASC
                                                     ");
                                                     $stmt->execute();
 
                                                     echo '<select name="prefill" id="prefill" class="form-control">';
                                                     echo '<option value="" selected disabled hidden>Pre-fill (optional)...</option>';
-                                                    echo '<option value="clear" data-account-id-alpha="" data-type="" data-party="">Clear</option>';
+                                                    echo '<option value="clear" data-account-id-alpha="" data-type="" data-entity-name="">Clear</option>';
                                                     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                        echo '<option value="' . $row->party . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-party="' . $row->party_id . '">' . $row->party . '</option>';
+                                                        echo '<option value="' . $row->entity_name . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-entity-id="' . $row->entity_id . '">' . $row->entity_name . '</option>';
                                                     }
                                                     echo '</select>';
 
@@ -99,11 +99,11 @@
                                             <!--
                                             <select id="prefill" class="form-control">
                                                 <option value="" selected disabled hidden>Pre-fill...</option>';
-                                                <option value="co-op" data-type="5" data-party="P5723">Co-op</option>
-                                                <option value="dunelm" data-type="6" data-party="P6038">Dunelm</option>
-                                                <option value="national-lottery" data-type="6" data-party="P0700">National Lottery</option>
-                                                <option value="sainsburys" data-type="5" data-party="P1280">Sainsbury's</option>
-                                                <option value="tesco-express" data-type="5" data-party="P0186">Tesco Express</option>
+                                                <option value="co-op" data-type="5" data-entity-name="P5723">Co-op</option>
+                                                <option value="dunelm" data-type="6" data-entity-name="P6038">Dunelm</option>
+                                                <option value="national-lottery" data-type="6" data-entity-name="P0700">National Lottery</option>
+                                                <option value="sainsburys" data-type="5" data-entity-name="P1280">Sainsbury's</option>
+                                                <option value="tesco-express" data-type="5" data-entity-name="P0186">Tesco Express</option>
                                             </select>
                                             -->
                                         </h3>
@@ -188,20 +188,20 @@
 
                                                     ?>
                                                 </div>
-                                            <!-- Party -->
+                                            <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="party">Party</label>
+                                                    <label for="entity-name">Entity</label>
                                                     <?php
                                                         $stmt = $pdo->prepare("
                                                             CALL 
-                                                                bu_parties_dropdown();
+                                                                bu_entities_dropdown();
                                                         ");
                                                         $stmt->execute();
 
-                                                        echo '<select name="party-id" id="party-id" class="form-control" required>';
-                                                        echo "<option value='' selected disabled hidden>Select party...</option>";
+                                                        echo '<select name="entity-id" id="entity-id" class="form-control" required>';
+                                                        echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->party_id.'">' . $row->party .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
                                                         }
                                                         echo '</select>';
                                                         
