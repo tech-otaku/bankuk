@@ -73,21 +73,21 @@
                                                             pf1.account_id_alpha,
                                                             pf1.entity_id,
                                                             pf1.type,
-                                                            e1.entity_name
+                                                            e1.entity_description
                                                         FROM
                                                             bu_prefills AS pf1
                                                         LEFT JOIN
                                                             bu_entities AS e1 ON pf1.entity_id = e1.entity_id
                                                         ORDER BY 
-                                                            e1.entity_name ASC
+                                                            e1.entity_description ASC
                                                     ");
                                                     $stmt->execute();
 
                                                     echo '<select name="prefill" id="prefill" class="form-control">';
                                                     echo '<option value="" selected disabled hidden>Pre-fill (optional)...</option>';
-                                                    echo '<option value="clear" data-account-id-alpha="" data-type="" data-entity-name="">Clear</option>';
+                                                    echo '<option value="clear" data-account-id-alpha="" data-type="" data-entity-description="">Clear</option>';
                                                     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                        echo '<option value="' . $row->entity_name . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-entity-id="' . $row->entity_id . '">' . $row->entity_name . '</option>';
+                                                        echo '<option value="' . $row->entity_description . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type="' . $row->type . '" data-entity-id="' . $row->entity_id . '">' . $row->entity_description . '</option>';
                                                     }
                                                     echo '</select>';
 
@@ -99,11 +99,11 @@
                                             <!--
                                             <select id="prefill" class="form-control">
                                                 <option value="" selected disabled hidden>Pre-fill...</option>';
-                                                <option value="co-op" data-type="5" data-entity-name="P5723">Co-op</option>
-                                                <option value="dunelm" data-type="6" data-entity-name="P6038">Dunelm</option>
-                                                <option value="national-lottery" data-type="6" data-entity-name="P0700">National Lottery</option>
-                                                <option value="sainsburys" data-type="5" data-entity-name="P1280">Sainsbury's</option>
-                                                <option value="tesco-express" data-type="5" data-entity-name="P0186">Tesco Express</option>
+                                                <option value="co-op" data-type="5" data-entity-description="P5723">Co-op</option>
+                                                <option value="dunelm" data-type="6" data-entity-description="P6038">Dunelm</option>
+                                                <option value="national-lottery" data-type="6" data-entity-description="P0700">National Lottery</option>
+                                                <option value="sainsburys" data-type="5" data-entity-description="P1280">Sainsbury's</option>
+                                                <option value="tesco-express" data-type="5" data-entity-description="P0186">Tesco Express</option>
                                             </select>
                                             -->
                                         </h3>
@@ -190,7 +190,7 @@
                                                 </div>
                                             <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="entity-name">Entity</label>
+                                                    <label for="entity-description">Entity</label>
                                                     <?php
                                                         $stmt = $pdo->prepare("
                                                             CALL 
@@ -201,7 +201,7 @@
                                                         echo '<select name="entity-id" id="entity-id" class="form-control" required>';
                                                         echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
                                                         }
                                                         echo '</select>';
                                                         

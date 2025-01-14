@@ -134,7 +134,7 @@
                                                         t1.amount,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
-                                                        e1.entity_name,
+                                                        e1.entity_description,
                                                         t1.date,
                                                         t1.period,
                                                         t1.notes
@@ -165,7 +165,7 @@
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td><?php echo $row->entity_name; ?></td>
+                                                <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->date; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>

@@ -90,7 +90,7 @@
 
         $stmt = $pdo->prepare("
             SELECT 
-                entity_name 
+                entity_description 
             FROM 
                 bu_entities
             WHERE 
@@ -157,7 +157,7 @@
         // Success
             echo json_encode(array(
                 'success' => 1,  // True
-                'message' => 'Transaction added for <span class="text-grey">' . $bu_entity->entity_name . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span>',
+                'message' => 'Transaction added for <span class="text-grey">' . $bu_entity->entity_description . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span>',
                 'entity' => $bu_entity->entity,
                 "current" => $bu_regular_debit->next,
                 "next" => $next_recalculated->format('Y-m-d'),

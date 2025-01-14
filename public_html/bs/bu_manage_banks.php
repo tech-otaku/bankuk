@@ -91,7 +91,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_banks" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm  delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
+                                                    <a data-mysql-table="bu_banks" data-record-id="<?php echo $row->id; ?>" data-record-type="bank" data-record-identifier="<?php echo $row->trading_name; ?>"  class="btn btn-danger btn-sm  delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
                                                     </a>

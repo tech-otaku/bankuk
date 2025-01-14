@@ -5,8 +5,10 @@ $(function() {
     //$("a.delete-record").click(function(event) {              // Any anchor whose class is 'delete-record' will be processed by this event handler when it's clicked
         event.preventDefault()
         
-        mysqlTable = $(this).data('mysql-table');       // The value assigned to the anchor element's 'data-mysql-table' attribute
-        recordID = $(this).data('record-id');           // The value assigned to the anchor element's 'data-record-id' attribute
+        mysqlTable = $(this).data('mysql-table');               // The value assigned to the anchor element's 'data-mysql-table' attribute
+        recordID = $(this).data('record-id');                   // The value assigned to the anchor element's 'data-record-id' attribute
+        recordType = $(this).data('record-type');               // The value assigned to the anchor element's 'data-record-type' attribute
+        recordIdentifier = $(this).data('record-identifier');   // The value assigned to the anchor element's 'data-record-identifier' attribute
 
         //var table = $(this).closest('table').DataTable();         // Returns an instance of the DataTables API object
         var table = $(this).closest('table').dataTable().api();     // Returns an instance of the DataTables API object, but is a jQuery type object with an attached api() method
@@ -17,7 +19,7 @@ $(function() {
 
         Swal.fire({
             title: "Delete record?",
-            text: "Are you sure you want to delete record ID " + recordID,
+            html: "Are you sure you want to delete the " + recordType + " record <span class=\"text-grey\">" + recordIdentifier + "</span>?",
             showCancelButton: true,
             confirmButtonText: "Delete",
         }).then((result) => {
@@ -30,7 +32,9 @@ $(function() {
                     url: "ajax/bu_ajax_delete.php",
                     data: {
                         'mysql-table': mysqlTable,
-                        'record-id': recordID
+                        'record-id': recordID,
+                        'record-type': recordType,
+                        'record-identifier': recordIdentifier,
                     }
                 })  // $.ajax
                 .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495

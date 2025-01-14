@@ -220,7 +220,7 @@
 
                                                                 echo '<select name="entity-id" name="entity-id" class="form-control" required>';
                                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                                    echo '<option value="'.$row->entity_id.'" '.($row->entity_id === $bu_regular_debit['entity_id'] ? 'selected="selected"' : '').'>'.$row->entity_name .'</option>';
+                                                                    echo '<option value="'.$row->entity_id.'" '.($row->entity_id === $bu_regular_debit['entity_id'] ? 'selected="selected"' : '').'>'.$row->entity_description .'</option>';
                                                                 }
                                                                 echo '</select>';
 

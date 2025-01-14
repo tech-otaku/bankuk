@@ -122,7 +122,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record<?php echo (($row->_used_type + $row->_used_subtype) != 0 ? ' disabled' : '');?>" href="#">
+                                                    <a data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction type" data-record-identifier="<?php echo $row->description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo (($row->_used_type + $row->_used_subtype) != 0 ? ' disabled' : '');?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>

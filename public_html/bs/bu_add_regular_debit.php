@@ -130,7 +130,7 @@
                                                 </div>
                                             <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="entity-name">Entity</label>
+                                                    <label for="entity-description">Entity</label>
                                                     <?php
 
                                                         $stmt = $pdo->prepare("
@@ -142,7 +142,7 @@
                                                         echo '<select name="entity-id" name="entity-id" class="form-control" required>';
                                                         echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
                                                         }
                                                         echo '</select>';
                                                         
@@ -152,7 +152,7 @@
                                                 </div>
                                             <!-- Regular Debit Type -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="entity-name">Regular Debit Type</label>
+                                                    <label for="entity-description">Regular Debit Type</label>
                                                     <?php
 
                                                         $stmt = $pdo->prepare("

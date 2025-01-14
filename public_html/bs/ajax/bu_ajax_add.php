@@ -146,14 +146,14 @@
                 INSERT INTO
                     bu_entities (
                         entity_id, 
-                        entity_name
+                        entity_description
                     )
                 VALUES (?, ?);
             ");        
             $stmt->execute(
                 [
                     $_POST['entity-id'],
-                    $_POST['entity-name']
+                    $_POST['entity-description']
                 ]
             );
         
@@ -255,7 +255,7 @@
                 ]
             );
         
-            $bu_account = $stmt->fetch(PDO::ASSOC);
+            $bu_account = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt = null;
     
             $stmt = $pdo->prepare("
@@ -286,7 +286,7 @@
                     $_POST['notes']            
                 ]
             );
-            $stmt = null;
+            //$stmt = null;
 
             // Get the id of the record just added to bu_regular_debits
             $id = $pdo->lastInsertId();

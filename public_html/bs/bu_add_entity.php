@@ -58,8 +58,8 @@
                                                 </div>
                                             <!-- Entity Name -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="entity-name">Entity</label>
-                                                    <input type="text" name="entity-name" required class="form-control" id="entity-name" placeholder="Enter entity name...">
+                                                    <label for="entity-description">Entity</label>
+                                                    <input type="text" name="entity-description" required class="form-control" id="entity-description" placeholder="Enter entity name...">
                                                 </div>
                                             </div>
                                             <div class="row">

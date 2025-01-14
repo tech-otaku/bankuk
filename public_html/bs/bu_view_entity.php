@@ -7,7 +7,7 @@
     $admin_id = $_SESSION['admin_id'];
     $page_name = "View | Edit Entity";
 
-    // Get the entity_name record to view/update
+    // Get the entity_description record to view/update
     $stmt = $pdo->prepare("
         SELECT 
             * 
@@ -91,9 +91,9 @@
                                                     </div>
                                                 <!-- Entity Name --> 
                                                     <div class="form-group row">
-                                                        <label for="entity-name" class="col-sm-2 col-form-label">Entity</label>
+                                                        <label for="entity-description" class="col-sm-2 col-form-label">Entity</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="entity-name" id="entity-name" class="form-control" required value="<?php echo $bu_entity['entity_name']; ?>">
+                                                            <input type="text" name="entity-description" id="entity-description" class="form-control" required value="<?php echo $bu_entity['entity_description']; ?>">
                                                         </div>
                                                     </div>
                                                 <!-- Form Submit -->

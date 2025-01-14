@@ -134,7 +134,7 @@
                                                         t1.amount,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
-                                                        e1.entity_name,
+                                                        e1.entity_description,
                                                         t1.date,
                                                         t1.period,
                                                         t1.notes
@@ -159,14 +159,14 @@
                                             ?>
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-entity-name="' . $row->entity_name . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td><?php echo $row->entity_name; ?></td>
+                                                <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->date; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>
@@ -174,7 +174,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_transactions" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record" href="#">
+                                                    <a data-mysql-table="bu_transactions" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction" data-record-identifier="<?php echo $row->entity_description; ?>"  class="btn btn-danger btn-sm delete-record" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>

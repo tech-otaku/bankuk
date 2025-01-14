@@ -193,7 +193,7 @@
                 UPDATE 
                     bu_entities 
                 SET 
-                    entity_name = ?  
+                    entity_description = ?  
                 WHERE 
                     id = ?;
             ");        

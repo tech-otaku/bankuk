@@ -114,7 +114,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_accounting_periods" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
+                                                    <a data-mysql-table="bu_accounting_periods" data-record-id="<?php echo $row->id; ?>" data-record-type="accounting period" data-record-identifier="<?php echo $row->period; ?>"  class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
                                                     </a>

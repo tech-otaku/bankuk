@@ -63,7 +63,7 @@
                                                     SELECT 
                                                         e1.id,
                                                         e1.entity_id,
-                                                        e1.entity_name,
+                                                        e1.entity_description,
                                                         COUNT(t1.entity_id) AS _used
                                                     FROM
                                                         bu_entities AS e1
@@ -72,7 +72,7 @@
                                                     GROUP BY 
                                                         e1.id
                                                     ORDER BY 
-                                                        e1.entity_name ASC;
+                                                        e1.entity_description ASC;
                                                 ");
                                                 $stmt->execute(); 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
@@ -80,10 +80,10 @@
                                             <tr>
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->entity_id; ?></td>
-                                                <td><?php echo $row->entity_name; ?></td>
+                                                <td><?php echo $row->entity_description; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity_name); ?>"><?php echo $row->_used; ?></a>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity_description); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>
@@ -93,7 +93,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_entities" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
+                                                    <a data-mysql-table="bu_entities" data-record-id="<?php echo $row->id; ?>" data-record-type="entity" data-record-identifier="<?php echo $row->entity_description; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>

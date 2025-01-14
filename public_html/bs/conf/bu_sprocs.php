@@ -83,11 +83,11 @@
         BEGIN 
             SELECT 
                 entity_id, 
-                entity_name
+                entity_description
             FROM 
                 bu_entities 
             ORDER BY 
-                entity_name ASC;
+                entity_description ASC;
         END;
     ");
 

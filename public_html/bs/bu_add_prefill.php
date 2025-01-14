@@ -56,7 +56,7 @@
                                             <div class="row">
                                             <!-- Entity -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="entity-name">Entity</label>
+                                                    <label for="entity-description">Entity</label>
                                                     <?php
                                                         $stmt = $pdo->prepare("
                                                             CALL 
@@ -67,7 +67,7 @@
                                                         echo '<select name="entity-id" id="entity-id" class="form-control" required>';
                                                         echo "<option value='' selected disabled hidden>Select entity...</option>";
                                                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_name .'</option>';
+                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
                                                         }
                                                         echo '</select>';
                                                         

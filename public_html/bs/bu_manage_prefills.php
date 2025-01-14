@@ -112,7 +112,7 @@
                                                         a1.status,
                                                         tt1.description AS _type,
                                                         tt2.description AS _subtype,
-                                                        e1.entity_name
+                                                        e1.entity_description
                                                     FROM
                                                         bu_prefills AS pf1
                                                     LEFT JOIN
@@ -126,7 +126,7 @@
                                                     LEFT JOIN
                                                         bu_transaction_types AS tt2 ON pf1.sub_type = tt2.type
                                                     ORDER BY 
-                                                        e1.entity_name ASC
+                                                        e1.entity_description ASC
                                                 ");
                                                 $stmt->execute();
 
@@ -135,7 +135,7 @@
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
                                                 <td><?php echo $counter; ?></td>
-                                                <td><?php echo $row->entity_name; ?></td>
+                                                <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->_type; ?></td>
@@ -145,7 +145,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_prefills" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record" href="#">
+                                                    <a data-mysql-table="bu_prefills" data-record-id="<?php echo $row->id; ?>" data-record-type="pre-fill" data-record-identifier="<?php echo $row->entity_description; ?>"  class="btn btn-danger btn-sm delete-record" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>

@@ -113,7 +113,7 @@
                                                     rd1.amount,
                                                     tt1.description AS _type,
                                                     tt2.description AS _subtype,
-                                                    e1.entity_name,
+                                                    e1.entity_description,
                                                     rd1.day,
                                                     -- rd1.period,
                                                     rd1.notes,
@@ -143,7 +143,7 @@
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr class="regular-debit">
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-entity-name="' . $row->entity_name . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->id; ?></td>
                                                 <td>
                                                     <a data-id="<?php echo $row->id; ?>" class="btn btn-primary btn-sm add-current-due-date" href="#">
@@ -155,7 +155,7 @@
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td><?php echo $row->entity_name; ?></td>
+                                                <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->description; ?></td>
                                                 <td><?php echo $row->day; ?></td>
                                                 <td><?php echo $row->last; ?></td>  <!-- The display format is defined using a DataTable render -->
@@ -167,7 +167,8 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_regular_debits" data-record-id="<?php echo $row->id; ?>" class="btn btn-danger btn-sm delete-record" href="#">
+
+                                                    <a data-mysql-table="bu_regular_debits" data-record-id="<?php echo $row->id; ?>" data-record-type="regular debit" data-record-identifier="<?php echo $row->entity_description; ?>" class="btn btn-danger btn-sm delete-record" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
                                                     </a>

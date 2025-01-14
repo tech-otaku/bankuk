@@ -66,7 +66,7 @@
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
-                    'message' => 'Record ID <span class="text-grey">' . $_POST['record-id'] . '</span> Deleted'
+                    'message' => ucfirst($_POST['record-type']) . ' record for <span class="text-grey">' .$_POST['record-identifier'] . '</span> Deleted'
                 ));
             } else { 
             // Failure
