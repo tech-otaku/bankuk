@@ -59,7 +59,7 @@
                                                 </div>
                                             <!-- Description -->
                                                 <div class="col-md-2 form-group">
-                                                    <label for="description">Legal Name</label>
+                                                    <label for="description">Description</label>
                                                     <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
                                                 </div>
                                             </div>

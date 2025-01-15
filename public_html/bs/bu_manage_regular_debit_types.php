@@ -86,7 +86,7 @@
                                                         <i class="fa fa-edit"></i>
                                                         <!-- Edit -->
                                                     </a>
-                                                    <a data-mysql-table="bu_regular_debit_types" data-record-id="<?php echo $row->id; ?>" data-record-type="regular debit type" data-record-identifier="<?php echo $row->descriptionon; ?>"  class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
+                                                    <a data-mysql-table="bu_regular_debit_types" data-record-id="<?php echo $row->id; ?>" data-record-type="regular debit type" data-record-identifier="<?php echo $row->description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
                                                     </a>

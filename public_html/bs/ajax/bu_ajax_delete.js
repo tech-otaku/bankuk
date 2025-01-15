@@ -19,7 +19,7 @@ $(function() {
 
         Swal.fire({
             title: "Delete record?",
-            html: "Are you sure you want to delete the " + recordType + " record <span class=\"text-grey\">" + recordIdentifier + "</span>?",
+            html: "Are you sure you want to delete the <span class=\"text-grey\">" + recordType + "</span> record for <span class=\"text-grey\">" + recordIdentifier + "</span>?",
             showCancelButton: true,
             confirmButtonText: "Delete",
         }).then((result) => {

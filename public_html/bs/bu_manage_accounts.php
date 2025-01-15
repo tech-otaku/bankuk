@@ -108,7 +108,7 @@
                                                 <td><?php echo $row->status; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-2&value=<?php echo rawurlencode($row->trading_name . ' ' . $row->name); ?>"><?php echo $row->_used; ?></a>
+                                                        <a href="bu_manage_transactions.php?filter=filter-col-1&value=<?php echo rawurlencode($row->account_id_alpha); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>   

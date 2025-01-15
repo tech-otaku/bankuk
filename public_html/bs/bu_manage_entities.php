@@ -127,7 +127,7 @@
     <!-- DataTable Table -->
         <script>
             var entities = new DataTable('#entities', {
-                
+                stateSave: true,
                 pageLength: 25,
                 lengthMenu: [
                     25,
