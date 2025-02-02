@@ -139,7 +139,7 @@
             $(function() {
             // DatePicker for Period Start
                 var startDate = '<?php echo $bu_accounting_period['start']; ?>';
-                console.log(startDate)
+                //console.log(startDate)
                 //startDate = startDate.substr(10,4) + '-' + startDate.substr(7,2)  + '-' + startDate.substr(4,2) // Date must be in YYYY-MM-DD format
                                 
                 $( "#start" ).datepicker({
@@ -160,7 +160,7 @@
 
             // DatePicker for Period End
                 var endDate = '<?php echo $bu_accounting_period['end']; ?>';
-                console.log(endDate)
+                //console.log(endDate)
                 //endDate = endDate.substr(10,4) + '-' + endDate.substr(7,2)  + '-' + endDate.substr(4,2) // Date must be in YYYY-MM-DD format
                                 
                 $( "#end" ).datepicker({

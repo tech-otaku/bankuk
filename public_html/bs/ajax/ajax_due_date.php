@@ -157,8 +157,8 @@
         // Success
             echo json_encode(array(
                 'success' => 1,  // True
-                'message' => 'Transaction added for <span class="text-grey">' . $bu_entity->entity_description . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span>',
-                'entity' => $bu_entity->entity,
+                'message' => 'Transaction added for <span class="text-grey">' . $bu_entity->entity_description . '</span> effective <span class="text-grey">' . $fmt_date->format(strtotime($bu_regular_debit->next)) . '</span> period <span class="text-grey">' . $bu_accounting_period->period . '</span>',
+                'entity' => $bu_entity->entity_description,
                 "current" => $bu_regular_debit->next,
                 "next" => $next_recalculated->format('Y-m-d'),
                 "period" => $bu_accounting_period->period

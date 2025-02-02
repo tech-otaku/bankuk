@@ -494,10 +494,10 @@
         /*
         var table = $("#example")
         .on("init.dt", function (e, dt, type, indexes) {
-            console.log('Table initialised')
+            //console.log('Table initialised')
         })
         .on("draw.dt", function (e, dt, type, indexes) {
-            console.log('Table drawn')
+            //console.log('Table drawn')
         })
         .DataTable({
         })
@@ -506,12 +506,12 @@
         /*
         var table = $('#example').dataTable().api()
 
-        console.log(table)
+        //console.log(table)
 
         table.draw()
 
         table.on('draw.dt', function () {
-            console.log('Table Drawn');
+            //console.log('Table Drawn');
         })
             */
 
@@ -519,9 +519,9 @@
             
             var table = new DataTable('#example', {
                 initComplete: function () {
-                    console.log(this)           // jQuery object with added api() method
-                    console.log($(this))        // jQuery object with no api() method
-                    console.log(this.api())     // _Api object 
+                    //console.log(this)           // jQuery object with added api() method
+                    //console.log($(this))        // jQuery object with no api() method
+                    //console.log(this.api())     // _Api object 
                     //console.log($(this).api())  // Uncaught TypeError: $(...).api is not a function
                     //console.log(this)
                     //console.log(this.api())

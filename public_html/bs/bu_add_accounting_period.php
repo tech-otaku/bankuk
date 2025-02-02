@@ -182,7 +182,7 @@
             $(function() {
             // DatePicker for Period Start
                 var startDate = '<?php echo $next_start->format('Y-m-d'); ?>';
-                console.log(startDate)
+                //console.log(startDate)
                                 
                 $( "#start" ).datepicker({
                     dateFormat: "yy-mm-dd",

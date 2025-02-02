@@ -227,7 +227,7 @@
             // Callbacks
                 
                 initComplete: function () {
-                    console.log('DataTables initComplete Fired')
+                    //console.log('DataTables initComplete Fired')
                     this.api()
                         .columns([2,3,4])
                         .every(function () {
@@ -313,7 +313,7 @@
                 
                /*
                 footerCallback: function (row, data, start, end, display) {
-                    console.log('DataTables footerCallback Fired')
+                    //console.log('DataTables footerCallback Fired')
                     var api = this.api();
             
                     
@@ -328,7 +328,7 @@
                     }
 
                     var currentPeriod = <?php echo $bu_settings['current_period']; ?> 
-                    console.log(currentPeriod)
+                    //console.log(currentPeriod)
             
                     // Total over all pages
                     total = api
@@ -371,7 +371,7 @@
                             0
                         );    
 
-                    console.log("Today " + todayTotal)
+                    //console.log("Today " + todayTotal)
 
                     periodTotal = api
                         .rows( 
@@ -395,7 +395,7 @@
                             0
                         ); 
                         
-                        console.log("Period " + periodTotal)
+                        //console.log("Period " + periodTotal)
 
             
                     // Total over this page
@@ -458,7 +458,7 @@
                 */
                /*
                 drawCallback: function (settings) {
-                    console.log('DataTables drawCallback Fired')
+                    //console.log('DataTables drawCallback Fired')
                     //customClass('account-code', 'account-code-')
                     //customClass('currency', 'debit')
                     //customClass('transaction-date', '')
@@ -466,7 +466,7 @@
                 */
                /*
                 createdRow: function (row, data, dataIndex) {
-                    console.log('DataTables createdRow Fired')
+                    //console.log('DataTables createdRow Fired')
                     // data[1] contains the alpha account code A, B, ..., K
                     $(row).addClass('account-code-' + data[1].toLowerCase());   // 'account-code-a' where data[1] = 'A', for example
                 }

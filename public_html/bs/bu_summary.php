@@ -196,6 +196,7 @@
     <!-- DataTable Table -->
         <script>
             var summary = new DataTable('#summary', {
+                select: 'single',
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
             

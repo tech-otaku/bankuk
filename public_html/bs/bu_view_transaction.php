@@ -258,7 +258,7 @@
             $(function() {
                 // DatePicker
                 var transactionDate = '<?php echo $bu_transaction['date']; ?>';
-                console.log('<?php echo $bu_transaction['date']; ?>');
+                //console.log('<?php echo $bu_transaction['date']; ?>');
                 //transactionDate = transactionDate.substr(10,4) + '-' + transactionDate.substr(7,2)  + '-' + transactionDate.substr(4,2) // Date must be in YYYY-MM-DD format
                                 
                 $( "#datepicker" ).datepicker({

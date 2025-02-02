@@ -3,7 +3,7 @@ $(function() {
 // Reset
     $("a#reset-settings").click(function() {
 
-        console.log($("#record-id").val());
+        //console.log($("#record-id").val());
         
         $.ajax({
             method: "POST",

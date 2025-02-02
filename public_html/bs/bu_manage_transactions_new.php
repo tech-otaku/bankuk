@@ -209,7 +209,7 @@
         <script>
             function createDropdowns(api, counter) {
                 counter = counter + 1
-                console.log('counter:' + counter)
+                //console.log('counter:' + counter)
                 api.columns([1,2,3,4,5,6,8]).every(function() {
                     //if (this.searchable()) {
                         var that = this;
@@ -219,7 +219,7 @@
 
                         // Only create if not there or blank
                         var selected = $('thead tr:eq(0) th:eq(' + column + ') select').val();
-                        console.log('var selected: ' + selected)
+                        //console.log('var selected: ' + selected)
                         if (selected === undefined || selected === '') {
                             // Create the `select` element
                             $('thead tr:eq(0) th')
@@ -237,7 +237,7 @@
                                 e.stopPropagation();
                             });
 
-                            console.log('A:' + api.cells(null, column, {search: 'applied'}).search())
+                            //console.log('A:' + api.cells(null, column, {search: 'applied'}).search())
 
                             if (column === 3 || column === 8) {     // The 'Amount' and 'Period' columns
 
@@ -395,7 +395,7 @@
                     }
 
                     var currentPeriod = <?php echo $bu_settings['current_period']; ?> 
-                    console.log(currentPeriod)
+                    //console.log(currentPeriod)
             
                     // Total over all pages
                     total = api
@@ -438,7 +438,7 @@
                             0
                         );    
 
-                    console.log("Today " + todayTotal)
+                    //console.log("Today " + todayTotal)
 
                     periodTotal = api
                         .rows( 
@@ -462,7 +462,7 @@
                             0
                         ); 
                         
-                        console.log("Period " + periodTotal)
+                        //console.log("Period " + periodTotal)
 
             
                     // Total over this page

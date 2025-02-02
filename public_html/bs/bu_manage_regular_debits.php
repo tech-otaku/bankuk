@@ -324,8 +324,8 @@
             });
             $(function() {
                 var query = getUrlVars()['search'];
-                console.log(query)
-                console.log(decodeURIComponent(query));
+                //console.log(query)
+                //console.log(decodeURIComponent(query));
                 if (query) {
                     transactions.search(decodeURIComponent(query)).draw();
                 }

@@ -202,6 +202,22 @@ label[for='dt-length-0'] {
     font-size: .9em;
 }
 
+select[hidden] {
+    color: red !important;
+}
+
+
+::placeholder {
+    color: red;
+    opacity: 1; /* Firefox */
+}
+  
+::-ms-input-placeholder { /* Edge 12-18 */
+    color: red;
+}
+
+
+
 /*
 .savings-1 {
     background-color: #f0f3f4 !important;
@@ -234,5 +250,7 @@ td.has-note::before {
   }
   */
   
-  
+  .tempus-dominus-widget div.date-container-days .disabled {
+    color: #dddddd !important;
+  }
 

@@ -9,7 +9,7 @@ $(function() {
         
         //id = row.children('td.id').html();              // Get the MySQL record id of the targetted row. This is displayed in a table cell (td) with a class name of 'id'.
         id = $(this).data('id');                        // The value assigned to the anchor element's 'data-id' attribute
-        console.log(id);
+        //console.log(id);
 
         var table = $(this).closest('table').dataTable().api();     // Returns an instance of the DataTables API object, but is a jQuery type object with an attached api() method
         //console.log(table);
@@ -25,9 +25,9 @@ $(function() {
         .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
             if ( dataReturnedByServer['success'] == 1 ) { 
             // Update successful
-                console.log(dataReturnedByServer['current'])
-                console.log(dataReturnedByServer['next'])
-                console.log(dataReturnedByServer['period'])
+                //console.log(dataReturnedByServer['current'])
+                //console.log(dataReturnedByServer['next'])
+                //console.log(dataReturnedByServer['period'])
             // Uses jQuery UI DatePicker Widget (jquery-ui.js loaded in bu_manage regular_debits.php). See https://api.jqueryui.com/datepicker/#utility-formatDate
                 row.children('td.current-due-date').html($.datepicker.formatDate("D dd/mm/yy", new Date(dataReturnedByServer['current'])));     
                 row.children('td.next-due-date').html($.datepicker.formatDate("D dd/mm/yy", new Date(dataReturnedByServer['next'])));

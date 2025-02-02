@@ -7,10 +7,10 @@ $(function() {
         formData = new FormData($(this)[0]);    // Bind the FormData object and the form element
         formData.append('form-id', $(this).attr('id'))
 
-        console.log(formData.get('form-id'))
+        //console.log(formData.get('form-id'))
 
         for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            //console.log(pair[0]+ ', ' + pair[1]); 
         }
         
         $.ajax({

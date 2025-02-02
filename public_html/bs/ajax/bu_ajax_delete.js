@@ -14,8 +14,8 @@ $(function() {
         var table = $(this).closest('table').dataTable().api();     // Returns an instance of the DataTables API object, but is a jQuery type object with an attached api() method
         var row = table.row($(this).parents('tr'))                  // A reference to the tables's targetted row
 
-        console.log(mysqlTable);
-        console.log(recordID);
+        //console.log(mysqlTable);
+        //console.log(recordID);
 
         Swal.fire({
             title: "Delete record?",
@@ -40,7 +40,7 @@ $(function() {
                 .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
                     if ( dataReturnedByServer['success'] == 1 ) { 
                     // Update successful
-                        console.log(dataReturnedByServer['message']); // Display the response
+                        //console.log(dataReturnedByServer['message']); // Display the response
                         row.remove().draw()     // Remove the targetted row and redraw the table                                 
 
                         Swal.fire({

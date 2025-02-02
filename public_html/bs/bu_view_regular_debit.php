@@ -290,7 +290,7 @@
 
             // DatePicker for Last
                 var last = '<?php echo $bu_regular_debit['last']; ?>';
-                console.log(last)
+                //console.log(last)
                 //startDate = startDate.substr(10,4) + '-' + startDate.substr(7,2)  + '-' + startDate.substr(4,2) // Date must be in YYYY-MM-DD format
                                 
                 $( "#last" ).datepicker(
@@ -305,7 +305,7 @@
 
             // DatePicker for Next
                 var next = '<?php echo $bu_regular_debit['next']; ?>';
-                console.log(next)
+                //console.log(next)
                 //startDate = startDate.substr(10,4) + '-' + startDate.substr(7,2)  + '-' + startDate.substr(4,2) // Date must be in YYYY-MM-DD format
                                 
                 $( "#next" ).datepicker(
