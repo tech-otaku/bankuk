@@ -280,7 +280,7 @@
                         type: 'num'
                     },
                     {   className: 'actions', 
-                        width: '130px',
+                        width: '100px',
                         searchable: false, 
                         orderable: false
                     } 
