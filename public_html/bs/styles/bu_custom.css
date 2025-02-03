@@ -202,19 +202,36 @@ label[for='dt-length-0'] {
     font-size: .9em;
 }
 
-select[hidden] {
-    color: red !important;
+/*
+select#sub-type {
+    color: #cccccc !important;
 }
+    *
+
+/*
+#sub-type:invalid,
+#sub-type option[value=""] {
+    color: #cccccc !important;
+}
+    */
 
 
-::placeholder {
-    color: red;
-    opacity: 1; /* Firefox */
+input::placeholder {
+        color: red;
+        opacity: 0.5;
 }
+
+input::-webkit-input-placeholder {
+    color: #ffffff;
+  }
   
-::-ms-input-placeholder { /* Edge 12-18 */
-    color: red;
-}
+  input:-moz-placeholder { 
+    color: #ffffff;
+  }
+  
+  input::-ms-input-placeholder  { 
+    color: #ffffff;
+  }
 
 
 
