@@ -64,7 +64,8 @@
         BEGIN 
             SELECT 
                 bank_id, 
-                legal_name 
+                legal_name,
+                trading_name 
             FROM 
                 bu_banks;
         END;
