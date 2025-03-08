@@ -37,8 +37,6 @@
                         }
                         echo '</select>';
 
-                        
-
                         $stmt = null;
                     ?>
                 </div>
@@ -69,7 +67,6 @@
                         echo '</select>';
 
                         $stmt = null;
-                        
                     ?>
                 </div>                                          
             </div>
@@ -93,7 +90,6 @@
                         echo '</select>';
                         
                         $stmt = null;
-
                     ?>
                 </div>
             </div>
@@ -116,7 +112,6 @@
                         echo '</select>';
                         
                         $stmt = null;
-
                     ?> 
                 </div>  
             </div>
@@ -124,7 +119,7 @@
             <div class="form-group row">
                 <label for="date" class="col-sm-2 col-form-label">Date</label>
                 <div id="datepicker-container" class="col-sm-2">
-                    <input type="text" name="date" id="datepicker" class="form-control"  required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
+                    <input type="text" name="date" id="datepicker" class="form-control"  required readonly placeholder="Transaction date..." style="cursor:text; background:white;">
                 </div>
             </div>
         <!-- Notes -->
@@ -136,8 +131,7 @@
             </div>
         </div>  <!-- /.row -->
     </div>  <!-- /.card-body -->
-    <!-- The form's submit button has been moved to the modal's footer
     <div class="card-footer">
+         <!-- The form's submit button has been moved to the modal's footer -->
     </div>
-    -->
 </form>

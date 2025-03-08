@@ -28,13 +28,8 @@
                     <input type="text" name="trading-name" id="trading-name" class="form-control" required placeholder="Bank's trading name...">
                 </div>
             </div>
-        </div>
-        <div class="row">
-        </div>
-        <div class="row">
-        </div>
-    </div>
-    <!-- /.card-body -->
+        </div>  <!-- /.row -->
+    </div>  <!-- /.card-body -->
     <div class="card-footer">
         <span id="used-by"></span>
         <!-- NOTE: The form's submit button has been moved to the modal's footer -->

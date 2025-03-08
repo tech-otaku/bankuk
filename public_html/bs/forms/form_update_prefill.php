@@ -1,12 +1,12 @@
 <form id="update-prefill" class="update-form" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
         <div class="row">
-        <!-- Record ID [Hidden] -->
-            <input type="text" name="record-id" id="record-id" hidden>
         <!-- DataTables Row Index [Hidden] -->
             <input type="text" name="dt-row-index" id="dt-row-index" hidden>
         <!-- DOM Row Index [Hidden] -->
             <input type="text" name="dom-row-index" id="dom-row-index" hidden>
+        <!-- Record ID [Hidden] -->
+            <input type="text" name="record-id" id="record-id" hidden>
         <!-- Entity -->
             <div class="form-group row">
                 <label for="entity-id" class="col-sm-2 col-form-label">Entity</label>
@@ -26,7 +26,6 @@
                         echo '</select>';
                         
                         $stmt = null;
-
                     ?> 
                 </div>  
             </div>
@@ -51,9 +50,7 @@
                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                             echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
                         }
-                        echo '</select>';
-
-                        
+                        echo '</select>';                        
 
                         $stmt = null;
                     ?>
@@ -78,7 +75,6 @@
                         echo '</select>';
 
                         $stmt = null;
-                        
                     ?>
                 </div>                                          
             </div>
@@ -102,20 +98,11 @@
                         echo '</select>';
                         
                         $stmt = null;
-
                     ?>
                 </div>
             </div>
-
-        </div>
-
-        <div class="row">
-        </div>
-        <div class="row">
-        </div>
-
-    </div>
-    <!-- /.card-body -->
+        </div>  <!-- /.row -->
+    </div>  <!-- /.card-body -->
     <div class="card-footer">
         <!-- NOTE: The form's submit button has been moved to the modal's footer -->
     </div>

@@ -1,4 +1,3 @@
-
 <form id="update-regular-debit" class="update-form" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
         <div class="row">
@@ -158,7 +157,6 @@
                     <!-- <input type="text" name="day" id="day" class="form-control" required value=<?php //echo $bu_regular_debit['day']; ?> > -->
                 </div>
             </div>
-
         <!-- Last --> 
             <div class="form-group row">
                 <label for="last" class="col-sm-3 col-form-label">Last</label>
@@ -182,8 +180,7 @@
             </div>
         </div>  <!-- /.row -->
     </div>  <!-- /.card-body -->
-    <!-- The form's submit button has been moved to the modal's footer
     <div class="card-footer">
+         <!-- The form's submit button has been moved to the modal's footer -->
     </div>
-    -->
 </form>
