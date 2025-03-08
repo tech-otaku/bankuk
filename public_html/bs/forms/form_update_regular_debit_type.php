@@ -1,27 +1,25 @@
 <form id="update-regular-debit-type" class="update-form" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
-        <div class="row">
-        <!-- DataTables Row Index [Hidden] -->
-            <input type="text" name="dt-row-index" id="dt-row-index" hidden>
-        <!-- DOM Row Index [Hidden] -->
-            <input type="text" name="dom-row-index" id="dom-row-index" hidden>
-        <!-- Record ID [Hidden] -->
-            <input type="text" name="record-id" id="record-id" hidden>
-        <!-- Type -->
-            <div class="form-group row">
-                <label for="type" class="col-sm-2 col-form-label">Type</label>
-                <div class="col-sm-1">
-                    <input type="text" name="type" id="type" class="form-control" readonly >
-                </div>
+    <!-- DataTables Row Index [Hidden] -->
+        <input type="text" name="dt-row-index" id="dt-row-index" hidden>
+    <!-- DOM Row Index [Hidden] -->
+        <input type="text" name="dom-row-index" id="dom-row-index" hidden>
+    <!-- Record ID [Hidden] -->
+        <input type="text" name="record-id" id="record-id" hidden>
+    <!-- Type -->
+        <div class="form-group row">
+            <label for="type" class="col-sm-2 col-form-label">Type</label>
+            <div class="col-sm-1">
+                <input type="text" name="type" id="type" class="form-control" readonly >
             </div>
-        <!-- Description -->
-            <div class="form-group row">
-                <label for="description" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                    <input type="text" name="description" id="description" class="form-control" required>
-                </div>
+        </div>
+    <!-- Description -->
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" name="description" id="description" class="form-control" required>
             </div>
-        </div>  <!-- /.row -->
+        </div>
     </div>  <!-- /.card-body -->
     <div class="card-footer">
         <span id="used-by"></span>
