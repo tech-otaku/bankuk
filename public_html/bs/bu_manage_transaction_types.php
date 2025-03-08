@@ -40,9 +40,9 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title"></h3>
+                                    <a class="btn btn-success" href="bu_add_transaction_type.php">Add Transaction Type</a>
                                 </div>
                                 <div class="card-body">
                                     <table id="transaction-types" class="table table-hover table-bordered table-striped bu-data-table">
@@ -53,7 +53,7 @@
                                                 <th>Description</th>
                                                 <th>Used [Type]</th>
                                                 <th>Used [Sub-Type]</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -117,11 +117,11 @@
                                                         echo $row->_used_subtype;
                                                     } ?>
                                                 </td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_transaction_type.php?id=<?php echo $row->id; ?>&used_type=<?php echo $row->_used_type; ?>&used_subtype=<?php echo $row->_used_subtype; ?>&record=transaction">
+                                                <td style="text-align: center">
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-transaction-type-modal" data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-type-used-by="<?php echo $row->_used_type; ?>" data-subtype-used-by="<?php echo $row->_used_subtype; ?>" data-record-type="transaction">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction type" data-record-identifier="<?php echo $row->description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo (($row->_used_type + $row->_used_subtype) != 0 ? ' disabled' : '');?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -151,6 +151,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Entity Modal -->
+        <div class="modal fade" id="update-transaction-type-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Transaction TYpe</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update transaction-type form -->
+                        <?php include("forms/form_update_transaction_type.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-transaction-type" name="update-transaction-type-submit" id="update-transaction-type-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -165,12 +186,12 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter'}, 
-                    {className: 'type'},
+                    {className: 'counter', width: '50px'}, 
+                    {className: 'type', type: 'num'},
                     {className: 'description'},
                     {className: 'used', type: 'num'},
                     {className: 'used', type: 'num'},
-                    {className: 'actions', orderable: false}
+                    {className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -179,6 +200,8 @@
                 }
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_transaction_type.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

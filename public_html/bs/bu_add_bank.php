@@ -44,52 +44,42 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-bank" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
                                             <!-- Bank ID -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="bank-id">Bank ID</label>
-                                                    <input type="text" name="bank-id" id="bank-id" class="form-control" readonly value="<?php echo "B" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
-                                                </div>
-                                            <!-- Legal Name -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="legal-name">Legal Name</label>
-                                                    <input type="text" name="legal-name" id="legal-name" class="form-control" required placeholder="Enter bank's legal name...">
-                                                </div>
-                                            <!-- Trading Name -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="trading-name">Trading Name</label>
-                                                    <input type="text" name="trading-name" id="trading-name" class="form-control" required placeholder="Enter bank's trading name...">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
-                                            <!--
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile">Staff Profile Picture</label>
-                                                    <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="profile_pic" class="custom-file-input" id="exampleInputFile">
-                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                        </div>
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text" id="">Upload</span>
-                                                        </div>
+                                                <div class="form-group row">
+                                                    <label for="bank-id" class="col-sm-2 col-form-label">Bank ID</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="bank-id" id="bank-id" class="form-control" readonly value="<?php echo "B" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
                                                     </div>
                                                 </div>
-                                                -->
+                                            <!-- Legal Name -->
+                                                <div class="form-group row">
+                                                    <label for="legal-name" class="col-sm-2 col-form-label">Legal Name</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="legal-name" id="legal-name" class="form-control" required placeholder="Bank's legal name...">
+                                                    </div>
+                                                </div>
+                                            <!-- Trading Name -->
+                                                <div class="form-group row">
+                                                    <label for="trading-name" class="col-sm-2 col-form-label">Trading Name</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="trading-name" id="trading-name" class="form-control" required placeholder="Bank's trading name...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" name="add-bank-submit" class="btn btn-success">Add</button>
+                                            <button type="submit" name="add-bank-submit" id="add-bank-submit" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_banks.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

@@ -43,47 +43,35 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-entity" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
                                             <!-- Entity ID -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="entity-id">Entity ID</label>
-                                                    <input type="text" name="entity-id" id="entity-id" class="form-control" readonly value="<?php echo "E" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
-                                                </div>
-                                            <!-- Entity Name -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="entity-description">Entity</label>
-                                                    <input type="text" name="entity-description" required class="form-control" id="entity-description" placeholder="Enter entity name...">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
-                                            <!--
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile">Staff Profile Picture</label>
-                                                    <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="profile_pic" class="custom-file-input" id="exampleInputFile">
-                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                        </div>
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text" id="">Upload</span>
-                                                        </div>
+                                                <div class="form-group row">
+                                                    <label for="entity-id" class="col-sm-2 col-form-label">Entity ID</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="entity-id" id="entity-id" class="form-control" readonly value="<?php echo "E" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
                                                     </div>
                                                 </div>
-                                                -->
+                                            <!-- Entity Name -->
+                                                <div class="form-group row">
+                                                    <label for="entity-description" class="col-sm-2 col-form-label">Entity</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="entity-description" id="entity-description" required class="form-control" placeholder="Entity name...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" name="add-entity-submit" class="btn btn-success">Add</button>
+                                            <button type="submit" name="add-entity-submit" id="add-entity-submit" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_entities.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

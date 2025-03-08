@@ -2,13 +2,15 @@
     <div class="card-body">
         <div class="row">
         <!-- DataTables Row Index [Hidden] -->
-            <input type="text" name="row-index" id="row-index" hidden>
+            <input type="text" name="dt-row-index" id="dt-row-index" hidden>
+        <!-- DOM Row Index [Hidden] -->
+            <input type="text" name="dom-row-index" id="dom-row-index" hidden>
         <!-- Record ID [Hidden] -->
             <input type="text" name="record-id" id="record-id" hidden>
         <!-- Account ID [Read-only] -->
             <div class="form-group row">
                 <label for="account-id-ignore" class="col-sm-2 col-form-label">Account ID</label>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <input type="text" name="account-id-ignore" id="account-id-ignore" class="form-control" readonly>
                 </div>
             </div>
@@ -29,7 +31,7 @@
                         );
                         
                         echo '<select name="account-id-alpha" id="account-id-alpha" class="form-control" required>';
-                        echo '<option value="" selected disabled hidden>Select account...</option>';
+                        echo '<option value="" selected disabled hidden>Account name...</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                             echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
                         }
@@ -44,8 +46,8 @@
         <!-- Amount -->
             <div class="form-group row">
                 <label for="amount" class="col-sm-2 col-form-label">Amount</label>
-                <div class="col-sm-4">
-                    <input type="text" name="amount" id="amount" class="form-control" required placeholder="Enter transaction amount...">
+                <div class="col-sm-2">
+                    <input type="text" name="amount" id="amount" class="form-control" required placeholder="Transaction amount...">
                 </div>
             </div>
         <!-- Type -->
@@ -60,7 +62,7 @@
                         $stmt->execute();
 
                         echo '<select name="type" id="type" class="form-control" required>';
-                        echo '<option value="" selected disabled hidden>Select transaction type...</option>';
+                        echo '<option value="" selected disabled hidden>Transaction type...</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                             echo '<option value="' . $row->type . '">' . $row->description . '</option>';
                         }
@@ -83,8 +85,8 @@
                         $stmt->execute();
 
                         echo '<select name="sub-type" id="sub-type" class="form-control">';
-                        echo '<option value="" selected disabled hidden>Select transaction sub-type...</option>';
-                        echo '<option value="">&nbsp;</option>';
+                        echo '<option value="" selected disabled hidden>Transaction sub-type...</option>';
+                        echo '<option value=" ">&nbsp;</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                             echo '<option value="' . $row->type . '">' . $row->description . '</option>';
                         }
@@ -98,7 +100,7 @@
         <!-- Entity -->
             <div class="form-group row">
                 <label for="entity-id" class="col-sm-2 col-form-label">Entity</label>
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     <?php
                         $stmt = $pdo->prepare("
                             CALL 
@@ -107,7 +109,7 @@
                         $stmt->execute();
 
                         echo '<select name="entity-id" id="entity-id" class="form-control" required>';
-                        echo "<option value='' selected disabled hidden>Select entity...</option>";
+                        echo "<option value='' selected disabled hidden>Entity...</option>";
                         while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                             echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
                         }
@@ -118,23 +120,24 @@
                     ?> 
                 </div>  
             </div>
-        <!-- Date -->
+        <!-- Date -->           
             <div class="form-group row">
                 <label for="date" class="col-sm-2 col-form-label">Date</label>
-                <div class="col-sm-4">
-                    <input type="text" name="date" required class="form-control" id="datepicker" required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
+                <div id="datepicker-container" class="col-sm-2">
+                    <input type="text" name="date" id="datepicker" class="form-control"  required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
                 </div>
             </div>
         <!-- Notes -->
             <div class="form-group row">
                 <label for="notes" class="col-sm-2 col-form-label">Notes</label>
                 <div class="col-sm-10">
-                    <input type="text" name="notes" id="notes" class="form-control" placeholder="Enter note...">
+                    <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
                 </div>
             </div>
         </div>  <!-- /.row -->
     </div>  <!-- /.card-body -->
+    <!-- The form's submit button has been moved to the modal's footer
     <div class="card-footer">
-        <button type="submit" name="update-transaction-submit" id="update-transaction-submit" class="btn btn-success">Update</button>
     </div>
+    -->
 </form>

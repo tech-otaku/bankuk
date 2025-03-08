@@ -139,7 +139,8 @@
         $stmt = $pdo->prepare("
             UPDATE 
                 bu_regular_debits 
-            SET 
+            SET
+                period = ?,
                 last = ?, 
                 next = ?  
             WHERE 
@@ -147,6 +148,8 @@
         ");        
         $stmt->execute(
             [
+                
+                $bu_accounting_period->period,
                 $bu_regular_debit->next,
                 $next_recalculated->format('Y-m-d'), 
                 intval($_POST['record-id'])

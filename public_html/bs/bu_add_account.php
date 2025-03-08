@@ -43,18 +43,13 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>  <!-- /.card-header -->
                                     <form id="add-account" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
-                                            <!-- Account ID -->
-                                                <div class="col-md-1 form-group">
-                                                    <label for="account-id">Account ID</label>
-                                                    <input type="text" name="account-id" id="account-id" class="form-control" readonly value="<?php echo "A" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
-                                                </div>
                                             <!-- Account ID [Alpha] -->
                                                 <?php
                                                     // Get the last account_id_alpha (I, J, K etc) used.
@@ -76,69 +71,94 @@
                                                     $stmt = null;
                                                     
                                                 ?>
-                                                <div class="col-md-1 form-group">
-                                                    <label for="account-id-alpha">Account ID [Alpha]</label>
-                                                    <input type="text" name="account-id-alpha" id="account-id-alpha" class="form-control" readonly value="<?php echo $next_account_id_alpha; ?>">
+                                                <div class="form-group row">
+                                                    <label for="account-id-alpha" class="col-sm-2 col-form-label">Account ID [Alpha]</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="account-id-alpha" id="account-id-alpha" class="form-control" readonly value="<?php echo $next_account_id_alpha; ?>">
+                                                    </div>
+                                                </div>
+                                            <!-- Account ID -->
+                                                <div class="form-group row">
+                                                    <label for="account-id" class="col-sm-2 col-form-label">Account ID</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="account-id" id="account-id" class="form-control" readonly value="<?php echo "A" . str_pad(rand(0,9999), 4, "0", STR_PAD_LEFT); ?>">
+                                                    </div>
                                                 </div>
                                             <!-- Bank Name -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="bank-id">Bank Name</label>
-                                                    <?php
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_banks_dropdown();
-                                                        ");
-                                                        $stmt->execute();
-                                                    
-                                                        echo '<select name="bank-id" id="bank-id" class="form-control" required>';
-                                                        echo '<option value="" selected disabled hidden>Select bank...</option>';
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->bank_id.'" '.($row->bank_id === $bu_account['bank_id'] ? 'selected="selected"' : '').'>'.$row->legal_name .'</option>';
-                                                        }
-                                                        echo '</select>';
+                                                <div class="form-group row">
+                                                    <label for="bank-id" class="col-sm-2 col-form-label">Bank Name</label>
+                                                    <div class="col-sm-3">
+                                                        <?php
+                                                            $stmt = $pdo->prepare("
+                                                                CALL 
+                                                                    bu_banks_dropdown();
+                                                            ");
+                                                            $stmt->execute();
+                                                        
+                                                            echo '<select name="bank-id" id="bank-id" class="form-control" required>';
+                                                            echo '<option value="" selected disabled hidden>Bank name...</option>';
+                                                            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                                echo '<option value="'.$row->bank_id.'" '.($row->bank_id === $bu_account['bank_id'] ? 'selected="selected"' : '').'>'.$row->legal_name .'</option>';
+                                                            }
+                                                            echo '</select>';
 
-                                                        $stmt = null;
-                                                    ?>
+                                                            $stmt = null;
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             <!-- Account Name -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="account-name">Account Name</label>
-                                                    <input type="text" name="account-name" id="account-name" class="form-control" required placeholder="Enter account name...">
+                                                <div class="form-group row">
+                                                    <label for="account-name" class="col-sm-2 col-form-label">Account Name</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="account-name" id="account-name" class="form-control" required placeholder="Account name...">
+                                                    </div>
                                                 </div>
                                             <!-- Sort Code -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="sort-code">Sort Code</label>
-                                                    <input type="text" name="sort-code" id="sort-code" class="form-control" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" placeholder="Enter sort code...">
+                                                <div class="form-group row">
+                                                    <label for="sort-code" class="col-sm-2 col-form-label">Sort Code</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="sort-code" id="sort-code" class="form-control" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" placeholder="Sort code...">
+                                                    </div>
                                                 </div>
                                             <!-- Account Number -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="account-number">Account Number</label>
-                                                    <input type="text" name="account-number" id="account-number" class="form-control" required pattern="[A-Z]{4}[0-9]{4}" placeholder="Enter account number...">
+                                                <div class="form-group row">
+                                                    <label for="account-number" class="col-sm-2 col-form-label">Account Number</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="account-number" id="account-number" class="form-control" required pattern="[A-Z]{4}[0-9]{4}" placeholder="Account number...">
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-1 form-group">
-                                                    <label for="status">Status</label>
-                                                    <?php
-                                                        $status = array (
-                                                            "Open",
-                                                            "Closed"
-                                                        );
+                                            <!-- Status -->
+                                                <div class="form-group row">
+                                                    <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                                    <div class="col-sm-2">
+                                                        <?php
+                                                            $status = array (
+                                                                "Open",
+                                                                "Closed"
+                                                            );
 
-                                                        echo '<select name="status" id="status" class="form-control" required>';
-                                                        echo '<option value="" selected disabled hidden>Select status...</option>';
-                                                        foreach ($status as $option) {
-                                                            echo '<option value="'.$option.'" '.($option === 'Open' ? 'selected="selected"' : '').'>'.$option .'</option>';
-                                                        }
-                                                        echo '</select>';
-                                                    ?>
+                                                            echo '<select name="status" id="status" class="form-control" required>';
+                                                            echo '<option value="" selected disabled hidden>Select status...</option>';
+                                                            foreach ($status as $option) {
+                                                                echo '<option value="'.$option.'" '.($option === 'Open' ? 'selected="selected"' : '').'>'.$option .'</option>';
+                                                            }
+                                                            echo '</select>';
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            <!-- Notes -->
+                                                <div class="form-group row">
+                                                    <label for="notes" class="col-sm-2 col-form-label">Notes</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
+                                            
                                         </div>    <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-account-submit" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_accounts.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

@@ -43,33 +43,55 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto"">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-regular-debit-type" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
                                             <!-- Type -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="type">Type</label>
-                                                    <input type="text" name="type" id="type" class="form-control" required placeholder="Enter type code...">
+                                                <?php
+                                                    // Get the last account_id_alpha (I, J, K etc) used.
+                                                    $stmt = $pdo->prepare("
+                                                        SELECT 
+                                                            `type`
+                                                        FROM
+                                                            bu_regular_debit_types
+                                                        ORDER BY 
+                                                            `type` DESC          
+                                                        LIMIT 1;
+                                                    ");
+                                                    $stmt->execute(); 
+
+                                                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                        $next_type = ++$row->type;  // Increment the last type.
+                                                    }
+
+                                                    $stmt = null;
+                                                    
+                                                ?>
+                                                <div class="form-group row">
+                                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="type" id="type" class="form-control" readonly value="<?php echo $next_type; ?>">
+                                                    </div>  
                                                 </div>
                                             <!-- Description -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="description">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
+                                                <div class="form-group row">
+                                                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
+                                            
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" name="add-regular-debit-type-submit" class="btn btn-success">Add</button>
+                                            <button type="submit" name="add-regular-debit-type-submit" id="add-regular-debit-type-submit" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_regular_debit_types.php">Cancel</a>
                                         </div>
                                         </form>
                                 </div>    <!-- /.card -->

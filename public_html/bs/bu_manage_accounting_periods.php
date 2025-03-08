@@ -40,9 +40,9 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title">
+                                    <a class="btn btn-success" href="bu_add_accounting_period.php">Add Accounting Period</a>
                                         <?php
 
                                         // Get settings data
@@ -59,7 +59,7 @@
                                             $end = new DateTime($bu_settings['current_end']);
                                         ?>
 
-                                        <p>Current period is <span class="current-period"><?php echo $bu_settings['current_period']; ?></span> starting on <span class="period-start"><?php echo $start->format('D d/m/Y'); ?></span> and ending on <span class="period-end"><?php echo $end->format('D d/m/Y'); ?></span></p>
+                                        <p style="float: right;">Current period is <span class="current-period"><?php echo $bu_settings['current_period']; ?></span> starting on <span class="period-start"><?php echo $start->format('D d/m/Y'); ?></span> and ending on <span class="period-end"><?php echo $end->format('D d/m/Y'); ?></span></p>
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -71,6 +71,7 @@
                                                 <th>End</th>
                                                 <th>Period</th>
                                                 <th>Used</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -109,15 +110,17 @@
                                                         echo $row->_used;
                                                     } ?>
                                                 </td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_accounting_period.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
+                                                <td style="text-align: center">
+
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-accounting-period-modal" data-mysql-table="bu_accounting_periods" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>" data-record-type="transaction">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_accounting_periods" data-record-id="<?php echo $row->id; ?>" data-record-type="accounting period" data-record-identifier="<?php echo $row->period; ?>"  class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
                                                     </a>
+
                                                 </td>
                                             </tr>
                                             <?php 
@@ -141,6 +144,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Account Modal -->
+        <div class="modal fade" id="update-accounting-period-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Accounting Period</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update account form -->
+                        <?php include("forms/form_update_accounting_period.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-accounting-period" name="update-accounting-period-submit" id="update-accounting-period-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -149,22 +173,24 @@
                 drawCallback: function (settings) {
                 },
                 pageLength: 25,
-                lengthMenu: [
-                    25,
-                    50,
-                    100, 
-                    {label: 'All', value: -1 }
-                ],
+                search: false,
                 columns: [
-                    {className: 'counter'}, 
+                    {className: 'counter', width: '50px'}, 
                     {className: 'period-start', type: 'date', render: DataTable.render.datetime('ddd DD/MM/YYYY')}, // requires moment.js
                     {className: 'period-end', type: 'date', render: DataTable.render.datetime('ddd DD/MM/YYYY')},   // requires moment.js 
                     {className: 'period'},
                     {className: 'used'},
-                    {className: 'actions', orderable: false}
-                ]
+                    {className: 'actions', width: '95px', orderable: false}
+                ],
+                layout: {
+                    topStart: null,
+                    topEnd: null,
+                    //bottomEnd: null
+                }
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_accounting_period.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

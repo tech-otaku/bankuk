@@ -268,10 +268,13 @@
                         sub_type, 
                         entity_id, 
                         regular_debit_type, 
-                        `day`, 
+                        `day`,
+                        period,
+                        last,
+                        next,
                         notes
                     ) 
-                VALUES (?,?,?,?,?,?,?,?,?);
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?);
             ");
             $stmt->execute(
                 [
@@ -283,6 +286,9 @@
                     $_POST['entity-id'],
                     $_POST['regular-debit-type'],  
                     $_POST['day'], 
+                    $_POST['period'],
+                    $_POST['last'],
+                    $_POST['next'],
                     $_POST['notes']            
                 ]
             );

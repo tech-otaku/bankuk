@@ -72,6 +72,88 @@ tr.account-code-k {
     background-color: #fffff1 !important;
 }
 
+tr.account-code-l {
+    background-color: #ebe4f5 !important;
+}
+
+td.has-note::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    /*display: inline-block; */
+    color: black;
+    font-style: normal;
+    font-variant: normal;
+    font-size: .9em;
+    text-rendering: auto;
+    line-height: 1;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f02d";
+    /*padding-right: 5px;*/
+    float: left;
+    margin-top: 5px;
+  }
+
+tr.account-code-a td.has-note::before {
+    color: #705795 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-b td.has-note::before {
+    color: #8a8152 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-c td.has-note::before {
+    color: #2b6dbe !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-d td.has-note::before {
+    color: #e06c0f !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-e td.has-note::before {
+    color: #3a99b3 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-f td.has-note::before {
+    color: #8aa548 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-g td.has-note::before {
+    color: #4673a6 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-h td.has-note::before {
+    color: #7a7a7a !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-i td.has-note::before {
+    color: #d3ab1a !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-j td.has-note::before {
+    color: #ad4640 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-k td.has-note::before {
+    color: #dfdf00 !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-l td.has-note::before {
+    color: #6d40ad !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr:not([class]) td.has-note::before {
+    color: #999 !important;
+}
+
+/*
+tr:not([class]) td.has-note {
+    color: #fff !important;
+    background-color: #999 !important;
+}
+    */
+
+/*
 tr.account-code-a td.has-note {
     background-color: #b9abce !important;
 }
@@ -116,8 +198,13 @@ tr.account-code-k td.has-note {
     background-color: #ffff8e !important;
 }
 
+tr.account-code-l td.has-note {
+    background-color: #b89fdb !important;
+}
+*/
+
 tr.regular-debit td.has-note {
-    background-color: #aaaaaa !important;
+    /*background-color: #aaaaaa !important;
 }
 
 td.has-note {
@@ -202,6 +289,13 @@ label[for='dt-length-0'] {
     font-size: .9em;
 }
 
+/* Placeholder text for input fields with an attribute of 'required' is grey, but for input fields without this attribute (e.g. #sub-type) the text is black. Set the initial text colour for these input fields to grey. Subsequently the text colour for these input fields is controlled by its on change event in bu_custom.js */
+.add-form select#sub-type.form-control,
+.update-form select#sub-type.form-control,
+select#prefill.form-control{
+    color: #999999;
+}
+
 /*
 select#sub-type {
     color: #cccccc !important;
@@ -233,6 +327,9 @@ input::-webkit-input-placeholder {
     color: #ffffff;
   }
 
+h3.card-title {
+    font-size: 1.50rem !important;
+}
 
 
 /*
@@ -250,22 +347,9 @@ input::-webkit-input-placeholder {
 /* CSS pseudo-element styling */
 
 /* general reset/setup styling for icons - needed on all */
-/*
-td.has-note::before {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block; 
-    font-style: normal;
-    font-variant: normal;
-    font-size: 1.25em;
-    text-rendering: auto;
-    line-height: 1;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f05a";
-    padding-right: 5px;
-  }
-  */
+
+
+  
   
   .tempus-dominus-widget div.date-container-days .disabled {
     color: #dddddd !important;

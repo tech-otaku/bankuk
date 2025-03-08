@@ -68,33 +68,21 @@
                 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-75 mx-auto">
                                 <div class="card-header p-6">
-                                    <!-- <h3 id="filter-total" class="card-title"><span class="all-total currency"></span></h3> -->
+                                    <a class="btn btn-success" href="bu_add_prefill.php">Add Pre-fill</a>
                                 </div>
                                 
                                 <div class="card-body">
-                                    <table id="transactions" class="table table-hover table-bordered table-striped bu-data-table">
+                                    <table id="prefills" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
-                                                <!--
-                                                    <th>#</th>
-                                                    <th>Account Type</th>
-                                                    <th>Account Name</th>
-                                                    <th>Amount</th>
-                                                    <th>Type</th>
-                                                    <th>Sub-type</th>
-                                                    <th>Entity</th>
-                                                    <th>Date</th>
-                                                    <th>Period</th>
-                                                    <th>Action</th>
-                                                    -->
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -140,11 +128,11 @@
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_prefill.php?id=<?php echo $row->id; ?>">
+                                                <td style="text-align: center">
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-prefill-modal" data-mysql-table="bu_prefills" data-record-id="<?php echo $row->id; ?>">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_prefills" data-record-id="<?php echo $row->id; ?>" data-record-type="pre-fill" data-record-identifier="<?php echo $row->entity_description; ?>"  class="btn btn-danger btn-sm delete-record" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -175,11 +163,32 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Prefill Modal -->
+        <div class="modal fade" id="update-prefill-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Pre-fill</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update bank form -->
+                        <?php include("forms/form_update_prefill.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-prefill" name="update-prefill-submit" id="update-prefill-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
         <script>
-            var transactions = new DataTable('#transactions', {
+            var prefills = new DataTable('#prefills', {
                 stateSave: false,
                 select: true,
                 pageLength: 25,
@@ -200,7 +209,7 @@
                     {   // Column Index 0
                         className: 'counter', 
                         searchable: false, 
-                        width: '60px'
+                        width: '100px'
                     }, 
                     {   // Column Index 1
                         className: 'entity', 
@@ -219,7 +228,7 @@
                         width: '500px'
                     }, 
                     {   className: 'actions', 
-                        width: '100px',
+                        width: '95px',
                         searchable: false, 
                         orderable: false
                     } 
@@ -525,6 +534,8 @@
             $(function() {
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_prefill.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

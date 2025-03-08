@@ -10,7 +10,7 @@ $(function() {
         //console.log(formData.get('form-id'))
 
         for (var pair of formData.entries()) {
-            //console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0]+ ', ' + pair[1]); 
         }
         
         $.ajax({

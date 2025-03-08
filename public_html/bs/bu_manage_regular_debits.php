@@ -63,7 +63,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header p-6">
-                                    <h3 id="filter-total" class="card-title"><span class="ftotal currency"></span></h3>
+                                <a class="btn btn-success" href="bu_add_regular_debit.php">Add Regular Debit</a>
                                 </div>
                                 <div class="card-body">
                                     <table id="regular-debits" class="table table-hover table-bordered table-striped bu-data-table">
@@ -82,7 +82,7 @@
                                                     <th>Action</th>
                                                     -->
                                                 <th></th>
-                                                <th></th>
+                                                <!-- <th></th> -->
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
@@ -92,9 +92,10 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th>Day</th>
+                                                <th></th>
                                                 <th>Last</th>
                                                 <th>Next</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -110,12 +111,15 @@
                                                     rd1.account_id_alpha,
                                                     b1.trading_name,
                                                     a1.name,
+                                                    a1.sort_code,
+                                                    a1.account_number,
+                                                    a1.status,
                                                     rd1.amount,
                                                     tt1.description AS _type,
                                                     tt2.description AS _subtype,
                                                     e1.entity_description,
                                                     rd1.day,
-                                                    -- rd1.period,
+                                                    rd1.period,
                                                     rd1.notes,
                                                     rd1.regular_debit_type,
                                                     rdt1.description,
@@ -142,30 +146,32 @@
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
-                                            <tr class="regular-debit">
+                                            <tr>
                                                 <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
-                                                <td><?php echo $row->id; ?></td>
-                                                <td>
+                                                <!-- <td><?php //echo $row->id; ?></td> -->
+                                                <td style="text-align: center">
                                                     <a data-id="<?php echo $row->id; ?>" class="btn btn-primary btn-sm add-current-due-date" href="#">
                                                         <i class="fa fa-plus"></i>
                                                     </a>
                                                 </td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
-                                                <td><?php echo $row->trading_name . ' ' . $row->name; ?></td>
+                                                <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
+                                                <!-- <td><?php //echo $row->trading_name . ' ' . $row->name; ?></td> -->
                                                 <td><?php echo $row->amount; ?></td>
                                                 <td><?php echo $row->_type; ?></td>
                                                 <td><?php echo $row->_subtype; ?></td>
                                                 <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->description; ?></td>
                                                 <td><?php echo $row->day; ?></td>
+                                                <td><?php echo $row->period; ?></td>
                                                 <td><?php echo $row->last; ?></td>  <!-- The display format is defined using a DataTable render -->
                                                 <td><?php echo $row->next; ?></td>  <!-- The display format is defined using a DataTable render -->
                                                 <!-- <td><?php //echo date_format(date_create($row->date), 'D d/m/Y'); ?></td> -->
                                                 <!-- <td><?php //echo $row->period; ?></td> -->
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_regular_debit.php?id=<?php echo $row->id; ?>">
+                                                <td style="text-align: center">
+
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-regular-debit-modal" data-mysql-table="bu_regular_debits" data-record-id="<?php echo $row->id; ?>">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
 
                                                     <a data-mysql-table="bu_regular_debits" data-record-id="<?php echo $row->id; ?>" data-record-type="regular debit" data-record-identifier="<?php echo $row->entity_description; ?>" class="btn btn-danger btn-sm delete-record" href="#">
@@ -199,6 +205,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Transaction Modal -->
+        <div class="modal fade" id="update-regular-debit-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Regular Debit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update transaction form -->
+                        <?php include("forms/form_update_regular_debit.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-regular-debit" name="update-regular-debit-submit" id="update-regular-debit-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -296,14 +323,14 @@
                 pageLength: 25,
                 lengthMenu: [25, 50, 100, { label: 'All', value: -1 }],
                 columns: [ 
-                    {className: 'counter', searchable: false, width: '60px'/*, width: '1%'*/},
-                    {className: 'id', searchable: false, width: '60px'/*, width: '1%'*/},
-                    {className: 'add', searchable: false, width: '100px'/*, width: '1%'*/}, 
-                    {className: 'account-code', width: '75px'/*, width: '5%'*/}, 
+                    {className: 'counter', searchable: false, width: '100px'/*, width: '1%'*/},
+                    /* {className: 'id', searchable: false, width: '60px'}, */
+                    {className: 'add', searchable: false, width: '50px'/*, width: '1%'*/}, 
+                    {className: 'account-code', width: '70px'/*, width: '5%'*/}, 
                     {className: 'account-name', width: '300px'/*, width: '15%'*/}, 
                     {
                         /*className: 'transaction-amount currency',*/ 
-                        width: '125px',
+                        width: '75px',
                         type: 'num', 
                         render: DataTable.render.number(',', '.', '2', '£'), 
                         createdCell: function (td, cellData, rowData, row, col) {
@@ -316,10 +343,11 @@
                     {className: 'transaction-subtype', width: '100px'/*, width: '5%'*/}, 
                     {className: 'entity', width: '200px'/*width: '15%'*/}, 
                     {className: 'regular-debit-type', width: '250px'/*width: '15%'*/}, 
-                    {className: 'transaction-day', type: 'num', width: '75px'/*, width: '7%'*/, orderable: false},
+                    {className: 'transaction-day', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
+                    {className: 'transaction-period', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
                     {className: 'transaction-date current-due-date', type: 'date', width: '150px', render: DataTable.render.datetime('ddd DD/MM/YYYY')/*, width: '5%'*/},   // requires moment.js
                     {className: 'transaction-date next-due-date', type: 'date', width: '120px', render: DataTable.render.datetime('ddd DD/MM/YYYY')/*, width: '5%'*/},      // requires moment.js
-                    {className: 'actions', searchable: false, width: '150px'/*, width: '7%'*/, orderable: false} 
+                    {className: 'actions', searchable: false, width: '95px'/*, width: '7%'*/, orderable: false} 
                 ]
             });
             $(function() {
@@ -332,6 +360,8 @@
                 
             });
         </script>
+<!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_regular_debit.js"></script>
     <!-- AJAX Add Last Date -->
         <script src="ajax/ajax_due_date.js"></script>
     <!-- Ajax Delete -->

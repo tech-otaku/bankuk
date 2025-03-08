@@ -119,7 +119,7 @@
                                                     </div>
                                                 <!-- Monthly Spend Opening Balance --> 
                                                 <div class="form-group row">
-                                                        <label for="monthly-spend-opening-balance" class="col-sm-2 col-form-label">First Period for Monthly Spend</label>
+                                                        <label for="monthly-spend-opening-balance" class="col-sm-2 col-form-label">Monthly Spend Opening Balance</label>
                                                         <div class="col-sm-1">
                                                             <input type="text" name="monthly-spend-opening-balance" id="monthly-spend-opening-balance" class="form-control" required value="<?php echo $bu_settings['monthly_spend_opening_balance']; ?>">
                                                         </div>

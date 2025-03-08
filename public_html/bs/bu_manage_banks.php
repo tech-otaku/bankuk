@@ -40,9 +40,9 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title"></h3>
+                                    <a class="btn btn-success" href="bu_add_bank.php">Add Bank</a>
                                 </div>
                                 <div class="card-body">
                                     <table id="banks" class="table table-hover table-bordered table-striped bu-data-table">
@@ -51,9 +51,9 @@
                                                 <th>#</th>
                                                 <th>Bank ID</th>
                                                 <th>Legal Name</th>
-                                                <th>Common Name</th>
+                                                <th>Trading Name</th>
                                                 <th>Used</th>
-                                                <th>actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -86,11 +86,11 @@
                                                 <td><?php echo $row->legal_name; ?></td>
                                                 <td><?php echo $row->trading_name; ?></td>
                                                 <td><?php echo $row->_used; ?></td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_bank.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=account">
+                                                <td style="text-align: center">
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-bank-modal" data-mysql-table="bu_banks" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>" data-record-type="account">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_banks" data-record-id="<?php echo $row->id; ?>" data-record-type="bank" data-record-identifier="<?php echo $row->trading_name; ?>"  class="btn btn-danger btn-sm  delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
@@ -121,6 +121,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Bank Modal -->
+        <div class="modal fade" id="update-bank-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Bank</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update bank form -->
+                        <?php include("forms/form_update_bank.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-bank" name="update-bank-submit" id="update-bank-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -135,12 +156,12 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter'}, 
+                    {className: 'counter', width: '50px'}, 
                     {className: 'bank-id'},
                     {className: 'legal-name'},
                     {className: 'trading-name'},
-                    {className: 'used'},
-                    {className: 'actions', orderable: false}
+                    {className: 'used', width: '50px'},
+                    {className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -149,6 +170,8 @@
                 }
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_bank.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

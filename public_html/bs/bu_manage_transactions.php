@@ -87,11 +87,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header p-6">
-                                    <!-- <h3 id="filter-total" class="card-title"><span class="all-total currency"></span></h3> -->
+                                <div class="card-header">
+                                    <a class="btn btn-success" href="bu_add_transaction.php">Add Transaction</a>
                                 </div>
                                 
                                 <div class="card-body">
+
+
                                     <table id="transactions" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
@@ -116,6 +118,7 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -159,7 +162,7 @@
                                             ?>
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . $row->notes .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . nl2br($row->notes) .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->date)) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
@@ -169,11 +172,12 @@
                                                 <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->date; ?></td>
                                                 <td><?php echo $row->period; ?></td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_transaction.php?id=<?php echo $row->id; ?>">
+                                                <td style="text-align: center">
+                                                    
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-transaction-modal" data-mysql-table="bu_transactions" data-record-id="<?php echo $row->id; ?>">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+                                                
                                                     <a data-mysql-table="bu_transactions" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction" data-record-identifier="<?php echo $row->entity_description; ?>"  class="btn btn-danger btn-sm delete-record" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -205,11 +209,33 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Transaction Modal -->
+        <div class="modal fade" id="update-transaction-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Transaction</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update transaction form -->
+                        <?php include("forms/form_update_transaction.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-transaction" name="update-transaction-submit" id="update-transaction-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
         <script>
             var transactions = new DataTable('#transactions', {
+                order: [[ 7, 'desc' ], [0, 'asc' ]],
                 stateSave: false,
                 select: true,
                 pageLength: 25,
@@ -230,7 +256,7 @@
                     {   // Column Index 0
                         className: 'counter', 
                         searchable: false, 
-                        width: '60px'
+                        width: '100px'
                     }, 
                     {   // Column Index 1
                         name: 'account',
@@ -261,6 +287,7 @@
                         width: '175px'
                     }, 
                     {
+                        name: 'entity',
                         className: 'entity', 
                         width: '500px'
                     }, 
@@ -270,7 +297,7 @@
                         type: 'date',  
                         render: DataTable.render.datetime('ddd DD/MM/YYYY'),   // requires moment.js
                         createdCell: function (td, cellData, rowData, row, col) {
-                            $(td).addClass(chronology(cellData));
+                            $(td).addClass(Chronology(cellData));
                         },
                         orderable: true
                     },  
@@ -280,7 +307,7 @@
                         type: 'num'
                     },
                     {   className: 'actions', 
-                        width: '100px',
+                        width: '95px',
                         searchable: false, 
                         orderable: false
                     } 
@@ -407,10 +434,12 @@
                     // See https://datatables.net/forums/discussion/65346/how-to-sum-values-%E2%80%8B%E2%80%8Bfrom-one-column-based-on-a-value-from-another-column
 
                     // Sum the amount only for transactions whose effective date is today or earlier
+                    //console.clear()
                     todayTotal = api
                         .rows( 
                         // rowSelector parameter
-                            function ( idx, data, node ) {                             
+                            function ( idx, data, node ) {
+                                //console.log(data['7'])                           
                                 return todayOrEarlier(data['7']) ? true : false;    // data['7'] is the transaction's effective date
                             }, 
                         // modifier parameter (optional)
@@ -423,6 +452,13 @@
                         .reduce(
                         // callback function parameter
                             function (a, b,) {
+                                //console.clear()
+                                /*
+                                for(var i = 1; i < 10; i++) {
+                                    //console.log('a: ' + a + ', b: ' + b)
+                                    return intVal(a) + intVal(b);
+                                }
+                                    */
                                 return intVal(a) + intVal(b);
                             },
                         // initial value parameter (optional)
@@ -463,6 +499,28 @@
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
+
+                // Display total over all pages
+
+                    /**
+                     Totals that are expected to be zero are ocassionaly less than zero e.g. -1.5279510989785194e-10 which is eqaul to -1.5279510989785194 x 0.0000000001 = -0.00000000015279510989785194. These numbers 
+                     are so small, that when formatted with the Intl.NumberFormat object they are shown as 0 (-0, if `signDisplay` is not `exceptZero` or `negative`). However, testing if these totals are 
+                     less than zero, will return `true`.
+                     */ 
+
+                    total = parseFloat(new Intl.NumberFormat(   
+                        'en-GB', 
+                        {
+                            useGrouping: false,     // Do not show thousands separator
+                            signDisplay: 'negative' // Sign display for negative numbers only, excluding negative zero.
+                        }
+                    ).format(total))    // Will return 0 (correctly) if total is a negative number that's so incredibly small e.g. -1.5279510989785194e-10 (-0.00000000015279510989785194)
+
+                    if (total < 0) {
+                        $('span.all-total').addClass('debit')
+                    } else {
+                        $('span.all-total').removeClass('debit')
+                    }
                     
                     $('span.all-total').html(new Intl.NumberFormat(
                         'en-GB', 
@@ -474,10 +532,19 @@
                         }
                     ).format(total));
 
-                    if (total < 0) {
-                        $('span.all-total').addClass('debit')
+                // Display total upto and including today
+                    todayTotal = parseFloat(new Intl.NumberFormat(
+                        'en-GB', 
+                        {
+                            useGrouping: false,     // Do not show thousands separator
+                            signDisplay: 'negative' // Sign display for negative numbers only, excluding negative zero.
+                        }
+                    ).format(todayTotal))
+
+                    if (todayTotal < 0) {
+                        $('span.today-total').addClass('debit')
                     } else {
-                        $('span.all-total').removeClass('debit')
+                        $('span.today-total').removeClass('debit')
                     }
 
                     $('span.today-total').html(new Intl.NumberFormat(
@@ -490,10 +557,21 @@
                         }
                     ).format(todayTotal));
 
-                    if (todayTotal < 0) {
-                        $('span.today-total').addClass('debit')
+                    
+                // Display total upto and including the period-end
+
+                    periodTotal = parseFloat(new Intl.NumberFormat(
+                        'en-GB', 
+                        {
+                            useGrouping: false,     // Do not show thousands separator
+                            signDisplay: 'negative' // Sign display for negative numbers only, excluding negative zero.
+                        }
+                    ).format(periodTotal))
+
+                    if (periodTotal < 0) {
+                        $('span.period-total').addClass('debit')
                     } else {
-                        $('span.today-total').removeClass('debit')
+                        $('span.period-total').removeClass('debit')
                     }
 
                     $('span.period-total').html(new Intl.NumberFormat(
@@ -505,12 +583,6 @@
                             signDisplay: 'negative' 
                         }
                     ).format(periodTotal));
-
-                    if (periodTotal < 0) {
-                        $('span.period-total').addClass('debit')
-                    } else {
-                        $('span.period-total').removeClass('debit')
-                    }
 
                 },
                 drawCallback: function (settings) {
@@ -578,6 +650,10 @@
             $(function() {
             });
         </script>
+    <!-- Ajax Modal -->
+        <!-- <script src="ajax/bu_ajax_transaction_modal.js"></script> -->
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_transaction.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

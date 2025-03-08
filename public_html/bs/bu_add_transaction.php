@@ -44,13 +44,10 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">
-                                            <!--
-                                            <a class="btn btn-outline-primary btn-sm prefill-supermarket">Supermarket</a>
-                                            -->
-                                            <!-- <select id="prefill" class="form-select form-select-sm" aria-label=".form-select-sm example"> -->
+                                    <!-- Pre-fill -->
+                                        <div class="col-sm-4 float-right">
                                             <?php
 
                                                 $stmt = $pdo->prepare("
@@ -96,143 +93,140 @@
                                                 }
 
                                             ?>
-                                            <!--
-                                            <select id="prefill" class="form-control">
-                                                <option value="" selected disabled hidden>Pre-fill...</option>';
-                                                <option value="co-op" data-type="5" data-entity-description="P5723">Co-op</option>
-                                                <option value="dunelm" data-type="6" data-entity-description="P6038">Dunelm</option>
-                                                <option value="national-lottery" data-type="6" data-entity-description="P0700">National Lottery</option>
-                                                <option value="sainsburys" data-type="5" data-entity-description="P1280">Sainsbury's</option>
-                                                <option value="tesco-express" data-type="5" data-entity-description="P0186">Tesco Express</option>
-                                            </select>
-                                            -->
-                                        </h3>
+                                        </div>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-transaction" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                         <!-- Account Name -->
                                             <div class="row">
-                                                <div class="col-md-2 form-group">
+                                                <div class="form-group row">
                                                 <!-- Account Name -->
-                                                    <label for="account-id-alpha">Account Name</label>
-                                                    <?php
-                                                        // This stored procedure uses a WHERE clause to select rows whose `status` column is equal to a specific value. This value is passed as a parameter to the procedure: 'open', 'closed' or '%' = ALL
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_accounts_dropdown(?);
-                                                        ");
-                                                        $stmt->execute(
-                                                            [
-                                                                '%'
-                                                            ]
-                                                        );
-                                                        
-                                                        echo '<select name="account-id-alpha" id="account-id-alpha" class="form-control" required>';
-                                                        echo '<option value="" selected disabled hidden>Select account...</option>';
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
-                                                        }
-                                                        echo '</select>';
+                                                    <label for="account-id-alpha" class="col-sm-2 col-form-label">Account Name</label>
+                                                    <div class="col-sm-5">
+                                                        <?php
+                                                            // This stored procedure uses a WHERE clause to select rows whose `status` column is equal to a specific value. This value is passed as a parameter to the procedure: 'open', 'closed' or '%' = ALL
+                                                            $stmt = $pdo->prepare("
+                                                                CALL 
+                                                                    bu_accounts_dropdown(?);
+                                                            ");
+                                                            $stmt->execute(
+                                                                [
+                                                                    '%'
+                                                                ]
+                                                            );
+                                                            
+                                                            echo '<select name="account-id-alpha" id="account-id-alpha" class="form-control" required>';
+                                                            echo '<option value="" selected disabled hidden>Account name...</option>';
+                                                            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                                echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
+                                                            }
+                                                            echo '</select>';
 
-                                                        
+                                                            
 
-                                                        $stmt = null;
-                                                    ?>
+                                                            $stmt = null;
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             <!-- Amount -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="amount">Amount</label>
-                                                    <input type="text" name="amount" id="amount" class="form-control" required placeholder="Enter transaction amount...">
+                                                <div class="form-group row">
+                                                    <label for="amount" class="col-sm-2 col-form-label">Amount</label>
+                                                    <div class="col-sm-2">
+                                                        <input type="number" name="amount" id="amount" class="form-control" step="0.01" size="20" required placeholder="Amount...">
+                                                    </div>
                                                 </div>
                                             <!-- Type -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="type">Type</label>
-                                                    <?php
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_transaction_types_dropdown();
-                                                        ");
-                                                        $stmt->execute();
+                                                <div class="form-group row">
+                                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                                    <div class="col-sm-3">
+                                                        <?php
+                                                            $stmt = $pdo->prepare("
+                                                                CALL 
+                                                                    bu_transaction_types_dropdown();
+                                                            ");
+                                                            $stmt->execute();
 
-                                                        echo '<select name="type" id="type" class="form-control" required>';
-                                                        echo '<option value="" selected disabled hidden>Select transaction type...</option>';
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="' . $row->type . '">' . $row->description . '</option>';
-                                                        }
-                                                        echo '</select>';
+                                                            echo '<select name="type" id="type" class="form-control" required>';
+                                                            echo '<option value="" selected disabled hidden>Type...</option>';
+                                                            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                                echo '<option value="' . $row->type . '">' . $row->description . '</option>';
+                                                            }
+                                                            echo '</select>';
 
-                                                        $stmt = null;
-                                                        
-                                                    ?>                                            
+                                                            $stmt = null;
+                                                            
+                                                        ?>
+                                                    </div>                                
                                                 </div>
                                             <!-- Sub Type -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="sub-type">Sub-Type</label>
-                                                    <?php
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_transaction_types_dropdown();
-                                                        ");
-                                                        $stmt->execute();
+                                                <div class="form-group row">
+                                                    <label for="sub-type" class="col-sm-2 col-form-label">Sub-Type</label>
+                                                    <div class="col-sm-3">
+                                                        <?php
+                                                            $stmt = $pdo->prepare("
+                                                                CALL 
+                                                                    bu_transaction_types_dropdown();
+                                                            ");
+                                                            $stmt->execute();
 
-                                                        echo '<select name="sub-type" id="sub-type" class="form-control">';
-                                                        echo '<option value="" selected disabled hidden>Select transaction sub-type...</option>';
-                                                        echo '<option value="">&nbsp;</option>';
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="' . $row->type . '">' . $row->description . '</option>';
-                                                        }
-                                                        echo '</select>';
-                                                        
-                                                        $stmt = null;
+                                                            echo '<select name="sub-type" id="sub-type" class="form-control">';
+                                                            echo '<option value="" selected disabled hidden>Sub-type...</option>';
+                                                            echo '<option value="">&nbsp;</option>';
+                                                            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                                echo '<option value="' . $row->type . '">' . $row->description . '</option>';
+                                                            }
+                                                            echo '</select>';
+                                                            
+                                                            $stmt = null;
 
-                                                    ?>
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             <!-- Entity -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="entity-description">Entity</label>
-                                                    <?php
-                                                        $stmt = $pdo->prepare("
-                                                            CALL 
-                                                                bu_entities_dropdown();
-                                                        ");
-                                                        $stmt->execute();
+                                                <div class="form-group row">
+                                                    <label for="entity-description" class="col-sm-2 col-form-label">Entity</label>
+                                                    <div class="col-sm-5">
+                                                        <?php
+                                                            $stmt = $pdo->prepare("
+                                                                CALL 
+                                                                    bu_entities_dropdown();
+                                                            ");
+                                                            $stmt->execute();
 
-                                                        echo '<select name="entity-id" id="entity-id" class="form-control" required>';
-                                                        echo "<option value='' selected disabled hidden>Select entity...</option>";
-                                                        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                            echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
-                                                        }
-                                                        echo '</select>';
-                                                        
-                                                        $stmt = null;
+                                                            echo '<select name="entity-id" id="entity-id" class="form-control" required>';
+                                                            echo "<option value='' selected disabled hidden>Entity...</option>";
+                                                            while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                                                                echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
+                                                            }
+                                                            echo '</select>';
+                                                            
+                                                            $stmt = null;
 
-                                                    ?>    
+                                                        ?>
+                                                    </div>  
                                                 </div>
                                             <!-- Date -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="date">Date</label>
-                                                    <input type="text" name="date" required class="form-control" id="datepicker" required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
+                                                <div class="form-group row">
+                                                    <label for="date" class="col-sm-2 col-form-label">Date</label>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" name="date" required class="form-control" id="datepicker" required readonly placeholder="Select transaction date..." style="cursor:text; background:white;">
+                                                    </div>
+                                                </div>
+                                            <!-- Notes -->                   
+                                                <div class="form-group row">
+                                                    <label for="notes" class="col-sm-2 col-form-label">Notes</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12 form-group">
-                                                    <label for="notes">Notes</label>
-                                                    <textarea name="notes" id="notes" class="form-control" placeholder="Enter note..."></textarea>
-                                                </div>
-                                            </div>
-
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-submit" id="add-transaction-submit" class="btn btn-success">Add</button>
-                                            
+                                            <a class="btn btn-secondary float-right" href="bu_manage_transactions.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

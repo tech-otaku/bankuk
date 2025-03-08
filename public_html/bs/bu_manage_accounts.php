@@ -40,24 +40,24 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title"></h3>
+                                    <a class="btn btn-success" href="bu_add_account.php">Add Account</a>
                                 </div>
                                 <div class="card-body">
                                     <table id="accounts" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Account ID [Alpha]</th>
-                                                <th>Account ID</th>
+                                                <th></th>
+                                                <th>A/C ID</th>
                                                 <th>Bank</th>
-                                                <th>Account Name</th>
+                                                <th>A/C Name</th>
                                                 <th>Sort Code</th>
-                                                <th>Account Number</th>
+                                                <th>A/C Number</th>
                                                 <th>Status</th>
                                                 <th>Used</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -65,40 +65,43 @@
                                                 $counter = 1;
 
                                                 $stmt = $pdo->prepare("
-                                                SELECT 
-                                                    a1.id,
-                                                    a1.account_id_alpha,
-                                                    a1.account_id,
-                                                    b1.legal_name,
-                                                    b1.trading_name,
-                                                    a1.name,
-                                                    a1.sort_code,
-                                                    a1.account_number,
-                                                    a1.status,
-                                                    COUNT(t1.account_id) AS _used
-                                                FROM
-                                                    bu_accounts AS a1
-                                                LEFT JOIN
-                                                    bu_banks AS b1 ON a1.bank_id = b1.bank_id
-                                                LEFT JOIN
-                                                    bu_transactions AS t1 ON a1.account_id = t1.account_id
-                                                GROUP BY 
-                                                    a1.id, 
-                                                    a1.account_id_alpha, 
-                                                    a1.account_id, 
-                                                    b1.legal_name,
-                                                    b1.trading_name, 
-                                                    a1.name, 
-                                                    a1.sort_code, 
-                                                    a1.account_number, 
-                                                    a1.status;
-                                                ");
+                                                    SELECT 
+                                                        a1.id,
+                                                        a1.account_id_alpha,
+                                                        a1.account_id,
+                                                        b1.legal_name,
+                                                        b1.trading_name,
+                                                        a1.name,
+                                                        a1.sort_code,
+                                                        a1.account_number,
+                                                        a1.status,
+                                                        a1.notes,
+                                                        COUNT(t1.account_id) AS _used
+                                                    FROM
+                                                        bu_accounts AS a1
+                                                    LEFT JOIN
+                                                        bu_banks AS b1 ON a1.bank_id = b1.bank_id
+                                                    LEFT JOIN
+                                                        bu_transactions AS t1 ON a1.account_id = t1.account_id
+                                                    GROUP BY 
+                                                        a1.id, 
+                                                        a1.account_id_alpha, 
+                                                        a1.account_id, 
+                                                        b1.legal_name,
+                                                        b1.trading_name, 
+                                                        a1.name, 
+                                                        a1.sort_code, 
+                                                        a1.account_number, 
+                                                        a1.status,
+                                                        a1.notes
+                                                ;");
                                                 $stmt->execute(); 
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr>
-                                                <td><?php echo $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . nl2br($row->notes) .'" data-account-name="' . $row->trading_name . ' ' . $row->name .'"' : "") . '>' . $counter; ?>
+                                                </td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->account_id; ?></td>
                                                 <td><?php echo $row->trading_name ?></td>
@@ -113,11 +116,12 @@
                                                         echo $row->_used;
                                                     } ?>   
                                                 </td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_account.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
+                                                <td style="text-align: center">
+
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-account-modal" data-mysql-table="bu_accounts" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>" data-record-type="transaction">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_accounts" data-record-id="<?php echo $row->id; ?>" data-record-type="account" data-record-identifier="<?php echo $row->name; ?>"  class="btn btn-danger btn-sm  delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
@@ -148,6 +152,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Account Modal -->
+        <div class="modal fade" id="update-account-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update account form -->
+                        <?php include("forms/form_update_account.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-account" name="update-account-submit" id="update-account-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -162,8 +187,8 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter'}, 
-                    {className: 'account-id-alpha'},
+                    {className: 'counter', width: '60px'}, 
+                    {className: 'account-id-alpha', width: '60px'},
                     {className: 'account-id'},
                     {className: 'bank-name'},
                     {className: 'account-name'},
@@ -171,7 +196,7 @@
                     {className: 'account-number'},
                     {className: 'status'},
                     {className: 'used', type: 'num'},
-                    {className: 'actions', orderable: false}
+                    {className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -180,6 +205,10 @@
                 }
             });
         </script>
+    <!-- Ajax Modal -->
+        <!-- <script src="ajax/bu_ajax_account_modal.js"></script> -->
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_account.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

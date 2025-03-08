@@ -40,9 +40,10 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title"></h3>
+                                    <a class="btn btn-success" href="bu_add_regular_debit_type.php">Add Regular Debit Type</a>
+
                                 </div>
                                 <div class="card-body">
                                     <table id="regular-debit-types" class="table table-hover table-bordered table-striped bu-data-table">
@@ -52,7 +53,7 @@
                                                 <th>Type</th>
                                                 <th>Description</th>
                                                 <th>Used</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -81,11 +82,12 @@
                                                 <td><?php echo $row->type; ?></td>
                                                 <td><?php echo $row->description; ?></td>
                                                 <td><?php echo $row->_used; ?></td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_regular_debit_type.php?id=<?php echo $row->id; ?>&used_type=<?php echo $row->_used; ?>&record=regular debit">
+                                                <td style="text-align: center">
+
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-regular-debit-type-modal" data-mysql-table="bu_regular_debit_types" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>" data-record-type="regular debit">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_regular_debit_types" data-record-id="<?php echo $row->id; ?>" data-record-type="regular debit type" data-record-identifier="<?php echo $row->description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                         <!-- Delete -->
@@ -116,6 +118,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Entity Modal -->
+        <div class="modal fade" id="update-regular-debit-type-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Regular Debit Type</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update transaction-type form -->
+                        <?php include("forms/form_update_regular_debit_type.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-regular-debit-type" name="update-regular-debit-type-submit" id="update-regular-debit-type-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -130,11 +153,11 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter'}, 
+                    {className: 'counter', width: '50px'}, 
                     {className: 'type'},
                     {className: 'description'},
                     {className: 'used', type: 'num'},
-                    {className: 'actions', orderable: false}
+                    {className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -143,6 +166,8 @@
                 }
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_regular_debit_type.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

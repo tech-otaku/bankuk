@@ -61,7 +61,8 @@
                     `name` = ?,
                     sort_code = ?,
                     account_number = ?,
-                    `status` = ?
+                    `status` = ?,
+                    notes = ?
                 WHERE 
                     id = ?;
             ");        
@@ -72,6 +73,7 @@
                     $_POST['sort-code'],
                     $_POST['account-number'],
                     $_POST['status'],
+                    $_POST['notes'],
                     intval($_POST['record-id'])
                 ]
             );
@@ -186,7 +188,7 @@
 
             break;
 
-    // UPDATE PARTY RECORD
+    // UPDATE ENTITY RECORD
         case 'update-entity':
 
             $stmt = $pdo->prepare("
@@ -199,7 +201,7 @@
             ");        
             $stmt->execute(
                 [ 
-                    $_POST['entity'], 
+                    $_POST['entity-description'], 
                     intval($_POST['record-id'])
                 ]
             );
@@ -260,7 +262,7 @@
                     $bu_account['account_id'],
                     $_POST['account-id-alpha'], 
                     $_POST['type'], 
-                    (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
+                    (isset($_POST['sub-type']) && trim($_POST['sub-type']) != '' ? $_POST['sub-type'] : ''), 
                     $_POST['entity-id'], 
                     intval($_POST['record-id'])
                 ]
@@ -291,6 +293,30 @@
     // UPDATE REGULAR DEBIT RECORD
         case 'update-regular-debit':
 
+        // Get the period from bu_accounting_periods based on the value of $bu_regular_debit->next
+            if ($_POST['last'] != "1970-01-01") {
+                $stmt = $pdo->prepare("
+                    SELECT 
+                        period 
+                    FROM 
+                        bu_accounting_periods 
+                    WHERE 
+                        start <= ? AND end >= ?;
+                ");
+
+                $stmt->execute(
+                    [
+                        $_POST['last'], 
+                        $_POST['last']
+                    ]
+                );
+
+                $bu_accounting_period = $stmt->fetch(PDO::FETCH_OBJ);   
+                $stmt = null;
+            } else {
+                $bu_accounting_period = (object) array("period"=>0);
+            }
+
         // Get account_id from bu_accounts based on the value of $_POST['account-id-alpha']
             $stmt = $pdo->prepare("
                 CALL 
@@ -317,6 +343,7 @@
                     regular_debit_type = ?,
                     entity_id = ?,
                     `day` = ?,
+                    period = ?,
                     `last` = ?,
                     `next` = ?, 
                     notes = ? 
@@ -329,10 +356,11 @@
                     $_POST['account-id-alpha'], 
                     $_POST['amount'],
                     $_POST['type'], 
-                    (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''),
+                    (isset($_POST['sub-type']) && trim($_POST['sub-type']) != '' ? $_POST['sub-type'] : ''),
                     $_POST['regular-debit-type'], 
                     $_POST['entity-id'], 
                     $_POST['day'],
+                    $bu_accounting_period->period,
                     $_POST['last'],
                     $_POST['next'],
                     $_POST['notes'],
@@ -340,10 +368,29 @@
                 ]
             );
 
-            if ($stmt->rowCount() != 0) {   // $stmt->rowCount() should only be used for DELETE, INSERT or UPDATE statements. 
+            if ($stmt->rowCount() != 0) {   // $stmt->rowCount() should only be used for DELETE, INSERT or UPDATE statements.
+                $stmt = $pdo->prepare("
+                    SELECT
+                        * 
+                    FROM 
+                        bu_regular_debits 
+                    WHERE 
+                        id = ?;
+                ");
+
+                $stmt->execute(
+                    [
+                        intval($_POST['record-id'])
+                    ]
+                );
+
+                $row = $stmt->fetch(PDO::FETCH_OBJ);   
+                $stmt = null;
+
             // Success
                 echo json_encode(array(
                     'success' => 1,  // True
+                    'data' => json_encode($row),    // The record's data after being updated
                     'message' => 'Record for ID <span class="text-grey">' . $_POST['record-id'] . '</span> Updated'
                 ));
             } else { 
@@ -496,7 +543,7 @@
                     $_POST['account-id-alpha'], 
                     $_POST['amount'],
                     $_POST['type'], 
-                    (isset($_POST['sub-type']) ? $_POST['sub-type'] : ''), 
+                    (isset($_POST['sub-type']) && trim($_POST['sub-type']) != '' ? $_POST['sub-type'] : ''), 
                     $_POST['entity-id'], 
                     $_POST['date'], 
                     $bu_accounting_period['period'], 

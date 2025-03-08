@@ -40,9 +40,9 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card w-50 mx-auto">
                                 <div class="card-header p-6">
-                                    <h3 class="card-title"></h3>
+                                    <a class="btn btn-success" href="bu_add_entity.php">Add Entity</a>
                                 </div>
                                 <div class="card-body">
                                     <table id="entities" class="table table-hover table-bordered table-striped bu-data-table">
@@ -52,7 +52,7 @@
                                                 <th>Entity ID</th>
                                                 <th>Entity</th>
                                                 <th>Used</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,11 +88,11 @@
                                                         echo $row->_used;
                                                     } ?>
                                                 </td>
-                                                <td>
-                                                    <a class="btn btn-success btn-sm" href="bu_view_entity.php?id=<?php echo $row->id; ?>&used=<?php echo $row->_used; ?>&record=transaction">
+                                                <td style="text-align: center">
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-entity-modal" data-mysql-table="bu_entities" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>" data-record-type="transaction">
                                                         <i class="fa fa-edit"></i>
-                                                        <!-- Edit -->
                                                     </a>
+
                                                     <a data-mysql-table="bu_entities" data-record-id="<?php echo $row->id; ?>" data-record-type="entity" data-record-identifier="<?php echo $row->entity_description; ?>" class="btn btn-danger btn-sm delete-record<?php echo ($row->_used != 0 ? ' disabled' : ''); ?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -122,6 +122,27 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Entity Modal -->
+        <div class="modal fade" id="update-entity-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Entity</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update bank form -->
+                        <?php include("forms/form_update_entity.php"); ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                    <!-- Update-form's submit button -->
+                        <button type="submit" form="update-entity" name="update-entity-submit" id="update-entity-submit" class="btn btn-success">Update</button>
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -137,15 +158,17 @@
                 ],
                 
                 columns: [
-                    {className: 'counter'},
+                    {className: 'counter', width: '50px'},
                     {className: 'code'}, 
                     {className: 'description'},
                     {className: 'used'},
-                    {className: 'actions', orderable: false}
+                    {className: 'actions', width: '95px', orderable: false}
                 ]
                 
             });
         </script>
+    <!-- AJAX Update -->
+        <script src="ajax/bu_ajax_update_entity.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

@@ -44,33 +44,34 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-transaction-type" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                             <div class="row">
                                             <!-- Type -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="type">Type</label>
-                                                    <input type="text" name="type" id="type" class="form-control" required placeholder="Enter type code...">
+                                                <div class="form-group row">
+                                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" name="type" id="type" class="form-control" required placeholder="Type...">
+                                                    </div>
                                                 </div>
                                             <!-- Description -->
-                                                <div class="col-md-2 form-group">
-                                                    <label for="description">Description</label>
-                                                    <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
+                                                <div class="form-group row">
+                                                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-type" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_direct_debit_types.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

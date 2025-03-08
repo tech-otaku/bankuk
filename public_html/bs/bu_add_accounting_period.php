@@ -43,9 +43,9 @@
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
-                                <div class="card">
+                                <div class="card w-50 mx-auto">
                                     <div class="card-header p-6">
-                                        <h3 class="card-title">Card Header</h3>
+                                        <h3 class="card-title"><?php echo $page_name; ?></h3>
                                     </div>
                                     <!-- form start -->
                                     <form id="add-accounting-period" class="add-form" method="post" enctype="multipart/form-data" role="form">
@@ -99,7 +99,7 @@
                                                     $temp_end->modify('+1 month');
                                                     //print_r($temp_end);
                                                     $temp_end_array = getdate($temp_end->getTimestamp());
-                                                    var_dump(getdate($temp_end->getTimestamp()));
+                                                    //var_dump(getdate($temp_end->getTimestamp()));
 
                                                     $next_end = new DateTime($temp_end_array['year'] . '-' . $temp_end_array['mon'] . '-24');
 
@@ -127,35 +127,33 @@
                                                 ?>
                                             <div class="row">
                                             <!-- Start --> 
-                                                <div class="col-md-2 form-group">
-                                                    <label for="start" class="col-sm-4 col-form-label">Start Date</label>
-                                                    <div class="col-sm-10">
+                                                <div class="form-group row">
+                                                    <label for="start" class="col-sm-2 col-form-label">Start Date</label>
+                                                    <div class="col-sm-2">
                                                         <input type="text" name="start" id="start" class="form-control" required readonly style="cursor:text; background:white;">
                                                     </div>
                                                 </div>
                                             <!-- End --> 
-                                                <div class="col-md-2 form-group">
-                                                    <label for="end" class="col-sm-4 col-form-label">End Date</label>
-                                                    <div class="col-sm-10">
+                                                <div class="form-group row">
+                                                    <label for="end" class="col-sm-2 col-form-label">End Date</label>
+                                                    <div class="col-sm-2">
                                                         <input type="text" name="end" id="end" class="form-control" required readonly style="cursor:text; background:white;">
                                                     </div>
                                                 </div>
                                             <!-- Period --> 
-                                                <div class="col-md-2 form-group">
-                                                    <label for="period" class="col-sm-4 col-form-label">Period</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" name="period" id="period" class="form-control" required value="<?php echo $next_period; ?>">
+                                                <div class="form-group row">
+                                                    <label for="period" class="col-sm-2 col-form-label">Period</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="number" min="<?php echo $next_period; ?>" step="1" name="period" id="period" class="form-control" required value="<?php echo $next_period; ?>" onKeyDown="return false">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                            </div>
-                                            <div class="row">
-                                            </div>
+                                            
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" name="add-accounting-period-submit" class="btn btn-success">Add</button>
+                                            <button type="submit" name="add-accounting-period-submit" id="add-accounting-period-submit" class="btn btn-success">Add</button>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_accounting_periods.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->
@@ -189,7 +187,7 @@
                     firstDay: 1,
                     maxDate: new Date('2030-12-31'),
                     beforeShowDay: function (date) {     // See https://stackoverflow.com/a/13514816/2518495
-                        return excludedDates(
+                        return ExcludedDates(
                             date, [
                                 [6],    // Saturday
                                 [0]     // Sunday
@@ -207,7 +205,7 @@
                     dateFormat: "yy-mm-dd",
                     firstDay: 1,                    
                     beforeShowDay: function (date){     // See https://stackoverflow.com/a/13514816/2518495
-                        return excludedDates(
+                        return ExcludedDates(
                             date, [
                                 [5],    // Friday
                                 [6]     // Saturday

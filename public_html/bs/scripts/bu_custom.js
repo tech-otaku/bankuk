@@ -1,11 +1,11 @@
-/***
-     * The following DataTables callback functions appear to be triggered BEFORE the DOM is fully loaded;
-     * 1. createdRow    (Not fired when paging)
-     * 2. footerCallback
-     * 3. drawCallback
-     * 4. initComplete  (Not fired when paging)
-     * Consequently, any user-defined functions used by these callbacks should be declared outside of any `$(document).ready(function() {})`
-    */ 
+/**
+ * The following DataTables callback functions appear to be triggered BEFORE the DOM is fully loaded;
+ * 1. createdRow    (Not fired when paging)
+ * 2. footerCallback
+ * 3. drawCallback
+ * 4. initComplete  (Not fired when paging)
+ * Consequently, any user-defined functions used by these callbacks should be declared outside of any `$(document).ready(function() {})`
+ */ 
 
 /*
 $(document).ready(function() {
@@ -15,6 +15,485 @@ $(document).ready(function() {
     });
  });
 */
+
+
+function DatePickerPlacement (e,i,p) {
+    /***
+     * `e` represents the input field `div#datepicker` 
+     * `i` is a JQuery object representing the current datepicker instance `div#ui-datepicker-div`
+     * `p` represents the placement of the datepicker instance relative to the input field `div#datepicker`: 0 = to the right of, 1 = above and 2 = below
+     * 
+     * Normally, the parent of the `div#ui-datepicker-div` is the `body` tag, so it's positioned relative to the 
+     * viewport (browser window) and can sometimes be displayed outside of the modal window defined by `div.modal-content`.
+     * To prevent this the parent of the `div#ui-datepicker-div` is first changed to `div.modal-content`. In addition, the 
+     * `position` of `div.modal-content` is set to `relative` in bu_transaction.php.
+    */
+    $('.modal-content').append($('div#ui-datepicker-div'));    // See https://stackoverflow.com/a/42733236
+    /***
+      * Now, the position of `div#ui-datepicker-div` can be fixed relative to its new parent `div.modal-content` by setting 
+      * its `position` to `absolute` and defining its `top` and `left` properties.
+    */
+    setTimeout(function () {
+        var parent = []
+        parent['t'] = $(e).closest('.modal-content').offset().top     // The top position of `div.modal-content` relative to the viewport (browser window)
+        parent['l'] = $(e).closest('.modal-content').offset().left    // The left position of `div.modal-content` relative to the viewport (browser window)
+        var textBox = []
+        textBox['t'] = $(e).offset().top                              // The top position of `div#datepicker` relative to the viewport (browser window)
+        textBox['l'] = $(e).offset().left                             // The left position of `div#datepicker` relative to the viewport (browser window)
+        textBox['h'] = parseFloat($(e).css('height'))                 // The height of `div#datepicker`
+        textBox['w'] = parseFloat($(e).css('width'))                  // The width of `div#datepicker`
+        var datePicker = [] 
+        datePicker ['h'] = parseFloat(i.dpDiv.css('height'))         // The height of `div#ui-datepicker-div`
+
+        switch (p) {
+        // Right of
+            case 0:
+                t = textBox.t - parent.t + (-1)
+                l = textBox.l - parent.l + textBox.w + 4
+                break;
+        // Above
+            case 1:
+                t = textBox.t - parent.t - datePicker.h + (-4)
+                l = textBox.l - parent.l + (-1)
+                break;
+        // Below
+            case 2:
+                t = textBox.t + textBox.h - parent.t + 4
+                l = textBox.l - parent.l + (-1)
+                break;
+        }
+
+        i.dpDiv.css({
+            position: 'absolute',
+            top:t,
+            left:l
+        });
+    }, 0);
+}
+
+function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is returned from bu_ajax-update.php
+    switch(x) {
+// ACCOUNT
+        case 'update-account':
+            var DTTable = $('#accounts').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Bank Name
+            inputFormFields.set('bankName',inputForm.find('#bank-id option:selected').text())
+        // Account Name
+            inputFormFields.set('accountName',inputForm.find('#account-name').val())
+        // Sort Code
+            inputFormFields.set('sortCode',inputForm.find('#sort-code').val())
+        // Account Number
+            inputFormFields.set('accountNumber',inputForm.find('#account-number').val())
+        // Status
+            inputFormFields.set('status',inputForm.find('#status option:selected').text())
+        //Notes
+            inputFormFields.set('notes',inputForm.find('#notes').val())
+
+
+        // Bank Name
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('bankName'))
+        // Account Name
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('accountName'))
+        // Sort Code
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('sortCode'))
+        // Account Number
+            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('accountNumber'))
+        // Status
+            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('status'))
+
+        if ($('form#update-account #notes').val().length === 0) {
+        // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
+            $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+            $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
+            $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
+            $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-account-name')
+        } else {
+        // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
+            $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+            $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
+            $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
+            $( DTTable.cell(DTRowIndex,0).node() ).attr('data-account-name', inputFormFields.get('bankName') + ' ' + inputFormFields.get('accountName'))
+        }
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+
+            break;
+
+// ACCOUNTING PERIOD
+        case 'update-accounting-period':
+            var DTTable = $('#periods').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Start
+            inputFormFields.set('start',inputForm.find('#start').val())
+            //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
+        // End
+            inputFormFields.set('end',inputForm.find('#end').val())
+            //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
+        // Period
+            inputFormFields.set('period',inputForm.find('#period').val())
+
+
+        // Start
+            DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('start'))
+        // End
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('end'))
+        // Period
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('period'))
+            
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// BANK
+        case 'update-bank':
+            var DTTable = $('#banks').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Bank's Legal Name
+            inputFormFields.set('legalName',inputForm.find('#legal-name').val())
+        // Banks's Trading Name
+            inputFormFields.set('tradingName',inputForm.find('#trading-name').val())
+
+
+        // Bank's Legal Name
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('legalName'))
+        // Banks's Trading Name
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('tradingName'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+// ENTITY
+        case 'update-entity':
+            var DTTable = $('#entities').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Entity Description
+            inputFormFields.set('entityDescription',inputForm.find('#entity-description').val())
+
+
+        // Entity Description
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('entityDescription'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// PRE-FILL
+        case 'update-prefill':
+            var DTTable = $('#prefills').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Account Name
+            inputFormFields.set('accountName',inputForm.find('#account-id-alpha option:selected').text())
+        // Type
+            inputFormFields.set('type',inputForm.find('#type option:selected').text())
+        // Sub-Type
+            if (inputForm.find('#sub-type option:selected').val() === '') {
+                inputFormFields.set('subType','')
+            } else {
+                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
+            }
+        // Entity
+            inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
+
+            console.log(inputFormFields)
+
+
+        // Account Name
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('accountName'))
+        // Type
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('type'))
+        // Sub-Type
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('subType'))
+        // Entity
+            DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('entity'))
+            
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// REGULAR DEBIT
+        case 'update-regular-debit':
+
+            console.log(data)
+
+            var DTTable = $('#regular-debits').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Account ID Alpha
+            inputFormFields.set('accountIDAlpha',inputForm.find('#account-id-alpha option:selected').val())
+        // Account Name
+            inputFormFields.set('accountName',inputForm.find('#account-id-alpha option:selected').text())
+        // Amount
+            inputFormFields.set('amount',inputForm.find('#amount').val())
+        // Type
+            inputFormFields.set('type',inputForm.find('#type option:selected').text())
+        // Sub-Type
+            if (inputForm.find('#sub-type option:selected').val() === '') {
+                inputFormFields.set('subType','')
+            } else {
+                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
+            }
+        // Entity
+            inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
+        // Regular Debit Type
+            inputFormFields.set('regularDebitType',inputForm.find('#regular-debit-type option:selected').text())
+        // Day
+            inputFormFields.set('day',inputForm.find('#day').val())
+        // Period
+            inputFormFields.set('period',data['period'])
+        // Last
+            inputFormFields.set('last',inputForm.find('#last').val())
+        // Next
+            inputFormFields.set('next',inputForm.find('#next').val())
+        //Notes
+            inputFormFields.set('notes',inputForm.find('#notes').val())
+
+
+        // Account ID
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('accountIDAlpha'))
+        // Account Name
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('accountName'))
+        // Amount
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('amount'))
+        // Type
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('type'))
+        // Sub-Type
+            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('subType'))
+        // Entity
+            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('entity'))
+        // Regular Debit Type
+            DTTable.cell(DTRowIndex, 8).data(inputFormFields.get('regularDebitType'))
+        // Day
+            DTTable.cell(DTRowIndex, 9).data(inputFormFields.get('day'))
+        // Period
+            DTTable.cell(DTRowIndex, 10).data(inputFormFields.get('period'))
+        // Last
+            DTTable.cell(DTRowIndex, 11).data(inputFormFields.get('last'))
+        // Next
+            DTTable.cell(DTRowIndex, 12).data(inputFormFields.get('next'))
+        // Notes
+            // Notes are not displayed
+
+        // Add or remove 'debit' class in case the record's amount has changed     
+            if (parseFloat(inputFormFields.get('amount')) < 0) {
+                $( DTTable.cell(DTRowIndex,4).node() ).addClass('debit')
+            } else {
+                $( DTTable.cell(DTRowIndex,4).node() ).removeClass('debit')
+            }
+
+        // Remove the `past`, `today` or `future` class and re-add it in case the record's date has changed
+            $( DTTable.cell(DTRowIndex,7).node() ).removeClass('past today future').addClass(Chronology(inputFormFields.get('last')))
+            
+            if ($('form#update-regular-debit #notes').val().length === 0) {
+            // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
+                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-entity-description')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-amount')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-date')
+            } else {
+            // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
+                $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-entity-description', inputFormFields.get('entity'))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-amount', inputFormFields.get('amount'))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-date', moment(inputFormFields.get('last')).format('ddd DD/MM/YYYY'))  // requires moment.js
+            }
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// REGULAR DEBIT TYPE
+        case 'update-regular-debit-type':
+            var DTTable = $('#regular-debit-types').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Description
+            inputFormFields.set('description',inputForm.find('#description').val())
+
+
+        // Description
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('description'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// TRANSACTION
+        case 'update-transaction':
+            var DTTable = $('#transactions').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Account ID Alpha
+            inputFormFields.set('accountIDAlpha',inputForm.find('#account-id-alpha option:selected').val())
+        // Account Name
+            inputFormFields.set('accountName',inputForm.find('#account-id-alpha option:selected').text())
+        // Amount
+            inputFormFields.set('amount',inputForm.find('#amount').val())
+        // Type
+            inputFormFields.set('type',inputForm.find('#type option:selected').text())
+        // Sub-Type
+            if (inputForm.find('#sub-type option:selected').val() === '') {
+                inputFormFields.set('subType','')
+            } else {
+                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
+            }
+        // Entity
+            inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
+        // Date
+            inputFormFields.set('date',inputForm.find('#datepicker').val())
+            //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
+        //Notes
+            inputFormFields.set('notes',inputForm.find('#notes').val())
+
+
+        // Account ID
+            DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('accountIDAlpha'))
+        // Account Name
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('accountName'))
+        // Amount
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('amount'))
+        // Type
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('type'))
+        // Sub-Type
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('subType'))
+        // Entity
+            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('entity'))
+        // Date
+            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('date'))
+        // Notes
+            
+        // Remove the `account-code-*` class and re-add it in case the record's Account ID Alpha has changed  
+            $( DTTable.row(DTRowIndex).node() ).removeClass(function (index, css) {     //See https://codepen.io/jakob-e/pen/GJWZvx
+                return (css.match (/\baccount-code-\S+/g) || []).join(' '); 
+            }).addClass('account-code-' + inputFormFields.get('accountIDAlpha').toLowerCase());
+
+        // Add or remove 'debit' class in case the record's amount has changed     
+            if (parseFloat(inputFormFields.get('amount')) < 0) {
+                $( DTTable.cell(DTRowIndex,3).node() ).addClass('debit')
+            } else {
+                $( DTTable.cell(DTRowIndex,3).node() ).removeClass('debit')
+            }
+
+        // Remove the `past`, `today` or `future` class and re-add it in case the record's date has changed
+            $( DTTable.cell(DTRowIndex,7).node() ).removeClass('past today future').addClass(Chronology(inputFormFields.get('date')))
+            
+            if ($('form#update-transaction #notes').val().length === 0) {
+            // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
+                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-entity-description')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-amount')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-date')
+            } else {
+            // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
+                $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-entity-description', inputFormFields.get('entity'))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-amount', inputFormFields.get('amount'))
+                $( DTTable.cell(DTRowIndex,0).node() ).attr('data-date', moment(inputFormFields.get('date')).format('ddd DD/MM/YYYY'))  // requires moment.js
+            }
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+// TRANSACTION TYPE
+        case 'update-transaction-type':
+            var DTTable = $('#transaction-types').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Description
+            inputFormFields.set('description',inputForm.find('#description').val())
+
+
+        // Description
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('description'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+    }
+}
+
+/**
+ * See https://gist.github.com/yidas/41cc9272d3dff50f3c9560fb05e7255e
+ * This function is same as PHP's nl2br() with default parameters.
+ *
+ * @param {string} str Input text
+ * @param {boolean} replaceMode Use replace instead of insert
+ * @param {boolean} isXhtml Use XHTML 
+ * @return {string} Filtered text
+ */
+function nl2br (str, replaceMode, isXhtml) {
+
+    var breakTag = (isXhtml) ? '<br />' : '<br>';
+    var replaceStr = (replaceMode) ? '$1'+ breakTag : '$1'+ breakTag +'$2';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+}
 
 // Remove the formatting to get integer data for summation
 function intVal(i) {
@@ -94,7 +573,7 @@ function customClass (elementName, className) {
     }
 }
 
-function chronology (tDate) {
+function Chronology (tDate) {
     let todaysDate = new Date();
     todaysDate.setHours(0,0,0,0);
     todaysDate = todaysDate.getTime();
@@ -118,7 +597,7 @@ function chronology (tDate) {
 
 }
 
-function excludedDates(date, excludedDays){           //  See https://stackoverflow.com/a/3354421/2518495
+function ExcludedDates(date, excludedDays){           //  See https://stackoverflow.com/a/3354421/2518495
     //console.log('date' + date.getTime() + ' string ' + date)
     var day = date.getDay(), Sunday = 0, Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6;
     
@@ -202,21 +681,55 @@ function excludedDates(date, excludedDays){           //  See https://stackoverf
 }
 
 $(document).ready(function() {
-    //console.log('$(document).ready() Fired')
+
+    $(".add-form select#sub-type.form-control, .update-form select#sub-type.form-control").on('change', function() {   
+        if (this.value) {
+            $(this).css('color', '#495057')
+        } else {
+            $(this).css('color', '#999999')
+        }
+    });
+
+    $(".add-form input#amount.form-control, .update-form input#amount.form-control").on("change paste", function() {
+        if (parseFloat($(this).val()) < 0) {
+            $(this).addClass('debit')
+        } else {
+            $(this).removeClass('debit')
+        }
+    });
+
 
     $("table.bu-data-table").on("click", ".has-note", function(event) {
-        direction = ' to '
-        if (intVal($(this).data("amount")) >= 0) {
-            direction = ' from '
+        console.log($(this).closest('table').attr('id'))
+        switch($(this).closest('table').attr('id')) {
+            case 'accounts':
+                Swal.fire(
+                    {
+                        //title: "Note",
+                        html: '<div class="text-left">[<span class="text-grey">' + $(this).attr("data-counter") + '</span>]&nbsp;<span class="text-grey">' + $(this).attr("data-account-name") + '</span><br /><br /><i>' + $(this).attr("data-note") + '</></div>',
+                        icon: "info",
+                        position: "top-end"
+                    }
+                );
+                break;
+            default:    // table#regular-debits, table#transactions
+                direction = ' to '
+                if (intVal($(this).data("amount")) >= 0) {
+                    direction = ' from '
+                }
+                Swal.fire(
+                    {
+                        //title: "Note",
+                        html: '<div class="text-left">[<span class="text-grey">' + $(this).attr("data-counter") + '</span>]&nbsp;<span class="text-grey">' + $(this).attr("data-amount") + '</span>' + direction + '<span class="text-grey">' + $(this).attr("data-entity-description") + '</span> on <span class="text-grey">' + $(this).attr("data-date") + '</span><br /><br /><i>' + $(this).attr("data-note") + '</></div>',
+                        icon: "info",
+                        position: "top-end"
+                    }
+                );
+                break; 
+            
         }
-        Swal.fire(
-            {
-                //title: "Note",
-                html: '<div class="text-left">[<span class="text-grey">' + $(this).attr("data-counter") + '</span>]&nbsp;<span class="text-grey">' + $(this).attr("data-amount") + '</span>' + direction + '<span class="text-grey">' + $(this).attr("data-entity-description") + '</span> on <span class="text-grey">' + $(this).attr("data-date") + '</span><br /><br /><i>' + $(this).attr("data-note") + '</></div>',
-                icon: "info",
-                position: "top-end"
-            }
-        );
+
+        
     })
 
     $(".prefill-supermarket").on("click", function(event) {
