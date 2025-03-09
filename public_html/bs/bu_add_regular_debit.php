@@ -218,7 +218,7 @@
                                                     <label for="notes" class="col-sm-2 col-form-label">Notes</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
-                                                    <div>
+                                                    </div>
                                                 </div>
                                             <!-- </div> -->
                                         </div>  <!-- /.card-body -->
