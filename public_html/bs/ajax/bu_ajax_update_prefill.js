@@ -1,13 +1,9 @@
-//import { TempusDominus } from '@eonasdan/tempus-dominus';
-
 $(document).ready(function() {
-
 
     $("table.bu-data-table").on("click", ".view-record", function(event) {
 
     });
 
-// UPDATE TRANSACTION MODAL
     $("div#update-prefill-modal").on("show.bs.modal", function (e) {
 
         /***
@@ -23,8 +19,8 @@ $(document).ready(function() {
         var DOMRowIndex = $(e.relatedTarget).closest("tr").index()                                      // Based on the table rows currently being displayed. With 25 records currently displayed the row index is between 0 and 24.
         $('form#update-prefill input[type=text][name=dom-row-index]').val(DOMRowIndex)
                
-        var recordID = $(e.relatedTarget).data("record-id")    // $(e.relatedTarget).data("record-id")
-        var mysqlTable = $(e.relatedTarget).data("mysql-table")    // $('table#transactions .view-record').data('mysql-table')
+        var recordID = $(e.relatedTarget).data("record-id")
+        var mysqlTable = $(e.relatedTarget).data("mysql-table")
         
         $.ajax({
             method: "POST",
@@ -80,7 +76,6 @@ $(document).ready(function() {
                 html: message
             });   
         }); // fail
-
 
     });  // `show.bs.modal` listener
 

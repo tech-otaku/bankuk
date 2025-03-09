@@ -7,30 +7,8 @@ $(document).ready(function() {
 
     });
 
-    $("form#update-transaction #amount").on("change paste", function() {
-        if (parseFloat($(this).val()) < 0) {
-            $(this).addClass('debit')
-        } else {
-            $(this).removeClass('debit')
-        }
-        //console.log($(this).val()); 
-    });
-
-    $("form#update-transaction #sub-type").on('change', function() {
+    $("div#update-account-modal").on("show.bs.modal", function (e) {
         
-        if (this.value) {
-            $(this).css('color', '#495057')
-            //console.log( 'current value: ' + this.value );
-        } else {
-            $(this).css('color', '#999999')
-            //console.log( 'current value: empty' );
-        }
-    });
-
-// UPDATE TRANSACTION MODAL
-    $("#update-account-modal").on("show.bs.modal", function (e) {
-        
-
         /***
              * 'e.relatedTarget' is a reference to the link that, when clicked, displayed the modal
              * 'e.currentTarget' is a reference to the the modal
@@ -42,8 +20,8 @@ $(document).ready(function() {
         var DOMRowIndex = $(e.relatedTarget).closest("tr").index()                                      // Based on the table rows currently being displayed. With 25 records currently displayed the row index is between 0 and 24.
         $('form#update-account input[type=text][name=dom-row-index]').val(DOMRowIndex)
                
-        var recordID = $(e.relatedTarget).data("record-id")    // $(e.relatedTarget).data("record-id")
-        var mysqlTable = $(e.relatedTarget).data("mysql-table")    // $('table#transactions .view-record').data('mysql-table')
+        var recordID = $(e.relatedTarget).data("record-id")
+        var mysqlTable = $(e.relatedTarget).data("mysql-table")
         var usedBy = $(e.relatedTarget).data("used-by")
         var recordType = $(e.relatedTarget).data("record-type")
         
@@ -61,8 +39,6 @@ $(document).ready(function() {
         .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
             console.log(dataReturnedByServer['data'])
             if ( dataReturnedByServer['success'] == 1 ) {
-
-                //PublicHolidays ()
 
             // Update successful
                 //console.log('DATA ' + dataReturnedByServer['data'])
@@ -115,9 +91,6 @@ $(document).ready(function() {
                 html: message
             });   
         }); // fail
-
-
-
 
     })  // `show.bs.modal` listener
 

@@ -7,10 +7,8 @@ $(document).ready(function() {
 
     });
 
-// UPDATE TRANSACTION MODAL
-    $("#update-transaction-type-modal").on("show.bs.modal", function (e) {
+    $("div#update-transaction-type-modal").on("show.bs.modal", function (e) {
         
-
         /***
              * 'e.relatedTarget' is a reference to the link that, when clicked, displayed the modal
              * 'e.currentTarget' is a reference to the the modal
@@ -22,8 +20,8 @@ $(document).ready(function() {
         var DOMRowIndex = $(e.relatedTarget).closest("tr").index()                                      // Based on the table rows currently being displayed. With 25 records currently displayed the row index is between 0 and 24.
         $('form#update-transaction-type input[type=text][name=dom-row-index]').val(DOMRowIndex)
                
-        var recordID = $(e.relatedTarget).data("record-id")    // $(e.relatedTarget).data("record-id")
-        var mysqlTable = $(e.relatedTarget).data("mysql-table")    // $('table#transactions .view-record').data('mysql-table')
+        var recordID = $(e.relatedTarget).data("record-id")
+        var mysqlTable = $(e.relatedTarget).data("mysql-table")
         var typeUsedBy = $(e.relatedTarget).data("type-used-by")
         var subTypeUsedBy = $(e.relatedTarget).data("subtype-used-by")
         var recordType = $(e.relatedTarget).data("record-type")
@@ -42,8 +40,6 @@ $(document).ready(function() {
         .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
             console.log(dataReturnedByServer['data'])
             if ( dataReturnedByServer['success'] == 1 ) {
-
-                //PublicHolidays ()
 
             // Update successful
                 //console.log('DATA ' + dataReturnedByServer['data'])
@@ -84,9 +80,6 @@ $(document).ready(function() {
                 html: message
             });   
         }); // fail
-
-
-
 
     })  // `show.bs.modal` listener
 

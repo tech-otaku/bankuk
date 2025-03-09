@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Add Accounting Period";    
+    $page_name = "Add Accounting Period";
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,10 +15,10 @@
     </head>
     <body class="d-flex flex-column h-100">
         <div class="wrapper">
-            <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
             <?php include("partials/navigation.php"); ?>
-        <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper ">   <!-- Temporarily .dummy -->
+        <!-- Page Content -->
+            <div class="content-wrapper ">
                 <section class="content-header">
                     <div class="container-fluid">
 
@@ -36,10 +36,10 @@
                         </div>
                     </div>    <!-- /.container-fluid -->
                 </section>
-                <!-- Main content -->
+            <!-- Main Content -->
                 <section class="content">
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
@@ -125,7 +125,7 @@
                                                     //echo gettype($next_start);
                                                     
                                                 ?>
-                                            <div class="row">
+                                            <!-- <div class="row"> -->
                                             <!-- Start --> 
                                                 <div class="form-group row">
                                                     <label for="start" class="col-sm-2 col-form-label">Start Date</label>
@@ -147,10 +147,8 @@
                                                         <input type="number" min="<?php echo $next_period; ?>" step="1" name="period" id="period" class="form-control" required value="<?php echo $next_period; ?>" onKeyDown="return false">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <!-- /.card-body -->
+                                            <!-- </div> -->
+                                        </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-accounting-period-submit" id="add-accounting-period-submit" class="btn btn-success">Add</button>
                                             <a class="btn btn-secondary float-right" href="bu_manage_accounting_periods.php">Cancel</a>
@@ -158,7 +156,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.container-fluid -->
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->
@@ -167,12 +165,6 @@
         </div>    <!-- ./wrapper -->    
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
-    <!-- IS THIS NEEDED ? -->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //bsCustomFileInput.init();
-            });
-        </script>
     <!-- AJAX Add -->
         <script src="ajax/bu_ajax_add.js"></script>
     <!-- Page Script -->

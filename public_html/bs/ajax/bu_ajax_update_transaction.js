@@ -7,7 +7,6 @@ $(document).ready(function() {
 
     });
 
-// UPDATE TRANSACTION MODAL
     $("div#update-transaction-modal").on("show.bs.modal", function (e) {
 
         /***
@@ -21,8 +20,8 @@ $(document).ready(function() {
         var DOMRowIndex = $(e.relatedTarget).closest("tr").index()                                      // Based on the table rows currently being displayed. With 25 records currently displayed the row index is between 0 and 24.
         $('form#update-transaction input[type=text][name=dom-row-index]').val(DOMRowIndex)
                
-        var recordID = $(e.relatedTarget).data("record-id")    // $(e.relatedTarget).data("record-id")
-        var mysqlTable = $(e.relatedTarget).data("mysql-table")    // $('table#transactions .view-record').data('mysql-table')
+        var recordID = $(e.relatedTarget).data("record-id")
+        var mysqlTable = $(e.relatedTarget).data("mysql-table")
         
         $.ajax({
             method: "POST",
@@ -115,7 +114,6 @@ $(document).ready(function() {
                 html: message
             });   
         }); // fail
-
 
     });  // `show.bs.modal` listener
 

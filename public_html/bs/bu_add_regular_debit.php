@@ -6,7 +6,6 @@
     check_login();
     $admin_id = $_SESSION['admin_id'];
     $page_name = "Add Regular Debit";
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,10 +15,10 @@
     </head>
     <body class="d-flex flex-column h-100">
         <div class="wrapper">
-            <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
             <?php include("partials/navigation.php"); ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper ">   <!-- Temporarily .dummy -->
+        <!-- Page Content -->
+            <div class="content-wrapper ">
                 <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
@@ -37,10 +36,10 @@
                     </div>
                     <!-- /.container-fluid -->
                 </section>
-                <!-- Main content -->
+            <!-- Main Content -->
                 <section class="content">
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
@@ -52,7 +51,7 @@
                                     <form id="add-regular-debit" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                         <!-- Account Name -->
-                                            <div class="row">
+                                            <!-- <div class="row"> -->
                                                 <div class="form-group row">
                                                     <label for="account-id-alpha" class="col-sm-2 col-form-label">Account Name</label>
                                                     <div class="col-sm-5">
@@ -221,28 +220,8 @@
                                                         <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
                                                     <div>
                                                 </div>
-                                            </div>
-                                            </div>
-                                            
-
-                                            
-
-                                            <!--
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile" class="col-sm-2 col-form-label">Staff Profile Picture</label>
-                                                    <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="profile_pic" class="custom-file-input" id="exampleInputFile">
-                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                        </div>
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text" id="">Upload</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                -->
-                                        </div>
-                                        <!-- /.card-body -->
+                                            <!-- </div> -->
+                                        </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-regular-debit" class="btn btn-success">Add</button>
                                             <a class="btn btn-secondary float-right" href="bu_manage_regular_debits.php">Cancel</a>
@@ -250,7 +229,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        </div>  <!-- /.row -->
+                        <!-- </div> -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->
@@ -259,12 +238,6 @@
         </div>    <!-- ./wrapper -->    
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
-    <!-- IS THIS NEEDED ? -->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //bsCustomFileInput.init();
-            });
-        </script>
     <!-- AJAX Add -->
         <script src="ajax/bu_ajax_add.js"></script>
     <!-- Page Script -->

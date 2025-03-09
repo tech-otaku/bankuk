@@ -6,7 +6,6 @@
     check_login();
     $admin_id = $_SESSION['admin_id'];
     $page_name = "Add Transaction";
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,10 +15,10 @@
     </head>
     <body class="d-flex flex-column h-100">
         <div class="wrapper">
-            <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
             <?php include("partials/navigation.php"); ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper ">   <!-- Temporarily .dummy -->
+        <!-- Page Content -->
+            <div class="content-wrapper ">
                 <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
@@ -37,10 +36,10 @@
                     </div>
                     <!-- /.container-fluid -->
                 </section>
-                <!-- Main content -->
+            <!-- Main Content -->
                 <section class="content">
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- left column -->
                             <div class="col-md-12">
                                 <!-- general form elements -->
@@ -100,7 +99,7 @@
                                     <form id="add-transaction" class="add-form" method="post" enctype="multipart/form-data" role="form">
                                         <div class="card-body">
                                         <!-- Account Name -->
-                                            <div class="row">
+                                            <!-- <div class="row"> -->
                                                 <div class="form-group row">
                                                 <!-- Account Name -->
                                                     <label for="account-id-alpha" class="col-sm-2 col-form-label">Account Name</label>
@@ -221,9 +220,8 @@
                                                         <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <!-- /.card-body -->
+                                            <!-- </div> -->
+                                        </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-submit" id="add-transaction-submit" class="btn btn-success">Add</button>
                                             <a class="btn btn-secondary float-right" href="bu_manage_transactions.php">Cancel</a>
@@ -231,7 +229,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        </div>  <!-- /.row -->
+                        <!-- </div> -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->
@@ -240,12 +238,6 @@
         </div>    <!-- ./wrapper -->    
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
-    <!-- IS THIS NEEDED ? -->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //bsCustomFileInput.init();
-            });
-        </script>
     <!-- AJAX Add -->
         <script src="ajax/bu_ajax_add.js"></script>
     <!-- Page Script -->
