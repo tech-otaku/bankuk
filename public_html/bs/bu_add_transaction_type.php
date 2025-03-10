@@ -69,7 +69,7 @@
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-type" class="btn btn-success">Add</button>
-                                            <a class="btn btn-secondary float-right" href="bu_manage_direct_debit_types.php">Cancel</a>
+                                            <a class="btn btn-secondary float-right" href="bu_manage_transaction_types.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->
