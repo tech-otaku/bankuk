@@ -150,7 +150,7 @@
                                                         ?>
                                                     </div>
                                                 </div>
-                                            <!-- </div> -->
+                                            <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-submit" id="add-transaction-submit" class="btn btn-success">Add</button>
@@ -159,7 +159,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        <!-- </div> -->
+                        <!-- </div> --> <!-- /.row -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->

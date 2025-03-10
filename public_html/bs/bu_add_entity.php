@@ -65,7 +65,7 @@
                                                         <input type="text" name="entity-description" id="entity-description" required class="form-control" placeholder="Entity name...">
                                                     </div>
                                                 </div>
-                                            <!-- </div> -->
+                                            <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-entity-submit" id="add-entity-submit" class="btn btn-success">Add</button>
@@ -74,7 +74,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        <!-- </div> -->
+                        <!-- </div> --> <!-- /.row -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->

@@ -147,7 +147,7 @@
                                                         <input type="number" min="<?php echo $next_period; ?>" step="1" name="period" id="period" class="form-control" required value="<?php echo $next_period; ?>" onKeyDown="return false">
                                                     </div>
                                                 </div>
-                                            <!-- </div> -->
+                                            <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-accounting-period-submit" id="add-accounting-period-submit" class="btn btn-success">Add</button>
@@ -156,7 +156,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.container-fluid -->
-                        <!-- </div> -->
+                        <!-- </div> --> <!-- /.row -->
                     </div>
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->

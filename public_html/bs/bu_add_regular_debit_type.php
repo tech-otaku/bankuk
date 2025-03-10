@@ -85,7 +85,7 @@
                                                         <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
                                                     </div>
                                                 </div>
-                                            <!-- </div> -->
+                                            <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-regular-debit-type-submit" id="add-regular-debit-type-submit" class="btn btn-success">Add</button>
@@ -94,7 +94,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        <!-- </div> -->
+                        <!-- </div> --> <!-- /.row -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->

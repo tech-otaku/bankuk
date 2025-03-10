@@ -72,7 +72,7 @@
                                                         <input type="text" name="trading-name" id="trading-name" class="form-control" required placeholder="Bank's trading name...">
                                                     </div>
                                                 </div>
-                                            <!-- </div> -->
+                                            <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-bank-submit" id="add-bank-submit" class="btn btn-success">Add</button>
@@ -81,7 +81,7 @@
                                     </form>
                                 </div>    <!-- /.card -->
                             </div>    <!-- /.col -->
-                        <!-- </div> -->
+                        <!-- </div> --> <!-- /.row -->
                     </div>  <!-- /.container-fluid -->
                 </section>    <!-- /.content -->
             </div>  <!-- /.dummy -->
