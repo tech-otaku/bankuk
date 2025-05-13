@@ -494,9 +494,10 @@
                         bu_prefills.`type_id`, 
                         bu_prefills.`sub_type_id`,
                         bu_prefills.`method_id`,
-                        bu_prefills.`entity_id`
+                        bu_prefills.`entity_id`,
+                        bu_prefills.`notes`
                     ) 
-                VALUES (?,?,?,?,?,?);
+                VALUES (?,?,?,?,?,?,?);
             ");
 
             $stmt->execute(
@@ -506,7 +507,8 @@
                     $_POST['type-id'], 
                     (isset($_POST['sub-type-id']) ? $_POST['sub-type-id'] : ''),
                     $_POST['method-id'],
-                    $_POST['entity-id'], 
+                    $_POST['entity-id'],
+                    $_POST['notes'],
                 ]
             );
 
