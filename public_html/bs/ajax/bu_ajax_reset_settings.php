@@ -12,12 +12,12 @@
         UPDATE
             bu_settings
         SET  
-            reconcilliation_first_period = ?,
-            reconcilliation_opening_balance = ?,
-            monthly_spend_first_period = ?,
-            monthly_spend_opening_balance = ?
+            bu_settings.`reconcilliation_first_period` = ?,
+            bu_settings.`reconcilliation_opening_balance` = ?,
+            bu_settings.`monthly_spend_first_period` = ?,
+            bu_settings.`monthly_spend_opening_balance` = ?
         WHERE 
-            id = ?;
+            bu_settings.`id` = ?;
     ");
     $stmt->execute(
         [

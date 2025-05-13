@@ -6,18 +6,6 @@
     check_login();
     $admin_id = $_SESSION['admin_id'];
     $page_name = "View | Edit Settings";
-
-    // Get the settings record to view/update. There is only one, so no id required
-    $stmt = $pdo->prepare("
-        CALL 
-            bu_settings_get_settings();
-    ");
-
-    $stmt->execute(); 
-
-    $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt = null;
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,11 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <!-- <li class="breadcrumb-item"><a href="bu_manage_entities.php">Manage Entities</a></li> -->
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -51,6 +35,18 @@
                 </section>
                 <!-- Main content -->
                 <section class="content">
+                    <?php
+                    // Get the settings record to view/update. There is only one, so no id required
+                        $stmt = $pdo->prepare("
+                            CALL 
+                                bu_settings_get_settings();
+                        ");
+
+                        $stmt->execute(); 
+
+                        $bu_settings = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $stmt = null;
+                    ?>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-3">
@@ -96,6 +92,20 @@
                                                             <input type="text" name="current-end" id="ccurrent-end" class="form-control" readonly value="<?php echo date('D d/m/Y', strtotime($bu_settings['current_end'])); ?>">
                                                         </div>
                                                     </div>
+                                                <!-- First Tax Year Start --> 
+                                                    <div class="form-group row">
+                                                        <label for="first-tax-year-start" class="col-sm-2 col-form-label">First Tax Year Start</label>
+                                                        <div class="col-sm-1">
+                                                            <input type="text" name="first-tax-year-start" id="first-tax-year-start" class="form-control" readonly value="<?php echo $bu_settings['first_tax_year_start']; ?>">
+                                                        </div>
+                                                    </div>
+                                                <!-- Number of Tax Years to generate --> 
+                                                    <div class="form-group row">
+                                                        <label for="number-of-tax-years" class="col-sm-2 col-form-label">Number of Tax Years to Generate</label>
+                                                        <div class="col-sm-1">
+                                                            <input type="text" name="number-of-tax-years" id="number-of-tax-years" class="form-control" readonly value="<?php echo $bu_settings['number_of_tax_years']; ?>">
+                                                        </div>
+                                                    </div>
                                                 <!-- Reconcilliation First Period --> 
                                                     <div class="form-group row">
                                                         <label for="reconcilliation-first" class="col-sm-2 col-form-label">First Period for Reconcilliation</label>
@@ -118,7 +128,7 @@
                                                         </div>
                                                     </div>
                                                 <!-- Monthly Spend Opening Balance --> 
-                                                <div class="form-group row">
+                                                    <div class="form-group row">
                                                         <label for="monthly-spend-opening-balance" class="col-sm-2 col-form-label">Monthly Spend Opening Balance</label>
                                                         <div class="col-sm-1">
                                                             <input type="text" name="monthly-spend-opening-balance" id="monthly-spend-opening-balance" class="form-control" required value="<?php echo $bu_settings['monthly_spend_opening_balance']; ?>">

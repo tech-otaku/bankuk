@@ -1,4 +1,4 @@
-<form id="update-transaction" class="update-form" method="post" enctype="multipart/form-data" role="form">
+<form id="update-transaction" class="update-form" data-datatable-id="transactions" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
     <!-- DataTables Row Index [Hidden] -->
         <input type="text" name="dt-row-index" id="dt-row-index" hidden>
@@ -6,127 +6,44 @@
         <input type="text" name="dom-row-index" id="dom-row-index" hidden>
     <!-- Record ID [Hidden] -->
         <input type="text" name="record-id" id="record-id" hidden>
-    <!-- Account ID [Read-only] -->
+    <!-- Account ID Alpha [Read-only] -->
         <div class="form-group row">
-            <label for="account-id-ignore" class="col-sm-2 col-form-label">Account ID</label>
-            <div class="col-sm-1">
-                <input type="text" name="account-id-ignore" id="account-id-ignore" class="form-control" readonly>
-            </div>
+            <?php InputElementAccountID (); ?>
         </div>
-    <!-- Account Name -->
+    <!-- Account Data -->
         <div class="form-group row">
-            <label for="account-id-alpha" class="col-sm-2 col-form-label">Account Name</label>
-            <div class="col-sm-8">
-                <?php
-                    // This stored procedure uses a WHERE clause to select rows whose `status` column is equal to a specific value. This value is passed as a parameter to the procedure: 'open', 'closed' or '%' = ALL
-                    $stmt = $pdo->prepare("
-                        CALL 
-                            bu_accounts_dropdown(?);
-                    ");
-                    $stmt->execute(
-                        [
-                            '%'
-                        ]
-                    );
-                    
-                    echo '<select name="account-id-alpha" id="account-id-alpha" class="form-control" required>';
-                    echo '<option value="" selected disabled hidden>Account name...</option>';
-                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                        echo '<option value="' . $row->account_id_alpha . '">' . $row->_name .' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : '') . '</option>';
-                    }
-                    echo '</select>';
-
-                    $stmt = null;
-                ?>
-            </div>
+            <?php InputElementAccountData ($pdo); ?>
         </div>
     <!-- Amount -->
         <div class="form-group row">
-            <label for="amount" class="col-sm-2 col-form-label">Amount</label>
-            <div class="col-sm-2">
-                <input type="text" name="amount" id="amount" class="form-control" required placeholder="Transaction amount...">
-            </div>
-        </div>
-    <!-- Type -->
-        <div class="form-group row">
-            <label for="type" class="col-sm-2 col-form-label">Type</label>
-            <div class="col-sm-4">
-                <?php
-                    $stmt = $pdo->prepare("
-                        CALL 
-                            bu_transaction_types_dropdown();
-                    ");
-                    $stmt->execute();
-
-                    echo '<select name="type" id="type" class="form-control" required>';
-                    echo '<option value="" selected disabled hidden>Transaction type...</option>';
-                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                        echo '<option value="' . $row->type . '">' . $row->description . '</option>';
-                    }
-                    echo '</select>';
-
-                    $stmt = null;
-                ?>
-            </div>
-        </div>
-    <!-- Sub Type -->
-        <div class="form-group row">
-            <label for="sub-type" class="col-sm-2 col-form-label">Sub-Type</label>
-            <div class="col-sm-4">
-                <?php
-                    $stmt = $pdo->prepare("
-                        CALL 
-                            bu_transaction_types_dropdown();
-                    ");
-                    $stmt->execute();
-
-                    echo '<select name="sub-type" id="sub-type" class="form-control">';
-                    echo '<option value="" selected disabled hidden>Transaction sub-type...</option>';
-                    echo '<option value=" ">&nbsp;</option>';
-                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                        echo '<option value="' . $row->type . '">' . $row->description . '</option>';
-                    }
-                    echo '</select>';
-                    
-                    $stmt = null;
-                ?>
-            </div>
+            <?php InputElementTransactionAmount (); ?>
         </div>
     <!-- Entity -->
         <div class="form-group row">
-            <label for="entity-id" class="col-sm-2 col-form-label">Entity</label>
-            <div class="col-sm-8">
-                <?php
-                    $stmt = $pdo->prepare("
-                        CALL 
-                            bu_entities_dropdown();
-                    ");
-                    $stmt->execute();
-
-                    echo '<select name="entity-id" id="entity-id" class="form-control" required>';
-                    echo "<option value='' selected disabled hidden>Entity...</option>";
-                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                        echo '<option value="'.$row->entity_id.'">' . $row->entity_description .'</option>';
-                    }
-                    echo '</select>';
-                    
-                    $stmt = null;
-                ?> 
-            </div>  
+            <?php InputElementEntity ($pdo); ?>
+        </div>
+    <!-- Type -->
+        <div class="form-group row">
+            <?php InputElementTransactionType ($pdo); ?>
+        </div>
+    <!-- Sub Type -->
+        <div class="form-group row">
+            <?php InputElementTransactionSubType ($pdo); ?>
+        </div>
+    <!-- Method -->
+        <div class="form-group row">
+            <?php InputElementTransactionMethod ($pdo); ?>
         </div>
     <!-- Date -->
         <div class="form-group row">
-            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <label for="transaction-date" class="col-sm-2 col-form-label">Date</label>
             <div id="datepicker-container" class="col-sm-2">
-                <input type="text" name="date" id="datepicker" class="form-control"  required readonly placeholder="Transaction date..." style="cursor:text; background:white;">
+                <input type="text" name="transaction-date" id="transaction-date" class="form-control"  required readonly placeholder="Transaction date..." style="cursor:text; background:white;">
             </div>
         </div>
     <!-- Notes -->
         <div class="form-group row">
-            <label for="notes" class="col-sm-2 col-form-label">Notes</label>
-            <div class="col-sm-10">
-                <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
-            </div>
+            <?php InputElementNotes (); ?>
         </div>
     </div>  <!-- /.card-body -->
     <div class="card-footer">

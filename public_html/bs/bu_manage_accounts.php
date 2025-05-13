@@ -27,10 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -40,16 +37,17 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card w-50 mx-auto">
+                            <div class="card w-75 mx-auto">
                                 <div class="card-header p-6">
                                     <a class="btn btn-success" href="bu_add_account.php">Add Account</a>
+                                    <button type="button" id="clear-filters" class="btn btn-warning btn-sm float-end d-none">Clear Filters</a>  <!-- `d-none` Bootstrap class initially hides the button -->
                                 </div>
                                 <div class="card-body">
                                     <table id="accounts" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th></th>
+                                                <th>A/C ID Alpha</th>
                                                 <th>A/C ID</th>
                                                 <th>Bank</th>
                                                 <th>A/C Name</th>
@@ -60,48 +58,61 @@
                                                 <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
+                                        <tfoot class="place-below-table-header">    <!-- The `place-below-table-header` class uses `display: table-header-group` to place the footer immediately below the table header before the table body -->
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
                                         <tbody>
                                             <?php
                                                 $counter = 1;
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        a1.id,
-                                                        a1.account_id_alpha,
-                                                        a1.account_id,
-                                                        b1.legal_name,
-                                                        b1.trading_name,
-                                                        a1.name,
-                                                        a1.sort_code,
-                                                        a1.account_number,
-                                                        a1.status,
-                                                        a1.notes,
-                                                        COUNT(t1.account_id) AS _used
+                                                        bu_accounts.`id`,
+                                                        bu_accounts.`account_id_alpha`,
+                                                        bu_accounts.`account_id`,
+                                                        bu_banks.`legal_name`,
+                                                        bu_banks.`trading_name`,
+                                                        bu_accounts.`name`,
+                                                        bu_accounts.`sort_code`,
+                                                        bu_accounts.`account_number`,
+                                                        bu_accounts.`status`,
+                                                        bu_accounts.`notes`,
+                                                        COUNT(bu_transactions.`account_id`) AS _used
                                                     FROM
-                                                        bu_accounts AS a1
+                                                        bu_accounts
                                                     LEFT JOIN
-                                                        bu_banks AS b1 ON a1.bank_id = b1.bank_id
+                                                        bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
                                                     LEFT JOIN
-                                                        bu_transactions AS t1 ON a1.account_id = t1.account_id
+                                                        bu_transactions ON bu_accounts.`account_id` = bu_transactions.`account_id`
                                                     GROUP BY 
-                                                        a1.id, 
-                                                        a1.account_id_alpha, 
-                                                        a1.account_id, 
-                                                        b1.legal_name,
-                                                        b1.trading_name, 
-                                                        a1.name, 
-                                                        a1.sort_code, 
-                                                        a1.account_number, 
-                                                        a1.status,
-                                                        a1.notes
+                                                        bu_accounts.`id`, 
+                                                        bu_accounts.`account_id_alpha`, 
+                                                        bu_accounts.`account_id`, 
+                                                        bu_banks.`legal_name`,
+                                                        bu_banks.`trading_name`, 
+                                                        bu_accounts.`name`, 
+                                                        bu_accounts.`sort_code`, 
+                                                        bu_accounts.`account_number`, 
+                                                        bu_accounts.`status`,
+                                                        bu_accounts.`notes`
                                                 ;");
                                                 $stmt->execute(); 
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr>
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter .'" data-note="' . nl2br($row->notes) .'" data-account-name="' . $row->trading_name . ' ' . $row->name .'"' : "") . '>' . $counter; ?>
-                                                </td>
+                                            <td <?php echo ((!empty($row->notes)) ? 'class="has-note right details-control" data-counter="' . $counter .'" data-note="' . nl2br($row->notes) . '"'  : "") . '>' . $counter; ?></td>
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->account_id; ?></td>
                                                 <td><?php echo $row->trading_name ?></td>
@@ -111,7 +122,7 @@
                                                 <td><?php echo $row->status; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-1&value=<?php echo rawurlencode($row->account_id_alpha); ?>"><?php echo $row->_used; ?></a>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-1&value=<?php echo rawurlencode($row->account_id_alpha); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>   
@@ -134,10 +145,7 @@
                                                 
                                                 $stmt = null;
                                             ?>
-                                        <tfoot>
-                                            <tr>
-                                            </tr>
-                                        </tfoot>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -178,7 +186,31 @@
     <!-- DataTable Table -->
         <script>
             var accounts = new DataTable('#accounts', {
-                order: [[3, 'asc']],
+                columns: [
+                    {name: 'counter', className: 'counter', width: '60px'}, 
+                    {name: 'account_id_alpha', className: 'account-id-alpha', width: '60px'},
+                    {name: 'account_id', className: 'account-id'},
+                    {name: 'bank', className: 'bank-name'},
+                    {name: 'account', className: 'account-name'},
+                    {name: 'sort_code', className: 'sort-code'},
+                    {name: 'account_number', className: 'account-number'},
+                    {name: 'status', className: 'status'},
+                    {name: 'used', className: 'used', type: 'num'},
+                    {name: 'actions', className: 'actions', width: '95px', orderable: false}
+                ],
+                columnDefs: [ 
+                    {
+                        targets: [
+                            'counter:name'
+                        ], 
+                        visible: true
+                    }
+                ],
+                order: [
+                    [
+                        3, 'asc'
+                    ]
+                ],
                 pageLength: 25,
                 lengthMenu: [
                     25,
@@ -186,29 +218,22 @@
                     100, 
                     {label: 'All', value: -1 }
                 ],
-                columns: [
-                    {className: 'counter', width: '60px'}, 
-                    {className: 'account-id-alpha', width: '60px'},
-                    {className: 'account-id'},
-                    {className: 'bank-name'},
-                    {className: 'account-name'},
-                    {className: 'sort-code'},
-                    {className: 'account-number'},
-                    {className: 'status'},
-                    {className: 'used', type: 'num'},
-                    {className: 'actions', width: '95px', orderable: false}
-                ],
                 layout: {
                     topStart: null,
                     topEnd: null,
                     //bottomEnd: null
-                }
+                },
+            // Callbacks
+                initComplete: function () {
+                    CreateFilterDropdowns (this.api().columns(['bank:name','status:name']))
+                }   // initComplete               
             });
         </script>
     <!-- Ajax Modal -->
         <!-- <script src="ajax/bu_ajax_account_modal.js"></script> -->
     <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_account.js"></script>
+        <!-- <script src="ajax/bu_ajax_update_account.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

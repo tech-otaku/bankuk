@@ -27,10 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -62,16 +59,18 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        rdt1.id,
-                                                        rdt1.type,
-                                                        rdt1.description,
-                                                        COUNT(rd1.regular_debit_type) AS _used
+                                                        bu_regular_debit_types.`id`,
+                                                        bu_regular_debit_types.`type`,
+                                                        bu_regular_debit_types.`description`,
+                                                        COUNT(bu_regular_debits.`regular_debit_type`) AS _used
                                                     FROM
-                                                        bu_regular_debit_types AS rdt1
+                                                        bu_regular_debit_types
                                                     LEFT JOIN
-                                                        bu_regular_debits AS rd1 ON rdt1.type = rd1.regular_debit_type
+                                                        bu_regular_debits ON bu_regular_debit_types.`type` = bu_regular_debits.`regular_debit_type`
                                                     GROUP BY 
-                                                        rdt1.id, rdt1.type, rdt1.description;
+                                                        bu_regular_debit_types.`id`,
+                                                        bu_regular_debit_types.`type`,
+                                                        bu_regular_debit_types.`description`;
                                                 ");
                                                 $stmt->execute();
 

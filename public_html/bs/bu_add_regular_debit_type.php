@@ -26,11 +26,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_regular_debit_types.php">Manage Regular Debit Types</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name, $parent = array('title' => 'Manage Regular Debit Types', 'url' => 'bu_manage_regular_debit_types.php')); ?>
                             </div>
                         </div>
                     </div>
@@ -56,11 +52,11 @@
                                                     // Get the last account_id_alpha (I, J, K etc) used.
                                                     $stmt = $pdo->prepare("
                                                         SELECT 
-                                                            `type`
+                                                            bu_regular_debit_types.`type`
                                                         FROM
                                                             bu_regular_debit_types
                                                         ORDER BY 
-                                                            `type` DESC          
+                                                            bu_regular_debit_types.`type` DESC          
                                                         LIMIT 1;
                                                     ");
                                                     $stmt->execute(); 
@@ -89,7 +85,7 @@
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-regular-debit-type-submit" id="add-regular-debit-type-submit" class="btn btn-success">Add</button>
-                                            <a class="btn btn-secondary float-right" href="bu_manage_regular_debit_types.php">Cancel</a>
+                                            <a class="btn btn-secondary float-end" href="bu_manage_regular_debit_types.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

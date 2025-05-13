@@ -26,11 +26,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_banks.php">Manage Banks</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name, $parent = array('title' => 'Manage Banks', 'url' => 'bu_manage_banks.php')); ?>
                             </div>
                         </div>
                     </div>
@@ -76,7 +72,7 @@
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-bank-submit" id="add-bank-submit" class="btn btn-success">Add</button>
-                                            <a class="btn btn-secondary float-right" href="bu_manage_banks.php">Cancel</a>
+                                            <a class="btn btn-secondary float-end" href="bu_manage_banks.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

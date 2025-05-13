@@ -2,6 +2,27 @@
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
+/*
 main > .container {
   padding: 60px 15px 0;
 }
+*/
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Stop footer (height: 50px;) obscuring bottom of content */
+    margin-bottom: 50px !important;
+}
+  
+.main-footer {
+    margin-top: auto;
+    background-color: #fdfdfd;
+    border-top: 1px solid #ddd;
+} 

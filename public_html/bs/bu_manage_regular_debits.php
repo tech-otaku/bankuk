@@ -48,10 +48,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -64,90 +61,98 @@
                             <div class="card">
                                 <div class="card-header p-6">
                                 <a class="btn btn-success" href="bu_add_regular_debit.php">Add Regular Debit</a>
+                                <button type="button" id="clear-filters" class="btn btn-warning btn-sm float-end d-none">Clear Filters</a>  <!-- `d-none` Bootstrap class initially hides the button -->
                                 </div>
                                 <div class="card-body">
                                     <table id="regular-debits" class="table table-hover table-bordered table-striped bu-data-table">
-                                        <thead>
+                                    <thead>
                                             <tr>
-                                                <!--
-                                                    <th>#</th>
-                                                    <th>Account Type</th>
-                                                    <th>Account Name</th>
-                                                    <th>Amount</th>
-                                                    <th>Type</th>
-                                                    <th>Sub-type</th>
-                                                    <th>Entity</th>
-                                                    <th>Date</th>
-                                                    <th>Period</th>
-                                                    <th>Action</th>
-                                                    -->
+                                                <th class="text-left">#</th>
                                                 <th></th>
-                                                <!-- <th></th> -->
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
+                                                <th>Account ID Alpha</th>
+                                                <th>Account Details</th>
+                                                <th>Amount</th>
+                                                <th>Type</th>
+                                                <th>Sub-type</th>
+                                                <th>Method</th>
+                                                <th>Entity</th>
                                                 <th>Day</th>
-                                                <th></th>
+                                                <th>Period</th>
                                                 <th>Last</th>
                                                 <th>Next</th>
-                                                <th style="text-align: center">Actions</th>
+                                                <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
+                                        <tfoot class="place-below-table-header">    <!-- The `place-below-table-header` class uses `display: table-header-group` to place the footer immediately below the table header before the table body -->
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
                                         <tbody>
                                             <?php
-
 
                                                 $counter = 1;
 
                                                 $stmt = $pdo->prepare("
                                                 SELECT 
-                                                    rd1.id,
-                                                    rd1.account_id,
-                                                    rd1.account_id_alpha,
-                                                    b1.trading_name,
-                                                    a1.name,
-                                                    a1.sort_code,
-                                                    a1.account_number,
-                                                    a1.status,
-                                                    rd1.amount,
-                                                    tt1.description AS _type,
-                                                    tt2.description AS _subtype,
-                                                    e1.entity_description,
-                                                    rd1.day,
-                                                    rd1.period,
-                                                    rd1.notes,
-                                                    rd1.regular_debit_type,
-                                                    rdt1.description,
-                                                    rd1.last,
-                                                    rd1.next
+                                                    bu_regular_debits.`id`,
+                                                    bu_regular_debits.`account_id`,
+                                                    bu_regular_debits.`account_id_alpha`,
+                                                    bu_banks.`trading_name`,
+                                                    bu_accounts.`name`,
+                                                    bu_accounts.`sort_code`,
+                                                    bu_accounts.`account_number`,
+                                                    bu_accounts.`status`,
+                                                    bu_regular_debits.`amount`,
+                                                    bu_transaction_types.`type_description`,
+                                                    bu_transaction_sub_types.`sub_type_description`,
+                                                    bu_transaction_methods.`method_description`,
+                                                    bu_entities.`entity_description`,
+                                                    bu_regular_debits.`day`,
+                                                    bu_regular_debits.`period`,
+                                                    bu_regular_debits.`notes`,
+                                                    bu_regular_debits.`regular_debit_type`,
+                                                    bu_regular_debit_types.`description`,
+                                                    bu_regular_debits.`last`,
+                                                    bu_regular_debits.`next`
                                                 FROM
-                                                    bu_regular_debits AS rd1
+                                                    bu_regular_debits
                                                 LEFT JOIN
-                                                    bu_accounts AS a1 ON rd1.account_id_alpha = a1.account_id_alpha
+                                                    bu_accounts ON bu_regular_debits.`account_id_alpha` = bu_accounts.`account_id_alpha`
                                                 LEFT JOIN
-                                                    bu_banks AS b1 ON a1.bank_id = b1.bank_id
+                                                    bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
                                                 LEFT JOIN
-                                                    bu_entities AS e1 ON rd1.entity_id = e1.entity_id
+                                                    bu_entities ON bu_regular_debits.`entity_id` = bu_entities.`entity_id`
                                                 LEFT JOIN
-                                                    bu_transaction_types AS tt1 ON rd1.type = tt1.type
+                                                    bu_transaction_types ON bu_regular_debits.`type_id` = bu_transaction_types.`type_id`
                                                 LEFT JOIN
-                                                    bu_transaction_types AS tt2  ON rd1.sub_type = tt2.type
+                                                    bu_transaction_sub_types ON bu_regular_debits.`sub_type_id` = bu_transaction_sub_types.`sub_type_id`
                                                 LEFT JOIN
-                                                    bu_regular_debit_types rdt1 ON rd1.regular_debit_type = rdt1.type
+                                                    bu_transaction_methods ON bu_regular_debits.`method_id` = bu_transaction_methods.`method_id`
+                                                LEFT JOIN
+                                                    bu_regular_debit_types ON bu_regular_debits.`regular_debit_type` = bu_regular_debit_types.`type`
                                                 ORDER BY 
-                                                    rd1.day DESC;
+                                                    bu_regular_debits.`day` DESC;
                                                 ");
                                                 $stmt->execute();
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
                                             <tr>
-                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note" data-counter="' . $counter . '" data-note="' . $row->notes .'" data-entity-description="' . $row->entity_description . '" data-amount="'  . $fmt_currency->formatCurrency($row->amount, "GBP") . '" data-date="'  . $fmt_date->format(strtotime($row->last)) . '"'  : "") . '>' . $counter; ?></td>
+                                                <td <?php echo ((!empty($row->notes)) ? 'class="has-note right details-control" data-counter="' . $counter .'" data-note="' . nl2br($row->notes) . '"'  : "") . '>' . $counter; ?></td>
                                                 <!-- <td><?php //echo $row->id; ?></td> -->
                                                 <td style="text-align: center">
                                                     <a data-id="<?php echo $row->id; ?>" class="btn btn-primary btn-sm add-current-due-date" href="#">
@@ -158,10 +163,11 @@
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $row->trading_name . ' ' . $row->name; ?></td> -->
                                                 <td><?php echo $row->amount; ?></td>
-                                                <td><?php echo $row->_type; ?></td>
-                                                <td><?php echo $row->_subtype; ?></td>
+                                                <td><?php echo $row->type_description; ?></td>
+                                                <td><?php echo $row->sub_type_description; ?></td>
+                                                <td><?php echo $row->method_description; ?></td>
                                                 <td><?php echo $row->entity_description; ?></td>
-                                                <td><?php echo $row->description; ?></td>
+                                                <!-- <td><?php //echo $row->description; ?></td> -->
                                                 <td><?php echo $row->day; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td><?php echo $row->last; ?></td>  <!-- The display format is defined using a DataTable render -->
@@ -186,10 +192,6 @@
                                                 
                                                 $stmt = null;
                                             ?>  
-                                        <tfoot>
-                                            <tr>
-                                            </tr>
-                                        </tfoot>
                                         </tbody>
                                     </table>
                                 </div>
@@ -233,87 +235,6 @@
             //DataTable.datetime('ddd DD MM YYYY');
 
             var regular_debits = new DataTable('#regular-debits', {
-            
-                //search('Aldi').draw();
-                
-                /*
-                initComplete: function () {
-                    this.api()
-                        .columns([1,2,4,5,6,7,8],)
-                        .every(function () {
-                            var column = this;
-            
-                            // Create select element and listener
-                            var select = $('<select><option value="">Show all</option></select>')
-                                .appendTo($(column.header()))
-                                .on('change', function () {
-                                    column
-                                        .search($(this).val(), {exact: true})
-                                        .draw();
-                                });
-            
-                                $( select ).click( function(e) {
-                                    e.stopPropagation();
-                                });
-            
-                            // Add list of options
-                            column
-                                .data()
-                                .unique()
-                                .sort()
-                                .each(function (d, j) {
-                                    select.append(
-                                        '<option value="' + d + '">' + d + '</option>'
-                                    );
-                                });
-                        });
-                },
-                */
-                footerCallback: function (row, data, start, end, display) {
-                    var api = this.api();
-            
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function (i) {
-                        //console.log(i);
-                        return typeof i === 'string'
-                            //? i.replace(/[\$,]/g, '') * 1
-                            ? i.replace(/[^0-9.-]+/g, '') * 1
-                            : typeof i === 'number'
-                            ? i
-                            : 0;
-                    };
-            
-                    // Total over all pages
-                    total = api
-                        .column(5, {search: 'applied'})
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-            
-                    // Total over this page
-                    pageTotal = api
-                        .column(5, { page: 'current' })
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-                    
-                    $('span.ftotal').html(new Intl.NumberFormat(
-                        'en-GB', 
-                        {
-                            style: 'currency', 
-                            currency: 'GBP', 
-                            currencyDisplay: 'symbol', 
-                            signDisplay: 'negative' 
-                        }
-                    ).format(total));
-
-                    customClass('currency', 'debit')
-                },
-                drawCallback: function (settings) {
-                    customClass('transaction-date', '')
-                },
                 layout: {
                     topStart: null,
                     topEnd: null,
@@ -323,13 +244,14 @@
                 pageLength: 25,
                 lengthMenu: [25, 50, 100, { label: 'All', value: -1 }],
                 columns: [ 
-                    {className: 'counter', searchable: false, width: '100px'/*, width: '1%'*/},
+                    {name: 'counter', className: 'counter', searchable: false, width: '100px'/*, width: '1%'*/},
                     /* {className: 'id', searchable: false, width: '60px'}, */
-                    {className: 'add', searchable: false, width: '50px'/*, width: '1%'*/}, 
-                    {className: 'account-code', width: '70px'/*, width: '5%'*/}, 
-                    {className: 'account-name', width: '300px'/*, width: '15%'*/}, 
+                    {name: 'add', className: 'add', searchable: false, width: '50px'/*, width: '1%'*/}, 
+                    {name: 'account_id_alpha', className: 'account-code', width: '70px'/*, width: '5%'*/}, 
+                    {name: 'account_details', className: 'account-name', width: '300px'/*, width: '15%'*/}, 
                     {
                         /*className: 'transaction-amount currency',*/ 
+                        name: 'amount', 
                         width: '75px',
                         type: 'num', 
                         render: DataTable.render.number(',', '.', '2', '£'), 
@@ -339,31 +261,62 @@
                             }
                         }
                     }, 
-                    {className: 'transaction-type', width: '100px'/*, width: '5%'*/}, 
-                    {className: 'transaction-subtype', width: '100px'/*, width: '5%'*/}, 
-                    {className: 'entity', width: '200px'/*width: '15%'*/}, 
-                    {className: 'regular-debit-type', width: '250px'/*width: '15%'*/}, 
-                    {className: 'transaction-day', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
-                    {className: 'transaction-period', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
-                    {className: 'transaction-date current-due-date', type: 'date', width: '150px', render: DataTable.render.datetime('ddd DD/MM/YYYY')/*, width: '5%'*/},   // requires moment.js
-                    {className: 'transaction-date next-due-date', type: 'date', width: '120px', render: DataTable.render.datetime('ddd DD/MM/YYYY')/*, width: '5%'*/},      // requires moment.js
-                    {className: 'actions', searchable: false, width: '95px'/*, width: '7%'*/, orderable: false} 
-                ]
+                    {name: 'type', className: 'transaction-type', width: '100px'/*, width: '5%'*/}, 
+                    {name: 'sub_type', className: 'transaction-subtype', width: '100px'/*, width: '5%'*/}, 
+                    {name: 'method', className: 'transaction-method', width: '100px'/*, width: '5%'*/}, 
+                    {name: 'entity', className: 'entity', width: '200px'/*width: '15%'*/}, 
+                    //{className: 'regular-debit-type', width: '250px'/*width: '15%'*/}, 
+                    {name: 'day', className: 'transaction-day', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
+                    {name: 'period', className: 'transaction-period', type: 'num', width: '35px'/*, width: '7%'*/, orderable: false},
+                    {
+                        name: 'current', 
+                        className: 'transaction-date current-due-date', 
+                        type: 'date', 
+                        width: '150px', 
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),       // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
+                    },
+                    {
+                        name: 'next', 
+                        className: 'transaction-date next-due-date', 
+                        type: 'date', 
+                        width: '120px', 
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),       // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
+                    }, 
+                    {name: 'actions', className: 'actions', searchable: false, width: '95px'/*, width: '7%'*/, orderable: false} 
+                ],
+
+            // Callbacks
+                initComplete: function () {
+                    CreateFilterDropdowns (this.api().columns(['account_id_alpha:name','account_details:name','type:name','sub_type:name','method:name','entity:name']))
+                    CreateFilterDropdownsIntegerSort (this.api().columns(['amount:name','day:name','period:name']))
+                },
+                footerCallback: function (row, data, start, end, display) {
+                },
+                drawCallback: function (settings) {
+                },
             });
             $(function() {
+                /*
                 var query = getUrlVars()['search'];
                 //console.log(query)
                 //console.log(decodeURIComponent(query));
                 if (query) {
                     transactions.search(decodeURIComponent(query)).draw();
                 }
-                
+                */
             });
         </script>
-<!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_regular_debit.js"></script>
+    <!-- AJAX Update -->
+        <!-- <script src="ajax/bu_ajax_update_regular_debit.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- AJAX Add Last Date -->
-        <script src="ajax/ajax_due_date.js"></script>
+        <script src="ajax/bu_ajax_due_date.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

@@ -30,8 +30,8 @@
                             <h1><?php echo $page_name; ?></h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
+                            <ol class="breadcrumb float-sm-end">
+                                <li class="breadcrumb-item"><a class="text-decoration-none" href="bu_dashboard.php">Dashboard</a></li>
                                 <li class="breadcrumb-item"><a href="bu_manage_accounts.php">Manage Accounts</a></li>
                                 <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
                             </ol>

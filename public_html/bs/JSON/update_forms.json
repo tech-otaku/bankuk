@@ -1,0 +1,141 @@
+{
+    "tables": [
+        {
+            "table": "periods",
+            "header": "Accounting Period",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"datepicker", "id":"period-start", "column":"period_start", "datatable":true, "dt_name":"start"},
+                {"type":"datepicker", "id":"period-end", "column":"period_end", "datatable":true, "dt_name":"end"},
+                {"type":"text", "id": "period", "column": "period", "datatable":true, "dt_name":"period"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "accounts",
+            "header": "Account",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "account-id-alpha-read-only", "column": "account_id_alpha", "datatable":true, "dt_name":"account_id_alpha"},
+                {"type":"text", "id": "account-id", "column": "account_id", "datatable":true, "dt_name":"account_id"},
+                {"type":"select", "id": "bank-id", "column": "bank_id", "datatable":true, "dt_name":"bank"},
+                {"type":"text", "id": "account-name", "column": "name", "datatable":true, "dt_name":"account"},
+                {"type":"text", "id": "sort-code", "column": "sort_code", "datatable":true, "dt_name":"sort_code"},
+                {"type":"text", "id": "account-number", "column": "account_number", "datatable":true, "dt_name":"account_number"},
+                {"type":"select", "id": "status", "column": "status", "datatable":true, "dt_name":"status"},
+                {"type":"text", "id": "notes", "column": "notes", "datatable":false, "dt_name":"notes"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "banks",
+            "header": "Bank",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "bank-id", "column": "bank_id", "datatable":true, "dt_name":"bank_id"},
+                {"type":"text", "id": "legal-name", "column": "legal_name", "datatable":true, "dt_name":"legal_name"},
+                {"type":"text", "id": "trading-name", "column": "trading_name", "datatable":true, "dt_name":"trading_name"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "entities",
+            "header": "Entity",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "entity-id", "column": "entity_id", "datatable":true, "dt_name":"entity_id"},
+                {"type":"text", "id": "entity-description", "column": "entity_description", "datatable":true, "dt_name":"entity_description"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "prefills",
+            "header": "Prefill",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"select", "id":"entity-id", "column":"entity_id", "datatable":true, "dt_name":"entity"},
+                {"type":"select", "id":"account-id-alpha", "column":"account_id_alpha", "datatable":true, "dt_name":"account_details"},
+                {"type":"select", "id":"type-id", "column":"type_id", "datatable":true, "dt_name":"type"},
+                {"type":"select", "id":"sub-type-id", "column":"sub_type_id", "datatable":true, "dt_name":"sub_type"},
+                {"type":"select", "id":"method-id", "column":"method_id", "datatable":true, "dt_name":"method"},
+                {"type":"text", "id":"notes", "column":"notes", "datatable":false, "dt_name":"notes"}
+            ]
+        },
+        {
+            "table": "regular-debits",
+            "header": "Regular Debit",
+            "fields": [
+                {"type":"text", "id":"record-id", "column":"id", "datatable":false},
+                {"type":"text", "id":"account-id-alpha-read-only", "column":"account_id_alpha", "datatable":true, "dt_name":"account_id_alpha"},
+                {"type":"select", "id":"account-id-alpha", "column":"account_id_alpha", "datatable":true, "dt_name":"account_details"},
+                {"type":"number", "id":"amount", "column":"amount", "datatable":true, "dt_name":"amount"},
+                {"type":"select", "id":"entity-id", "column":"entity_id", "datatable":true, "dt_name":"entity"},
+                {"type":"select", "id":"type-id", "column":"type_id", "datatable":true, "dt_name":"type"},
+                {"type":"select", "id":"sub-type-id", "column":"sub_type_id", "datatable":true, "dt_name":"sub_type"},
+                {"type":"select", "id":"method-id", "column":"method_id", "datatable":true, "dt_name":"method"},
+                {"type":"number", "id":"day", "column":"day", "datatable":true, "dt_name":"day"},
+                {"type":"text", "id":"period", "column":"period", "datatable":true, "dt_name":"period"},
+                {"type":"datepicker", "id":"last", "column":"last", "datatable":true, "dt_name":"current"},
+                {"type":"datepicker", "id":"next", "column":"next", "datatable":true, "dt_name":"next"},
+                {"type":"text", "id":"notes", "column":"notes", "datatable":false, "dt_name":"notes"}
+            ]
+        },
+        {
+            "table": "tax-years",
+            "header": "Tax Year",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"datepicker", "id":"tax-year-start", "column":"tax_year_start", "datatable":true, "dt_name":"start"},
+                {"type":"datepicker", "id":"tax-year-end", "column":"tax_year_end", "datatable":true, "dt_name":"end"},
+                {"type":"text", "id": "tax-year", "column": "tax_year", "datatable":true, "dt_name":"tax_year"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "transactions",
+            "header": "Transaction",
+            "fields": [
+                {"type":"text", "id":"record-id", "column":"id", "datatable":false},
+                {"type":"text", "id":"account-id-alpha-read-only", "column":"account_id_alpha", "datatable":true, "dt_name":"account_id_alpha"},
+                {"type":"select", "id":"account-id-alpha", "column":"account_id_alpha", "datatable":true, "dt_name":"account_details"},
+                {"type":"number", "id":"amount", "column":"amount", "datatable":true, "dt_name":"amount"},
+                {"type":"select", "id":"entity-id", "column":"entity_id", "datatable":true, "dt_name":"entity"},
+                {"type":"select", "id":"type-id", "column":"type_id", "datatable":true, "dt_name":"type"},
+                {"type":"select", "id":"sub-type-id", "column":"sub_type_id", "datatable":true, "dt_name":"sub_type"},
+                {"type":"select", "id":"method-id", "column":"method_id", "datatable":true, "dt_name":"method"},
+                {"type":"datepicker", "id":"transaction-date", "column":"transaction_date", "datatable":true, "dt_name":"date"},
+                {"type":"text", "id":"notes", "column":"notes", "datatable":false, "dt_name":"notes"}
+            ]
+        },
+        {
+            "table": "transaction-methods",
+            "header": "Transaction Method",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "method-id", "column": "method_id", "datatable":true, "dt_name":"method_id"},
+                {"type":"text", "id": "method-description", "column": "method_description", "datatable":true, "dt_name":"method_description"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "transaction-sub-types",
+            "header": "Transaction Sub-type",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "sub-type-id", "column": "sub_type_id", "datatable":true, "dt_name":"sub_type_id"},
+                {"type":"text", "id": "sub-type-description", "column": "sub_type_description", "datatable":true, "dt_name":"sub_type_description"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        },
+        {
+            "table": "transaction-types",
+            "header": "Transaction Type",
+            "fields": [
+                {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id": "type-id", "column": "type_id", "datatable":true, "dt_name":"type_id"},
+                {"type":"text", "id": "type-description", "column": "type_description", "datatable":true, "dt_name":"type_description"},
+                {"type":"info", "id": "used-by", "column": "", "datatable":false, "dt_name":"used"}
+            ]
+        }
+    ]
+}

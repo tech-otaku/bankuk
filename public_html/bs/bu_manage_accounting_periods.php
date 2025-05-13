@@ -19,18 +19,15 @@
             <!-- Navigation Bar -->
             <?php include("partials/navigation.php"); ?>
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper ">   <!-- Temporarily .dummy -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
+            <div class="content-wrapper ">              
+                <section class="content-header">       
+                    <div class="container-fluid">       
+                        <div class="row mb-2">          
+                            <div class="col-sm-6">      
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                            <div class="col-sm-6">      
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -80,19 +77,20 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        ac1.id,
-                                                        ac1.start,
-                                                        ac1.end,
-                                                        ac1.period,
-                                                        COUNT(t1.period) AS _used
+                                                        bu_accounting_periods.`id`,
+                                                        bu_accounting_periods.`period_start`,
+                                                        bu_accounting_periods.`period_end`,
+                                                        bu_accounting_periods.`period`,
+                                                        COUNT(bu_transactions.`period`) AS _used
                                                     FROM
-                                                        bu_accounting_periods ac1
+                                                        bu_accounting_periods
                                                     LEFT JOIN
-                                                        bu_transactions t1 ON ac1.period = t1.period
+                                                        bu_transactions ON bu_transactions.`period` = bu_accounting_periods.`period`
                                                     GROUP BY 
-                                                        ac1.id , ac1.period
+                                                        bu_accounting_periods.`id`,
+                                                        bu_accounting_periods.`period`
                                                     ORDER BY 
-                                                        ac1.period DESC;
+                                                        bu_accounting_periods.`period` DESC;
                                                 ");
                                                 $stmt->execute();
 
@@ -100,12 +98,12 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $counter; ?></td>
-                                                <td><?php echo $row->start; ?></td>
-                                                <td><?php echo $row->end; ?></td>
+                                                <td><?php echo $row->period_start; ?></td>
+                                                <td><?php echo $row->period_end; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-8&value=<?php echo rawurlencode($row->period); ?>"><?php echo $row->_used; ?></a>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-10&value=<?php echo rawurlencode($row->period); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>
@@ -175,12 +173,28 @@
                 pageLength: 25,
                 search: false,
                 columns: [
-                    {className: 'counter', width: '50px'}, 
-                    {className: 'period-start', type: 'date', render: DataTable.render.datetime('ddd DD/MM/YYYY')}, // requires moment.js
-                    {className: 'period-end', type: 'date', render: DataTable.render.datetime('ddd DD/MM/YYYY')},   // requires moment.js 
-                    {className: 'period'},
-                    {className: 'used'},
-                    {className: 'actions', width: '95px', orderable: false}
+                    {name: 'counter', className: 'counter', width: '50px'}, 
+                    {
+                        name: 'start', 
+                        className: 'period-start', 
+                        type: 'date', 
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
+                    },
+                    {
+                        name: 'end', 
+                        className: 'period-end', 
+                        type: 'date', 
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
+                    },
+                    {name: 'period', className: 'period'},
+                    {name: 'used', className: 'used'},
+                    {name: 'actions', className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -190,7 +204,8 @@
             });
         </script>
     <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_accounting_period.js"></script>
+        <!-- <script src="ajax/bu_ajax_update_accounting_period.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

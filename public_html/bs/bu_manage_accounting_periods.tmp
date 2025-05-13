@@ -1,0 +1,36 @@
+<?php
+    session_start();
+    include('conf/pdoconfig.php');
+    include('conf/checklogin.php');
+    include('conf/bu_custom.php');
+    check_login();
+    $admin_id = $_SESSION['admin_id'];
+    $page_name = "Manage Accounting Periods";
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Common Head -->
+        <?php include("partials/head.php"); ?>
+    </head>
+<!-- Body -->
+    <body class="d-flex flex-column h-100">
+    <!-- Navigation Bar -->
+        <?php include("partials/navigation.php"); ?>
+        <section class="content-header">    
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1><?php echo $page_name; ?></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php BreadCrumb($page_name); ?>
+                    </div>
+                </div>
+            </div>  <!-- /.container-fluid -->
+        </section>
+    <!-- Common Footer -->
+        <?php include("partials/footer.php"); ?>
+    </body>
+</html>

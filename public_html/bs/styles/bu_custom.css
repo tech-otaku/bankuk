@@ -12,14 +12,38 @@ main > .container {
 }
 */
 
-body {
-    /* Stop footer (height: 50px;) obscuring bottom of content */
-    margin-bottom: 50px !important;
+.filter-applied {
+    background-color: #ffc107 !important;
 }
 
-.content-wrapper {
+
+div.content-wrapper {
     margin-left: 0 !important;
 }
+
+tr:not(.ui-datepicker-calendar tr) { 
+    overflow: hidden;
+    height: 60px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+
+body {
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+}
+
+
+
+
+
 
 
 th {
@@ -76,23 +100,35 @@ tr.account-code-l {
     background-color: #ebe4f5 !important;
 }
 
+tr.account-code-n {
+    background-color: #d8e8dd !important;
+}
+
 td.has-note::before {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     /*display: inline-block; */
-    color: black;
+    color: #999;
     font-style: normal;
     font-variant: normal;
-    font-size: .9em;
+    font-size: 1.25em;
     text-rendering: auto;
     line-height: 1;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: "\f02d";
+    /*content: "\f138";*/
     /*padding-right: 5px;*/
     float: left;
-    margin-top: 5px;
+    margin-top: 2px;
   }
+
+td.has-note.right::before {
+    content: "\f0da";
+}
+
+td.has-note.down::before {
+    content: "\f0d7";
+}
 
 tr.account-code-a td.has-note::before {
     color: #705795 !important;  /* 50% darker than tr.account-code-a */
@@ -140,6 +176,10 @@ tr.account-code-k td.has-note::before {
 
 tr.account-code-l td.has-note::before {
     color: #6d40ad !important;  /* 50% darker than tr.account-code-a */
+}
+
+tr.account-code-n td.has-note::before {
+    color: #538d65 !important;  /* 50% darker than tr.account-code-n */
 }
 
 tr:not([class]) td.has-note::before {
@@ -224,11 +264,11 @@ td.transaction-amount {
     color: #ff0000;
 }
 
-td.transaction-date.future {
+td/*.transaction-date*/.future {
     color: #bbb;
 }
 
-td.transaction-date.today {
+td/*.transaction-date*/.today {
     color: #fff;
     background-color: #C0504D !important;
     /* font-weight: 700; */
@@ -242,10 +282,7 @@ td.highlight {
     background-color: rgba(var(--dt-row-hover), 0.052) !important;
 }
 
-/* See https://stackoverflow.com/a/52661024 */
-select:not(:valid) {
-    color: #999;
-}
+
 
 
 textarea:focus, input:focus{
@@ -289,12 +326,6 @@ label[for='dt-length-0'] {
     font-size: .9em;
 }
 
-/* Placeholder text for input fields with an attribute of 'required' is grey, but for input fields without this attribute (e.g. #sub-type) the text is black. Set the initial text colour for these input fields to grey. Subsequently the text colour for these input fields is controlled by its on change event in bu_custom.js */
-.add-form select#sub-type.form-control,
-.update-form select#sub-type.form-control,
-select#prefill.form-control{
-    color: #999999;
-}
 
 /*
 select#sub-type {
@@ -310,26 +341,42 @@ select#sub-type {
     */
 
 
-input::placeholder {
-        color: red;
-        opacity: 0.5;
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #cacaca;
+    opacity: 1; /* Firefox */
 }
 
-input::-webkit-input-placeholder {
-    color: #ffffff;
-  }
-  
-  input:-moz-placeholder { 
-    color: #ffffff;
-  }
-  
-  input::-ms-input-placeholder  { 
-    color: #ffffff;
-  }
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #cacaca;
+
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #cacaca;
+
+}
+
+/* See https://stackoverflow.com/a/52661024 */
+select:not(:valid) {
+    color: #cacaca;
+
+}
+
+/* Placeholder text for input fields with an attribute of 'required' is grey, but for input fields without this attribute (e.g. #sub-type) the text is black. Set the initial text colour for these input fields to grey. Subsequently the text colour for these input fields is controlled by its on change event in bu_custom.js */
+.add-form select#sub-type-id.form-control,
+.update-form select#sub-type-id.form-control,
+select#prefill.form-control{
+    color: #cacaca;
+}
+
+
+
 
 h3.card-title {
     font-size: 1.50rem !important;
 }
+
+
 
 
 /*
@@ -348,6 +395,47 @@ h3.card-title {
 
 /* general reset/setup styling for icons - needed on all */
 
+table.bu-data-table thead,
+table.bu-data-table tfoot {
+    background-color: #fdfdfd;
+}
+
+table.bu-data-table thead th {
+    text-align: left;
+    vertical-align: middle;
+}
+
+table.bu-data-table tfoot th {
+    text-align: left;
+    vertical-align: middle;
+}
+
+table tfoot.place-below-table-header {
+    display: table-header-group;
+}
+
+table.bu-data-table thead th.center{
+    text-align: center;
+}
+
+table.bu-data-table tfoot th {
+    text-align: left;
+    vertical-align: middle;
+}
+
+
+td:has(.note) {
+    /* padding: 0px 0px 5px 50px !important; */
+    padding-left: 30px;
+    color: #c4c4c4;
+    background-color: #666 !important;
+    font-size: .9em;
+    font-style: italic;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+}
+
+
 
   
   
@@ -355,3 +443,7 @@ h3.card-title {
     color: #dddddd !important;
   }
 
+
+
+
+  

@@ -31,7 +31,7 @@
             <!-- Navigation Bar -->
             <?php include("partials/navigation.php"); ?>
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper ">   <!-- Temporarily .dummy -->
+            <div class="content-wrapper">   <!-- Temporarily .dummy -->
                 <!-- Content Header with logged in user details (Page header) -->
                 <section class="content-header">
                     <div class="container-fluid">
@@ -40,11 +40,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <!-- <li class="breadcrumb-item"><a href="bu_manage_transactions.php">Transactions</a></li> -->
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -55,36 +51,143 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header p-6">
-                                    <h2 id="filter-total" class="card-title"><?php echo date('l jS F Y', strtotime($bu_settings['current_start'])) . ' to ' . date('l jS F Y', strtotime($bu_settings['current_end'])) . ' [Period ' . $bu_settings['current_period'] .']'; ?></h2>
+                                <div class="card-header p-6" style="position: relative;">
+                                            <div class="float-start" style="position: absolute; top: 30%; font-size: 1.5em;">
+                                                <?php echo date('l jS F Y', strtotime($bu_settings['current_start'])) . ' to ' . date('l jS F Y', strtotime($bu_settings['current_end'])); ?>
+                                            </div>
+                                            <div class="float-end" style="font-size: 3em; font-weight: 700;">
+                                                <?php echo $bu_settings['current_period']; ?>
+                                            </div>
                                 </div>
                                 <div class="card-body">
+                                    <?php //echo TaxYears($pdo); ?>
+                                    <?php
+
+                                        $testDate = '2025-03-22';
+
+                                        define('TOMORROW', 1);      // Today + 1 day
+                                        define('NEXT_DAYS' ,5);
+                                        define('NEXT_START', TOMORROW + 1);    // Today + 2 days
+                                        define('NEXT_END', NEXT_START + NEXT_DAYS - 1);      // Today + 6 days
+
+
+                                        $today = new DateTime();
+                                        //$today = new DateTime($testDate);
+                                        $today->settime(0,0);
+                                       
+
+                                        $periodEnd = new DateTime($bu_settings['current_end']);
+                                        $periodEnd->settime(0,0);
+                                        //echo 'Period End: ' . $periodEnd->format('d/m/y'). '<br />';
+
+                                        $tomorrow = new DateTime();     // Today's date
+                                        //$tomorrow = new DateTime($testDate);
+                                        $tomorrow->settime(0,0);
+                                        $tomorrow->modify('+' . TOMORROW . ' days');
+                                        //echo 'Tomorrow: ' . $tomorrow->format('d/m/y'). '<br />';
+                                
+                                        $nextStart = new DateTime();    // Today's date
+                                        //$nextStart = new DateTime($testDate);
+                                        $nextStart->settime(0,0);
+                                        $nextStart->modify('+' . NEXT_START . ' days');
+
+                                        $nextEnd = new DateTime();      // Today's date
+                                        //$nextEnd = new DateTime($testDate);
+                                        $nextEnd->settime(0,0);
+                                        $nextEnd->modify('+' . NEXT_END . ' days');
+                                        //echo 'Next End: ' . $nextEnd->format('d/m/y') . '<br />';
+
+                                        //echo ($nextEnd->diff($periodEnd))->format('%R%a') + 1;
+                                        $nextDays = ($nextEnd->diff($periodEnd))->format('%R%a');
+                                        //echo 'Days to Period End: ' . $nextDays . '<br />';
+
+                                        $d = min(NEXT_DAYS, (NEXT_DAYS + $nextDays));
+                                        //echo 'Min ' . NEXT_DAYS . ' and (' . NEXT_DAYS . ' + ' . $nextDays . '): ' .  $d . '<br />';
+                                        if ($nextDays <= 0) {
+                                            $d = 5 + $nextDays;
+                                            $nextEnd->modify($nextDays . ' days');
+                                            //echo 'Adjusted Next End: ' . $nextEnd->format('D d/m/y');
+                                            //echo "Period End is on or before Next End";
+                                        }
+
+
+                                    ?>
+                                    <!--
+                                    <div class="row">
+                                        <div class="col-sm-9">
+                                            <input class="form-check-input" type="checkbox" value="" name="hide-closed" id="hide-closed" checked>
+                                            <label class="form-check-label" for="hide-closedl">Hide closed accounts</label>
+                                        </div>
+                                    </div>
+                                    -->
+                                    <div class="row">
+                                        <div class="col-sm-1">Show Accounts:</div>
+                                        <div class="col-sm-4">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="account-status" id="account-status-all" value="all">
+                                                <label class="form-check-label" for="inlineRadio1">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="account-status" id="account-status-open" value="open" checked>
+                                                <label class="form-check-label" for="inlineRadio2">Open</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="account-status" id="account-status-closed" value="closed">
+                                                <label class="form-check-label" for="inlineRadio3">Closed</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <table id="summary" class="table table-hover table-bordered table-striped">
                                         <thead>
-                                            <tr>
-                                                <!--
-                                                    <th>#</th>
-                                                    <th>Account Type</th>
-                                                    <th>Account Name</th>
-                                                    <th>Amount</th>
-                                                    <th>Type</th>
-                                                    <th>Sub-type</th>
-                                                    <th>Entity</th>
-                                                    <th>Date</th>
-                                                    <th>Period</th>
-                                                    <th>Action</th>
-                                                    -->
-                                                <th>A/C Code</th>
-                                                <th>A/C Name</th>
-                                                <th>Today [A]</th>
-                                                <th>Period End [B]</th>
-                                                <th>Difference [A -B]</th>
-                                                <th>Today</th>
-                                                <th>G</th>
-                                                <th>H</th>
-                                                <th>I</th>
-                                                <th>J</th>
-                                                <th>K</th>
+                                            <tr>                                    <!-- Row 1 -->
+                                                <th rowspan="2" style="vertical-align: middle;">A/C Code</th>           <!-- Column 1 -->
+                                                <th rowspan="2" style="vertical-align: middle;">A/C Name</th>           <!-- Column 1 -->
+                                                <th rowspan="2" style="vertical-align: middle; text-align: center;">Upto and including<br /><?php echo $today->format('l jS F Y'); ?><br />[<span class="text-grey">A</span>]</th>                      <!-- Column 3 -->
+                                                <th rowspan="2" style="vertical-align: middle; text-align: center;">By Period Ending<br /><?php echo $periodEnd->format('l jS F Y'); ?><br />[<span class="text-grey">B</span>]</th>                 <!-- Column 4 -->
+                                                <th rowspan="2" style="vertical-align: middle; text-align: center;">Difference<br />[<span class="text-grey">A</span> - <span class="text-grey">B</span>]</th>              <!-- Column 5 -->
+                                                <th colspan="2" style="text-align: center; border-left: 2px solid #aaaaaa; border-top: 2px solid #aaaaaa; border-right: 2px solid #aaaaaa;" >Today</th>              <!-- Columns 6 & 7 -->
+                                                <th colspan="2" style="text-align: center; border-top: 2px solid #aaaaaa; border-right: 2px solid #aaaaaa;">
+                                                    <?php 
+                                                        if (($tomorrow->diff($periodEnd))->format('%R%a') >= 0) {
+                                                            echo 'Tomorrow ';
+                                                        }
+                                                    ?>
+                                                </th>           <!-- Columns 8 & 9 -->
+                                                <th colspan="2" style="text-align: center; border-top: 2px solid #aaaaaa; border-right: 2px solid #aaaaaa;">
+                                                    <?php 
+                                                        if ($d > 1) {
+                                                            echo 'Next ' . $d . ' Days';
+                                                        } else if ($d == 1) {
+                                                            echo 'Next Day';
+                                                        }
+                                                    ?>
+                                                </th>        <!-- Columns 10 & 11 -->
+                                                
+                                            </tr>
+                                            <tr>                                    <!-- Row 1 -->
+                                                
+                                                
+                                                
+                                                
+                                                <th colspan="2" style="vertical-align: middle; text-align: center; border-left: 2px solid #aaaaaa; border-right: 2px solid #aaaaaa;"><?php echo $today->format('D d/m/y'); ?></th>
+                                                
+                                                <th colspan="2" style="vertical-align: middle; text-align: center; border-right: 2px solid #aaaaaa;"><?php 
+                                                        if (($tomorrow->diff($periodEnd))->format('%R%a') >= 0) {
+                                                            echo $tomorrow->format('D d/m/y');
+                                                        }
+                                                    ?>
+                                                </th>
+                                                
+                                                <th colspan="2" style="vertical-align: middle; text-align: center; border-right: 2px solid #aaaaaa;">
+                                                    <?php 
+                                                        if ($d > 1) {
+                                                            echo 'From ' . $nextStart->format('D d/m/y') . '<br />to ' .  $nextEnd->format('D d/m/y');
+                                                        } else if ($d == 1) {
+                                                            echo $nextEnd->format('D d/m/y');
+                                                        }
+                                                    ?>
+                                                </th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -98,65 +201,65 @@
                                                     SELECT
                                                          * 
                                                     FROM 
-                                                        bu_transactions 
+                                                        bu_transactions
                                                     WHERE 
-                                                        `date` <= (
+                                                        bu_transactions.`transaction_date` <= (
                                                             SELECT 
-                                                                `end`
+                                                                bu_accounting_periods.`period_end`
                                                             FROM 
-                                                                bu_accounting_periods 
+                                                                bu_accounting_periods
                                                             WHERE 
-                                                                CURDATE() >= `start` AND CURDATE() <= `end`
+                                                                CURDATE() >= bu_accounting_periods.`period_start` AND CURDATE() <= bu_accounting_periods.`period_end`
                                                         );
                                                 ");
                                                 $stmt->execute();
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        a1.account_id_alpha, 
-                                                        b1.trading_name,
-                                                        a1.`name`,
-                                                        a1.sort_code,
-                                                        a1.account_number,
-                                                        a1.`status`,
-                                                        SUM(IF(tp1.`date` <= CURDATE(),tp1.amount,0)) AS totalA, 
-                                                        SUM(IF(tp1.amount != 0,tp1.amount,0)) AS totalB, 
-                                                        COUNT(IF(tp1.`date` = CURDATE(),tp1.amount,NULL)) AS totalC,
-                                                        SUM(IF(tp1.`date` = CURDATE(),tp1.amount,0)) AS totalD,
-                                                        COUNT(IF(tp1.`date` = CURDATE() + INTERVAL 1 DAY,tp1.amount,NULL)) AS totalE,
-                                                        SUM(IF(tp1.`date` = CURDATE() + INTERVAL 1 DAY,tp1.amount,0)) AS totalF,
-                                                        COUNT(IF(tp1.`date` >= CURDATE() + INTERVAL 2 DAY AND tp1.`date` <= CURDATE() + INTERVAL 6 DAY,tp1.amount,NULL)) AS totalG,
-                                                        SUM(IF(tp1.`date` >= CURDATE() + INTERVAL 2 DAY AND tp1.`date` <= CURDATE() + INTERVAL 6 DAY ,tp1.amount,0)) AS totalH 
+                                                        bu_accounts.`account_id_alpha`, 
+                                                        bu_banks.`trading_name`,
+                                                        bu_accounts.`name`,
+                                                        bu_accounts.`sort_code`,
+                                                        bu_accounts.`account_number`,
+                                                        bu_accounts.`status`,
+                                                        SUM(IF(temp.`transaction_date` <= CURDATE(),temp.`amount`,0)) AS totalA, 
+                                                        SUM(IF(temp.`amount` != 0,temp.`amount`,0)) AS totalB, 
+                                                        COUNT(IF(temp.`transaction_date` = CURDATE() AND temp.amount != 0,temp.`amount`,NULL)) AS totalC,
+                                                        SUM(IF(temp.`transaction_date` = CURDATE(),temp.`amount`,0)) AS totalD,
+                                                        COUNT(IF(temp.`transaction_date` = CURDATE() + INTERVAL 1 DAY AND temp.amount != 0,temp.`amount`,NULL)) AS totalE,
+                                                        SUM(IF(temp.`transaction_date` = CURDATE() + INTERVAL 1 DAY,temp.`amount`,0)) AS totalF,
+                                                        COUNT(IF(temp.`transaction_date` >= CURDATE() + INTERVAL 2 DAY AND temp.`transaction_date` <= CURDATE() + INTERVAL 6 DAY AND temp.amount != 0,temp.`amount`,NULL)) AS totalG,
+                                                        SUM(IF(temp.`transaction_date` >= CURDATE() + INTERVAL 2 DAY AND temp.`transaction_date` <= CURDATE() + INTERVAL 6 DAY,temp.`amount`,0)) AS totalH 
                                                     FROM 
-                                                        bu_accounts AS a1 
+                                                        bu_accounts
                                                     LEFT JOIN 
-                                                        temp AS tp1 ON a1.account_id_alpha = tp1.account_id_alpha 
+                                                        temp ON bu_accounts.`account_id_alpha` = temp.`account_id_alpha` 
                                                     LEFT JOIN 
-                                                        bu_banks b1 ON a1.bank_id = b1.bank_id 
-                                                    GROUP BY a1.account_id_alpha, 
-                                                        b1.trading_name,
-                                                        a1.`name`, 
-                                                        a1.sort_code, 
-                                                        a1.account_number, 
-                                                        a1.`status`;
+                                                        bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id` 
+                                                    GROUP BY bu_accounts.`account_id_alpha`, 
+                                                        bu_banks.`trading_name`,
+                                                        bu_accounts.`name`, 
+                                                        bu_accounts.`sort_code`, 
+                                                        bu_accounts.`account_number`, 
+                                                        bu_accounts.`status`;
                                                 ");
                                                 $stmt->execute();
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
-                                            <tr style="font-size: 1.25em !important;">
+                                            <tr data-status="<?php echo strtolower($row->status);?>"style="font-size: 1.25em !important;">
                                                 <td><?php echo $row->account_id_alpha; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->name . ' <span class="account-number">' . $row->sort_code . ' ' . $row->account_number .'</span>' . ((strtolower($row->status) === 'closed') ? ' [<span class="account-closed">CLOSED</span>]' : ''); ?></td>
                                                 <!-- <td><?php //echo $row->_name; ?></td> -->
                                                 <td><?php echo $fmt_currency->formatCurrency($row->totalA, "GBP"); ?></td>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->totalB, "GBP"); ?></td>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->totalB - $row->totalA, "GBP"); ?></td>
-                                                <td><?php echo $row->totalC; ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->totalD, "GBP"); ?></td>
+                                                <td style="border-left: 2px solid #aaaaaa;"><?php echo $row->totalC; ?></td>
+                                                <td style="border-right: 2px solid #aaaaaa;"><?php echo $fmt_currency->formatCurrency($row->totalD, "GBP"); ?></td>
                                                 <td><?php echo $row->totalE; ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->totalF, "GBP"); ?></td>
+                                                <td style="border-right: 2px solid #aaaaaa;"><?php echo $fmt_currency->formatCurrency($row->totalF, "GBP"); ?></td>
                                                 <td><?php echo $row->totalG; ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->totalH, "GBP"); ?></td>
+                                                <td style="border-right: 2px solid #aaaaaa;"><?php echo $fmt_currency->formatCurrency($row->totalH, "GBP"); ?></td>
                                             </tr>
                                             <?php 
                                                     $counter++;
@@ -171,12 +274,12 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
+                                                <th style="border-bottom: 2px solid #aaaaaa !important; border-left: 2px solid #aaaaaa;"></th>
+                                                <th style="border-right: 2px solid #aaaaaa; border-bottom: 2px solid #aaaaaa !important;""></th>
+                                                <th style="border-bottom: 2px solid #aaaaaa !important;">></th>
+                                                <th style="border-right: 2px solid #aaaaaa; border-bottom: 2px solid #aaaaaa !important;""></th>
+                                                <th style="border-bottom: 2px solid #aaaaaa !important;"></th>
+                                                <th style="border-right: 2px solid #aaaaaa; border-bottom: 2px solid #aaaaaa !important;"></th>
                                             </tr>
                                         </tfoot>
                                         </tbody>
@@ -195,9 +298,43 @@
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
         <script>
+            $.fn.dataTable.ext.search.push(
+                // See https://live.datatables.net/nivenixu/1/edit
+                function( settings, searchData, index, rowData, counter ) {
+                    console.log(settings)
+
+                    var option = $('input[name="account-status"]').filter(":checked").val();
+                    //console.log(option)
+
+                    //var api = new $.fn.dataTable.Api( settings ); // Get API instance for table
+                    var api = api = $('#summary').dataTable().api(); // Get API instance for table
+                    //console.log(api)
+                    var node = api.row(index).node();
+
+                    switch (option) {   // Will be one of 'all', 'open' or 'closed'
+                        case 'all':
+                            return true; // Include all account records
+                            break;
+                        default:
+                            if ($(node).data('status') === option) {
+                                return true;    // Include account records whose data-status attribute value equals the value of the selected radio button
+                            } else {
+                                return false;
+                            }
+                            break;
+                    }
+
+                    return true;
+                }
+            );
+
             var summary = new DataTable('#summary', {
-                select: 'single',
+                select: {
+                    items: 'cell',
+                    style: 'os'
+                },
                 footerCallback: function (row, data, start, end, display) {
+                    console.log('Fired')
                     var api = this.api();
             
                     // Remove the formatting to get integer data for summation
@@ -212,63 +349,100 @@
             
                     // Total over all pages
                     totalA = api
-                        .column(2)
+                        .column(
+                            2, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalB = api
-                        .column(3)
+                        .column(3, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalC = api
-                        .column(4)
+                        .column(4, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalD = api
-                        .column(5)
+                        .column(5, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
                     
                     totalE = api
-                        .column(6)
+                        .column(6, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalF = api
-                        .column(7)
+                        .column(7, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalG = api
-                        .column(8)
+                        .column(8, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalH = api
-                        .column(9)
+                        .column(9, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     totalI = api
-                        .column(10)
+                        .column(10, 
+                            {
+                                search: 'applied'
+                            }
+                        )
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
@@ -338,17 +512,23 @@
                 ]
                 */
             });
+
+            $('input[name="account-status"]').on('change', function () {
+                summary.draw();
+            });
         </script>
     <!-- Page Script -->
         <script>
             $(function() {
                 // Highlight column under mouse pointer
+                /*
                 $('#summary tbody').on('mouseenter', 'td', function () {
                     var colIdx = summary.cell(this).index().column;
  
                     $(summary.cells().nodes()).removeClass('highlight');
                     $(summary.column(colIdx).nodes()).addClass('highlight');
                 });
+                */
             });
         </script>
     </body>

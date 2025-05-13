@@ -30,9 +30,9 @@
                     UPDATE
                         bu_admin
                     SET
-                        login_attempts = ?
+                        bu_admin.`login_attempts` = ?
                     WHERE
-                        admin_id = ?;
+                        bu_admin.`admin_id` = ?;
                 ");
                 $stmt->execute(
                     [
@@ -58,10 +58,10 @@
                     UPDATE
                         bu_admin
                     SET
-                        login_attempts = ?,
-                        locked = IF(login_attempts = 3, 0, locked)          -- The condition is evaluated after `login_attempts` is updated.
+                        bu_admin.`login_attempts` = ?,
+                        bu_admin.`locked` = IF(bu_admin.`login_attempts` = 3, 0, bu_admin.`locked`)          -- The condition is evaluated after `login_attempts` is updated.
                     WHERE
-                        admin_id = ?;
+                        bu_admin.`admin_id` = ?;
                 ");
                 $stmt->execute(
                     [

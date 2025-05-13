@@ -27,10 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -50,7 +47,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Entity ID</th>
-                                                <th>Entity</th>
+                                                <th>Entity Description</th>
                                                 <th>Used</th>
                                                 <th style="text-align: center">Actions</th>
                                             </tr>
@@ -61,18 +58,18 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        e1.id,
-                                                        e1.entity_id,
-                                                        e1.entity_description,
-                                                        COUNT(t1.entity_id) AS _used
+                                                        bu_entities.`id`,
+                                                        bu_entities.`entity_id`,
+                                                        bu_entities.`entity_description`,
+                                                        COUNT(bu_transactions.`entity_id`) AS _used
                                                     FROM
-                                                        bu_entities AS e1
+                                                        bu_entities
                                                     LEFT JOIN
-                                                        bu_transactions AS t1 ON e1.entity_id = t1.entity_id
+                                                        bu_transactions ON bu_entities.`entity_id` = bu_transactions.`entity_id`
                                                     GROUP BY 
-                                                        e1.id
+                                                        bu_entities.`id`
                                                     ORDER BY 
-                                                        e1.entity_description ASC;
+                                                        bu_entities.`entity_description` ASC;
                                                 ");
                                                 $stmt->execute(); 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
@@ -83,7 +80,7 @@
                                                 <td><?php echo $row->entity_description; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->entity_description); ?>"><?php echo $row->_used; ?></a>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-4&value=<?php echo rawurlencode($row->entity_description); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>
@@ -158,17 +155,18 @@
                 ],
                 
                 columns: [
-                    {className: 'counter', width: '50px'},
-                    {className: 'code'}, 
-                    {className: 'description'},
-                    {className: 'used'},
-                    {className: 'actions', width: '95px', orderable: false}
+                    {name: 'counter', className: 'counter', width: '50px'},
+                    {name: 'entity_id', className: 'code'}, 
+                    {name: 'entity_description', className: 'description'},
+                    {name: 'used', className: 'used'},
+                    {name: 'actions', className: 'actions', width: '95px', orderable: false}
                 ]
                 
             });
         </script>
     <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_entity.js"></script>
+        <!-- <script src="ajax/bu_ajax_update_entity.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

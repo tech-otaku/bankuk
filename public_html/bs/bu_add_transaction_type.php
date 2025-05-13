@@ -26,11 +26,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_transaction_types.php">Manage Transaction Types</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name, $parent = array('title' => 'Manage Transaction Types', 'url' => 'bu_manage_transaction_types.php')); ?>
                             </div>
                         </div>
                     </div>
@@ -53,23 +49,23 @@
                                             <!-- <div class="row"> -->
                                             <!-- Type -->
                                                 <div class="form-group row">
-                                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                                    <label for="type-id" class="col-sm-2 col-form-label">Type</label>
                                                     <div class="col-sm-1">
-                                                        <input type="text" name="type" id="type" class="form-control" required placeholder="Type...">
+                                                        <input type="text" name="type-id" id="type-id" class="form-control" required placeholder="Type ID...">
                                                     </div>
                                                 </div>
                                             <!-- Description -->
                                                 <div class="form-group row">
-                                                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                                    <label for="type-description" class="col-sm-2 col-form-label">Description</label>
                                                     <div class="col-sm-5">
-                                                        <input type="text" name="description" id="description" class="form-control" required placeholder="Enter type description...">
+                                                        <input type="text" name="type-description" id="type-description" class="form-control" required placeholder="Type description...">
                                                     </div>
                                                 </div>
                                             <!-- </div> --> <!-- /.row -->
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-transaction-type" class="btn btn-success">Add</button>
-                                            <a class="btn btn-secondary float-right" href="bu_manage_transaction_types.php">Cancel</a>
+                                            <a class="btn btn-secondary float-end" href="bu_manage_transaction_types.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->

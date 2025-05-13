@@ -24,14 +24,7 @@ $(function() {
         .done(function( dataReturnedByServer, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
             if ( dataReturnedByServer['success'] == 1 ) { 
             // Update successful
-                Swal.fire({
-                    title: "<strong>Success</strong>",
-                    icon: "success",
-                    html: dataReturnedByServer['message'],
-                    footer:'The page will be reloaded when this alert is dismissed.'
-                }).then(function(){ 
-                    location.reload();
-                })
+                SuccessAlert (2500, dataReturnedByServer, true)
             } else {
             // Update failed
                 Swal.fire({

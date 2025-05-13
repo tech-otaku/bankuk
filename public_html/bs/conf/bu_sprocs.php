@@ -1,6 +1,59 @@
 
 <?php
 
+// Transactions
+    $pdo->query("
+        DROP PROCEDURE IF EXISTS 
+            bu_transactions_get_transactions
+    ");
+
+    $pdo->query("
+        CREATE PROCEDURE
+            bu_transactions_get_transactions(
+                IN _record TEXT
+            ) 
+        BEGIN
+            /* This is a comment */
+            SELECT 
+                bu_transactions.`id`,
+                bu_transactions.`account_id_alpha`,
+                bu_banks.`trading_name`,
+                bu_accounts.`name`,
+                bu_accounts.`sort_code`,
+                bu_accounts.`account_number`,
+                bu_accounts.`status`,
+                bu_transactions.`amount`,
+                bu_transaction_types.`type_description`,
+                bu_transaction_sub_types.`sub_type_description`,
+                bu_transaction_methods.`method_description`,
+                bu_entities.`entity_description`,
+                bu_transactions.`transaction_date`,
+                bu_transactions.`period`,
+                bu_transactions.`tax_year`,
+                bu_transactions.`notes`
+            FROM
+                bu_transactions
+            LEFT JOIN
+                bu_accounts ON bu_transactions.`account_id_alpha` = bu_accounts.`account_id_alpha`
+            LEFT JOIN
+                bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
+            LEFT JOIN
+                bu_entities ON bu_transactions.`entity_id` = bu_entities.`entity_id`
+            LEFT JOIN
+                bu_transaction_types ON bu_transactions.`type_id` = bu_transaction_types.`type_id`
+            LEFT JOIN
+                bu_transaction_sub_types ON bu_transactions.`sub_type_id` = bu_transaction_sub_types.`sub_type_id`
+            LEFT JOIN
+                bu_transaction_methods ON bu_transactions.`method_id` = bu_transaction_methods.`method_id`
+            WHERE 
+                bu_transactions.`id` LIKE _record
+            ORDER BY 
+                bu_transactions.`transaction_date` DESC, 
+                bu_transactions.`id` DESC;
+        END;
+    ");
+
+
 // Accounts Dropdown
     $pdo->query("
         DROP PROCEDURE IF EXISTS 
@@ -9,21 +62,21 @@
 
     $pdo->query("
         CREATE PROCEDURE
-            bu_accounts_dropdown(
+            bu_accounts_dropdown (
                 IN _status VARCHAR(6)
             ) 
         BEGIN 
             SELECT 
-                a1.account_id_alpha,
-                CONCAT(b1.trading_name,' ',a1.`name`) AS _name, 
-                a1.account_number, 
-                a1.`status` 
+                bu_accounts.`account_id_alpha`,
+                CONCAT(bu_banks.`trading_name`,' ',bu_accounts.`name`) AS _name, 
+                bu_accounts.`account_number`, 
+                bu_accounts.`status` 
             FROM 
-                bu_accounts AS a1
+                bu_accounts
             LEFT JOIN 
-                bu_banks AS b1 ON a1.bank_id = b1.bank_id
+                bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
             WHERE
-                LOWER(a1.`status`) LIKE LOWER(_status)
+                LOWER(bu_accounts.`status`) LIKE LOWER(_status)
             ORDER BY 
                 _name; 
         END;
@@ -38,16 +91,16 @@
 
     $pdo->query("
         CREATE PROCEDURE
-            bu_accounts_get_data(
+            bu_accounts_get_data (
                 IN _account_id_alpha VARCHAR(1)
             ) 
         BEGIN 
             SELECT 
-                account_id
+                bu_accounts.`account_id`
             FROM 
                 bu_accounts
             WHERE
-                LOWER(account_id_alpha) LIKE LOWER(_account_id_alpha); 
+                LOWER(bu_accounts.`account_id_alpha`) LIKE LOWER(_account_id_alpha); 
         END;
     ");
 
@@ -63,11 +116,12 @@
             bu_banks_dropdown() 
         BEGIN 
             SELECT 
-                bank_id, 
-                legal_name,
-                trading_name 
+                bu_banks.`bank_id`, 
+                bu_banks.`legal_name`,
+                bu_banks.`trading_name` 
             FROM 
-                bu_banks;
+                bu_banks
+            ORDER BY bu_banks.`legal_name` ASC;
         END;
     ");
 
@@ -83,12 +137,12 @@
             bu_entities_dropdown() 
         BEGIN 
             SELECT 
-                entity_id, 
-                entity_description
+                bu_entities.`entity_id`, 
+                bu_entities.`entity_description`
             FROM 
-                bu_entities 
+                bu_entities
             ORDER BY 
-                entity_description ASC;
+                bu_entities.`entity_description` ASC;
         END;
     ");
 
@@ -103,14 +157,57 @@
             bu_regular_debit_types_dropdown() 
         BEGIN 
             SELECT 
-                `type`, 
-                `description` 
+                bu_regular_debit_types.`type`, 
+                bu_regular_debit_types.`description` 
             FROM 
-                bu_regular_debit_types 
+                bu_regular_debit_types
             ORDER BY 
-                `description` ASC;
+                bu_regular_debit_types.`description` ASC;
         END;
     ");
+
+// Transaction Method Dropdown
+    $pdo->query("
+        DROP PROCEDURE IF EXISTS 
+            bu_transaction_methods_dropdown
+        ");
+
+        $pdo->query("
+        CREATE PROCEDURE 
+            bu_transaction_methods_dropdown() 
+        BEGIN 
+            SELECT 
+                bu_transaction_methods.`method_id`, 
+                bu_transaction_methods.`method_description` 
+            FROM 
+                bu_transaction_methods
+            ORDER BY 
+                bu_transaction_methods.`method_description` ASC;
+        END;
+    ");
+
+
+// Transaction Sub-Types Dropdown
+    $pdo->query("
+        DROP PROCEDURE IF EXISTS 
+            bu_transaction_sub_types_dropdown
+        ");
+
+        $pdo->query("
+        CREATE PROCEDURE 
+            bu_transaction_sub_types_dropdown() 
+        BEGIN 
+            SELECT 
+                bu_transaction_sub_types.`sub_type_id`, 
+                bu_transaction_sub_types.`sub_type_description` 
+            FROM 
+                bu_transaction_sub_types
+            ORDER BY 
+                bu_transaction_sub_types.`sub_type_description` ASC;
+        END;
+    ");
+
+
 
 // Transaction Types Dropdown
     $pdo->query("
@@ -124,12 +221,12 @@
             bu_transaction_types_dropdown() 
         BEGIN 
             SELECT 
-                `type`, 
-                `description` 
+                bu_transaction_types.`type_id`, 
+                bu_transaction_types.`type_description` 
             FROM 
-                bu_transaction_types 
+                bu_transaction_types
             ORDER BY 
-                `description` ASC;
+                bu_transaction_types.`type_description` ASC;
         END;
     ");
 
@@ -142,16 +239,38 @@
 
     $pdo->query("
         CREATE PROCEDURE 
-            bu_accounting_periods_current(
+            bu_accounting_periods_current (
                 IN _date DATE
             ) 
         BEGIN 
             SELECT 
                 * 
             FROM 
-                bu_accounting_periods 
+                bu_accounting_periods
             WHERE 
-                `start` <= _date AND `end` >= _date;
+                bu_accounting_periods.`period_start` <= _date AND bu_accounting_periods.`period_end` >= _date;
+        END;
+    ");
+
+// Current Tax Year
+    $pdo->query("
+        DROP PROCEDURE IF EXISTS 
+            bu_tax_years_current
+    ");
+
+
+    $pdo->query("
+        CREATE PROCEDURE 
+            bu_tax_years_current(
+                IN _date DATE
+            ) 
+        BEGIN 
+            SELECT 
+                * 
+            FROM 
+                bu_tax_years
+            WHERE 
+                bu_tax_years.`tax_year_start` <= _date AND bu_tax_years.`tax_year_end` >= _date;
         END;
     ");
 
@@ -187,15 +306,15 @@
             ) 
         BEGIN 
             SELECT 
-                email,
-                md5_password, 
-                password_hash, 
-                admin_id,
-                locked,
-                login_attempts  
+                bu_admin.`email`,
+                bu_admin.`md5_password`, 
+                bu_admin.`password_hash`, 
+                bu_admin.`admin_id`,
+                bu_admin.`locked`,
+                bu_admin.`login_attempts`  
             FROM 
-                bu_admin 
+                bu_admin
             WHERE 
-                email = _email;
+                bu_admin.`email` = _email;
         END;
     ");

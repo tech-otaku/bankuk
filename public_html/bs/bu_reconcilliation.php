@@ -30,10 +30,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -48,30 +45,32 @@
                                     <h3 class="card-title"></h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="reconcilliation" class="table table-hover table-bordered table-striped">
+                                    <table id="reconcilliation" class="table table-hover table-bordered table-striped bu-data-table">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Period</th>
-                                                <th>End</th>
-                                                <th>OPENING</th>
-                                                <th>Income</th>
-                                                <th>Monthly Spend</th>
-                                                <th>Taxable Interest</th>
-                                                <th>Tax-Free Interest</th>
-                                                <th>Cashback</th>
-                                                <th>Transfers To</th>
-                                                <th>Transfers From</th>
-                                                <th>Exclude from Spend</th>
-                                                <th>Excluded from Income</th>
-                                                <th>CLOSING</th>
-                                                <th>SAVINGS #1</th>
-                                                <th>SAVINGS #2</th>
-                                                <th>SAVINGS #3</th>
-                                                <!--
-                                                <th>TOTAL SPEND</th>
-                                                <th>REMAINING</th>
-                                                -->
+                                                <th rowspan="2" class="text-left">#</th>
+                                                <th rowspan="2" class="text-left">Period</th>
+                                                <th rowspan="2" class="text-left">Period End</th>
+                                                <th rowspan="2" class="text-left">Opening<br />Balance</th>
+                                                <th rowspan="2" class="text-left">Income</th>
+                                                <th rowspan="2" class="text-left">Monthly<br />Spend</th>
+                                                <th colspan="2" class="text-center">Interest [B]</th>
+                                                <th rowspan="2" class="text-center">Cashback [C]</th>
+                                                <th colspan="2" class="text-center">Transfers [D]</th>
+                                                <th colspan="2" class="text-center">Excluded From [E]</th>
+                                                <th rowspan="2" class="text-left">Closing<br />Balance</th>
+                                                <th colspan="3" class="text-center">Savings</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-left">Taxable</th>
+                                                <th class="text-left">Tax-Free</th>
+                                                <th class="text-left">Out</th>
+                                                <th class="text-left">In</th>
+                                                <th class="text-left">Spend</th>
+                                                <th class="text-left">Income</th>
+                                                <th class="text-left">Including B, C, D and E</th>
+                                                <th class="text-left">Excluding B, C, D and E </th>
+                                                <th class="text-left">From Monthly Spend</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -80,37 +79,37 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        r1.period,
-                                                        r1.`end`,
-                                                        r1.opening,
-                                                        r1.income,
-                                                        r1.monthly_spend,
-                                                        r1.taxable_interest,
-                                                        r1.tax_free_interest,
-                                                        r1.cashback,
-                                                        r1.transfers_to,
-                                                        r1.transfers_from,
-                                                        r1.excluded_spend,
-                                                        r1.excluded_income,
-                                                        r1.closing,
-                                                        r1.savings_actual,
-                                                        r1.savings,
-                                                        ms1.salary,
-                                                        ms1.pension,
-                                                        ms1.cash,
-                                                        ms1.utilities,
-                                                        ms1.commute,
-                                                        ms1.cards,
-                                                        ms1.supermarket,
-                                                        ms1.other,
-                                                        ms1.rent,
-                                                        ms1.charities
+                                                        bu_reconcilliation.`period`,
+                                                        bu_reconcilliation.`end`,
+                                                        bu_reconcilliation.`opening`,
+                                                        bu_reconcilliation.`income`,
+                                                        bu_reconcilliation.`monthly_spend`,
+                                                        bu_reconcilliation.`taxable_interest`,
+                                                        bu_reconcilliation.`tax_free_interest`,
+                                                        bu_reconcilliation.`cashback`,
+                                                        bu_reconcilliation.`transfers_to`,
+                                                        bu_reconcilliation.`transfers_from`,
+                                                        bu_reconcilliation.`excluded_spend`,
+                                                        bu_reconcilliation.`excluded_income`,
+                                                        bu_reconcilliation.`closing`,
+                                                        bu_reconcilliation.`savings_actual`,
+                                                        bu_reconcilliation.`savings`,
+                                                        bu_monthly_spend.`salary`,
+                                                        bu_monthly_spend.`pension`,
+                                                        bu_monthly_spend.`cash`,
+                                                        bu_monthly_spend.`utilities`,
+                                                        bu_monthly_spend.`commute`,
+                                                        bu_monthly_spend.`cards`,
+                                                        bu_monthly_spend.`supermarket`,
+                                                        bu_monthly_spend.`other`,
+                                                        bu_monthly_spend.`rent`,
+                                                        bu_monthly_spend.`charities`
                                                     FROM
-                                                        bu_reconcilliation AS r1
+                                                        bu_reconcilliation
                                                     LEFT JOIN 
-                                                        bu_monthly_spend AS ms1 ON r1.period = ms1.period
+                                                        bu_monthly_spend ON bu_reconcilliation.`period` = bu_monthly_spend.`period`
                                                     ORDER BY 
-                                                        r1.period DESC;
+                                                        bu_reconcilliation.`period` DESC;
                                                 ");
                                                 $stmt->execute(); 
 
@@ -214,7 +213,10 @@
                     {
                         className: 'end', 
                         type: 'date', 
-                        render: DataTable.render.datetime('ddd DD/MM/YYYY') // requires moment.js
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
                     },  
                     {
                         className: 'opening'

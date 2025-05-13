@@ -27,10 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -62,19 +59,19 @@
 
                                                 $stmt = $pdo->prepare("
                                                     SELECT 
-                                                        b1.id,
-                                                        b1.bank_id,
-                                                        b1.legal_name,
-                                                        b1.trading_name,
-                                                        COUNT(a1.bank_id) AS _used
+                                                        bu_banks.`id`,
+                                                        bu_banks.`bank_id`,
+                                                        bu_banks.`legal_name`,
+                                                        bu_banks.`trading_name`,
+                                                        COUNT(bu_accounts.`bank_id`) AS _used
                                                     FROM
-                                                        bu_banks AS b1
+                                                        bu_banks
                                                     LEFT JOIN
-                                                        bu_accounts AS a1 ON b1.bank_id = a1.bank_id
+                                                        bu_accounts ON bu_banks.`bank_id` = bu_accounts.`bank_id`
                                                     GROUP BY 
-                                                        b1.id
+                                                        bu_banks.`id`
                                                     ORDER BY 
-                                                        b1.legal_name ASC;
+                                                        bu_banks.`legal_name` ASC;
                                                 ");
                                                 $stmt->execute(); 
 
@@ -156,12 +153,12 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter', width: '50px'}, 
-                    {className: 'bank-id'},
-                    {className: 'legal-name'},
-                    {className: 'trading-name'},
-                    {className: 'used', width: '50px'},
-                    {className: 'actions', width: '95px', orderable: false}
+                    {name: 'counter', className: 'counter', width: '50px'}, 
+                    {name: 'bank_id', className: 'bank-id'},
+                    {name: 'legal_name', className: 'legal-name'},
+                    {name: 'trading_name', className: 'trading-name'},
+                    {name: 'used', className: 'used', width: '50px'},
+                    {name: 'actions', className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -171,7 +168,8 @@
             });
         </script>
     <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_bank.js"></script>
+        <!-- <script src="ajax/bu_ajax_update_bank.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js">
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

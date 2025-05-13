@@ -23,36 +23,36 @@
     $stmt = $pdo->prepare("
         INSERT INTO 
             bu_reconcilliation (
-                income,
-                taxable_interest,
-                tax_free_interest,
-                cashback,
-                transfers_to,
-                transfers_from,
-                excluded_spend,
-                excluded_income,
-                period,
-                `end`
+                bu_reconcilliation.`income`,
+                bu_reconcilliation.`taxable_interest`,
+                bu_reconcilliation.`tax_free_interest`,
+                bu_reconcilliation.`cashback`,
+                bu_reconcilliation.`transfers_to`,
+                bu_reconcilliation.`transfers_from`,
+                bu_reconcilliation.`excluded_spend`,
+                bu_reconcilliation.`excluded_income`,
+                bu_reconcilliation.`period`,
+                bu_reconcilliation.`end`
             )
         SELECT
-            SUM(IF(`type` IN ('A' , 'B'), amount, 0)),
-            SUM(IF(`type` = 'C', amount, 0)),
-            SUM(IF(`type` = 'D', amount, 0)),
-            SUM(IF(`type` = 'E', amount, 0)),
-            SUM(IF(`type` = 'T' AND amount < 0, amount, 0)),
-            SUM(IF(`type` = 'T' AND amount >= 0,amount,0)),
-            SUM(IF(`type` = 'X' AND amount < 0, amount, 0)),
-            SUM(IF(`type` = 'X' AND amount >= 0,amount,0)),
-            ap1.period,
-            ap1.`end`
+            SUM(IF(bu_transactions.`type_id` IN ('A' , 'B'), bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'C', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'D', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'E', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'T' AND bu_transactions.`amount` < 0, amount, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'T' AND bu_transactions.`amount` >= 0, bu_transactions.`amount`,0)),
+            SUM(IF(bu_transactions.`type_id` = 'X' AND bu_transactions.`amount` < 0, bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'X' AND bu_transactions.`amount` >= 0, bu_transactions.`amount`,0)),
+            bu_accounting_periods.`period`,
+            bu_accounting_periods.`period_end`
         FROM
-            bu_transactions AS t1
+            bu_transactions
         LEFT JOIN 
-            bu_accounting_periods AS ap1 ON t1.period = ap1.period
+            bu_accounting_periods ON bu_transactions.`period` = bu_accounting_periods.`period`
         WHERE 
-            ap1.period >= ? AND ap1.period <= ?
+            bu_accounting_periods.`period` >= ? AND bu_accounting_periods.`period` <= ?
         GROUP BY
-            ap1.period, ap1.`end`;
+            bu_accounting_periods.`period`, bu_accounting_periods.`period_end`;
         ");
     $stmt->execute(
         [
@@ -66,18 +66,18 @@
 // Update the records in the bu_reconcilliation table with values from the bu_monthly_spend table
     $stmt = $pdo->prepare("
         UPDATE 
-            bu_reconcilliation AS r1
+            bu_reconcilliation
         LEFT JOIN 
-            bu_monthly_spend AS ms1 ON ms1.period = r1.period
+            bu_monthly_spend ON bu_monthly_spend.`period` = bu_reconcilliation.`period`
         SET monthly_spend = 
-            ms1.cash + 
-            ms1.utilities + 
-            ms1.commute + 
-            ms1.cards + 
-            ms1.supermarket + 
-            ms1.other + 
-            ms1.rent + 
-            ms1.charities;"
+            bu_monthly_spend.`cash` + 
+            bu_monthly_spend.`utilities` + 
+            bu_monthly_spend.`commute` + 
+            bu_monthly_spend.`cards` + 
+            bu_monthly_spend.`supermarket` + 
+            bu_monthly_spend.`other` + 
+            bu_monthly_spend.`rent` + 
+            bu_monthly_spend.`charities`;"
     );
     $stmt->execute();
     $stmt = null;
@@ -112,24 +112,24 @@
             bu_reconcilliation
         SET `opening` = IF(id = 1,@opening,@closing), 
             `closing` = @closing := @closing + 
-                `income` + 
-                `monthly_spend` +
-                `taxable_interest` + 
-                `tax_free_interest` + 
-                `cashback` + 
-                `transfers_to` +
-                `transfers_from` +
-                `excluded_spend` +
-                `excluded_income`,
-            `savings_actual` = `closing` - `opening`,
-            `savings` = `savings_actual` + 
-                (`taxable_interest` * -1) + 
-                (`tax_free_interest` * -1) + 
-                (`cashback` * -1) + 
-                (`transfers_to` * -1) + 
-                (`transfers_from` * -1) + 
-                (`excluded_spend` * -1) + 
-                (`excluded_income` * -1);
+                bu_reconcilliation.`income` + 
+                bu_reconcilliation.`monthly_spend` +
+                bu_reconcilliation.`taxable_interest` + 
+                bu_reconcilliation.`tax_free_interest` + 
+                bu_reconcilliation.`cashback` + 
+                bu_reconcilliation.`transfers_to` +
+                bu_reconcilliation.`transfers_from` +
+                bu_reconcilliation.`excluded_spend` +
+                bu_reconcilliation.`excluded_income`,
+            bu_reconcilliation.`savings_actual` = `closing` - `opening`,
+            bu_reconcilliation.`savings` = bu_reconcilliation.`savings_actual` + 
+                (bu_reconcilliation.`taxable_interest` * -1) + 
+                (bu_reconcilliation.`tax_free_interest` * -1) + 
+                (bu_reconcilliation.`cashback` * -1) + 
+                (bu_reconcilliation.`transfers_to` * -1) + 
+                (bu_reconcilliation.`transfers_from` * -1) + 
+                (bu_reconcilliation.`excluded_spend` * -1) + 
+                (bu_reconcilliation.`excluded_income` * -1);
     ");
     $stmt->execute();
     $stmt = null;

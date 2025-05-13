@@ -1,4 +1,4 @@
-<form id="update-account" class="update-form" method="post" enctype="multipart/form-data" role="form">
+<form id="update-account" class="update-form" data-datatable-id="accounts" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
     <!-- DataTables Row Index [Hidden] -->
         <input type="text" name="dt-row-index" id="dt-row-index" hidden>
@@ -8,10 +8,7 @@
         <input type="text" name="record-id" id="record-id" hidden>
     <!-- Account ID [Alpha] -->
         <div class="form-group row">
-            <label for="account-id-alpha" class="col-sm-3 col-form-label">Account ID [Alpha]</label>
-            <div class="col-sm-1">
-                <input type="text" name="account-id-alpha" id="account-id-alpha" class="form-control" readonly>
-            </div>
+            <?php InputElementAccountID (3); ?>
         </div>
     <!-- Account ID --> 
         <div class="form-group row">
@@ -22,25 +19,7 @@
         </div>
     <!-- Bank Name -->
         <div class="form-group row">
-            <label for="bank-id" class="col-sm-3 col-form-label">Bank Name</label>
-            <div class="col-sm-5">
-                <?php
-                    $stmt = $pdo->prepare("
-                        CALL 
-                            bu_banks_dropdown();
-                    ");
-                    $stmt->execute();
-                    
-                    echo '<select name="bank-id" id="bank-id" class="form-control" required>';
-                    echo '<option value="" selected disabled hidden>Bank name...</option>';
-                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                        echo '<option value="' . $row->bank_id . '">' . $row->trading_name. '</option>';
-                    }
-                    echo '</select>';
-
-                    $stmt = null;
-                ?>
-            </div>
+            <?php InputElementBankName ($pdo, 3); ?>
         </div>
     <!-- Account Name -->
         <div class="form-group row">
@@ -65,30 +44,11 @@
         </div>
     <!-- Status -->
         <div class="form-group row">
-            <label for="status" class="col-sm-3 col-form-label">Status</label>
-            <div class="col-sm-2">
-                <?php
-                    $status = array (
-                        "Open",
-                        "Closed"
-                    );
-
-                    echo '<select name="status" id="status" class="form-control" required>';
-                    echo '<option value="" selected disabled hidden>Select status...</option>';
-                    foreach ($status as $option) {
-                        echo '<option value="' . $option . '">' . $option . '</option>';
-                    }
-                    echo '</select>';
-
-                ?>
-            </div>
+            <?php InputElementAccountStatus (3); ?>
         </div>
     <!-- Notes -->
         <div class="form-group row">
-            <label for="notes" class="col-sm-3 col-form-label">Notes</label>
-            <div class="col-sm-9">
-                <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
-            </div>
+            <?php InputElementNotes (3); ?>
         </div>
     </div>  <!-- /.card-body -->
     <div class="card-footer">

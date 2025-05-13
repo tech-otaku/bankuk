@@ -16,7 +16,10 @@
         "bu_reconcilliation",
         "bu_regular_debits",
         "bu_regular_debit_types",
+        "bu_tax_years",
         "bu_transactions",
+        "bu_transaction_methods",
+        "bu_transaction_sub_types",
         "bu_transaction_types"
     ];
 
@@ -53,7 +56,7 @@
             FROM 
                 $table 
             WHERE 
-                id = ?;
+                $table.`id` = ?;
         ");
 
         $stmt->execute(

@@ -1,6 +1,7 @@
 <?php
     session_start();
     include('conf/pdoconfig.php');
+    include('conf/bu_custom.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,27 +17,25 @@
             <div class="card">
                 <div class="card-body login-card-body">
                     <form id="login" method="post">
-                        <div class="input-group mb-3">
-                            <input type="email" name="email" class="form-control" placeholder="Email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" class="form-control" placeholder="Password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="password">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <button type="submit" name="login-submit" class="btn btn-success btn-block">Login</button>
-                            </div>    <!-- /.col -->
-                        </div>  <!-- /.row -->
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button type="submit" name="login-submit" id="login-submit" class="btn btn-success btn-block">Login</button>
+                            </div>
+                        </div>
+
                     </form>
                 </div>    <!-- /.login-card-body -->
             </div>

@@ -27,11 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_accounting_periods.php">Manage Accounting Periods</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name, $parent = array('title' => 'Manage Accounting Periods', 'url' => 'bu_manage_accounting_periods.php')); ?>
                             </div>
                         </div>
                     </div>    <!-- /.container-fluid -->
@@ -54,13 +50,13 @@
                                                     // Get the period and end date from the latest record.
                                                     $stmt = $pdo->prepare("
                                                         SELECT 
-                                                            period,
-                                                            `start`,
-                                                            `end`
+                                                            bu_accounting_periods.`period`,
+                                                            bu_accounting_periods.`period_start`,
+                                                            bu_accounting_periods.`period_end`
                                                         FROM
                                                             bu_accounting_periods
                                                         ORDER BY 
-                                                            period DESC
+                                                            bu_accounting_periods.`period` DESC
                                                         LIMIT 1;
                                                     ");
                                                     $stmt->execute(); 
@@ -85,7 +81,7 @@
                                                             - if 'end' is Saturday, then change 'end' to previous Thursday ('start' -2 days) i.e. Saturday, 24th May 2025 -> Thursday, 22nd May 2025  
                                                     */
 
-                                                    $next_start = new DateTime($bu_accounting_period['end']);
+                                                    $next_start = new DateTime($bu_accounting_period['period_end']);
                                                     $next_start->modify('+1 day');
 
                                                     if ($next_start->format('N') == 6 ) {
@@ -128,16 +124,16 @@
                                             <!-- <div class="row"> -->
                                             <!-- Start --> 
                                                 <div class="form-group row">
-                                                    <label for="start" class="col-sm-2 col-form-label">Start Date</label>
+                                                    <label for="period-start" class="col-sm-2 col-form-label">Start Date</label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" name="start" id="start" class="form-control" required readonly style="cursor:text; background:white;">
+                                                        <input type="text" name="period-start" id="period-start" class="form-control" required readonly style="cursor:text; background:white;">
                                                     </div>
                                                 </div>
                                             <!-- End --> 
                                                 <div class="form-group row">
-                                                    <label for="end" class="col-sm-2 col-form-label">End Date</label>
+                                                    <label for="period-end" class="col-sm-2 col-form-label">End Date</label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" name="end" id="end" class="form-control" required readonly style="cursor:text; background:white;">
+                                                        <input type="text" name="period-end" id="period-end" class="form-control" required readonly style="cursor:text; background:white;">
                                                     </div>
                                                 </div>
                                             <!-- Period --> 
@@ -151,7 +147,7 @@
                                         </div>  <!-- /.card-body -->
                                         <div class="card-footer">
                                             <button type="submit" name="add-accounting-period-submit" id="add-accounting-period-submit" class="btn btn-success">Add</button>
-                                            <a class="btn btn-secondary float-right" href="bu_manage_accounting_periods.php">Cancel</a>
+                                            <a class="btn btn-secondary float-end" href="bu_manage_accounting_periods.php">Cancel</a>
                                         </div>
                                     </form>
                                 </div>    <!-- /.card -->
@@ -174,7 +170,7 @@
                 var startDate = '<?php echo $next_start->format('Y-m-d'); ?>';
                 //console.log(startDate)
                                 
-                $( "#start" ).datepicker({
+                $( "#period-start" ).datepicker({
                     dateFormat: "yy-mm-dd",
                     firstDay: 1,
                     maxDate: new Date('2030-12-31'),
@@ -188,12 +184,12 @@
                     }
                 });
 
-                $("#start").datepicker("setDate", startDate);
+                $("#period-start").datepicker("setDate", startDate);
 
             // DatePicker for Period End
                 var endDate = '<?php echo $next_end->format('Y-m-d'); ?>';
                                 
-                $( "#end" ).datepicker({
+                $( "#period-end" ).datepicker({
                     dateFormat: "yy-mm-dd",
                     firstDay: 1,                    
                     beforeShowDay: function (date){     // See https://stackoverflow.com/a/13514816/2518495
@@ -206,7 +202,7 @@
                     }
                 });
 
-                $( "#end" ).datepicker("setDate", endDate);
+                $( "#period-end" ).datepicker("setDate", endDate);
             });
         </script>
     </body>

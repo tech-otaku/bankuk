@@ -43,11 +43,8 @@ $(function() {
                         //console.log(dataReturnedByServer['message']); // Display the response
                         row.remove().draw()     // Remove the targetted row and redraw the table                                 
 
-                        Swal.fire({
-                            title: "<strong>Success</strong>",
-                            icon: "success",
-                            html: dataReturnedByServer['message']
-                        });
+                        SuccessAlert (2500, dataReturnedByServer)
+
                     } else {
                     // Update failed
                         Swal.fire({

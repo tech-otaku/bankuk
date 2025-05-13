@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
+<nav id="navbar" class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,15 +44,27 @@
                 </li>
             <!-- Regular Debit Types -->
                 <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_regular_debit_types.php">Regular Debit Types</a>
+                    <a class="nav-link disabled" href="bu_manage_regular_debit_types.php" aria-disabled="true">Regular Debit Types</a>
+                </li>
+            <!-- Tax Years -->
+                <li class="nav-item">
+                    <a class="nav-link" href="bu_manage_tax_years.php">Tax Years</a>
                 </li>
             <!-- Transactions -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_transactions.php">Transactions</a>
                 </li>
+            <!-- Transaction Methods -->
+                <li class="nav-item">
+                    <a class="nav-link" href="bu_manage_transaction_methods.php">Transaction Methods</a>
+                </li>
             <!-- Transaction Types -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_transaction_types.php">Transaction Types</a>
+                </li>
+            <!-- Transaction Sub Types -->
+                <li class="nav-item">
+                    <a class="nav-link" href="bu_manage_transaction_sub_types.php">Transaction Sub-Types</a>
                 </li>
             <!-- Add Record Dropdown -->
                 <li class="nav-item dropdown">
@@ -66,13 +78,14 @@
                         <li><a class="dropdown-item" href="bu_add_entity.php">Entity</a></li>
                         <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
-                        <li><a class="dropdown-item" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
+                        <li><a class="dropdown-item disabled" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
                         <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
+                        <li><a class="dropdown-item" href="bu_add_transaction_sub_type.php">Transaction Sub-Type</a></li>
                         <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
                     </ul>
                 </li>
             <!-- System -->
-            <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown-system" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         System
                     </a>
@@ -89,7 +102,7 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
-            </ul>
+            </ul>            
         <!-- Search -->
             <!-- 
             <form class="d-flex">

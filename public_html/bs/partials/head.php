@@ -3,15 +3,19 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Banking UK</title>
+    <title>Banking UK v2</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sticky-footer-navbar/">
 <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!-- DataTables -->
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" rel="stylesheet">
     <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- AdminLTE Custom -->
+    <link rel="stylesheet" href="styles/adminlte-3.2.0-custom.css"/>
+<!-- Column Visibility Plugin -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
 <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" integrity="sha512-IuO+tczf4J43RzbCMEFggCWW5JuX78IrCJRFFBoQEXNvGI6gkUw4OjuwMidiS4Lm9Q2lILzpJwZuMWuSEeT9UQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" integrity="sha512-IuO+tczf4J43RzbCMEFggCWW5JuX78IrCJRFFBoQEXNvGI6gkUw4OjuwMidiS4Lm9Q2lILzpJwZuMWuSEeT9UQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 <!-- jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 <!-- Sweet Alert 2 Dark Theme -->
@@ -28,8 +32,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
 <!-- Custom styles the Sticky Footer Navbar template -->
     <link href="styles/sticky-footer-navbar.css" rel="stylesheet">
-<!-- Update Current Accounting Period Data in bu_settings -->
-    <?php include('conf/pop_bu_settings_table.php'); ?>
 <!-- Manage Stored Procedures -->
     <?php include('conf/bu_sprocs.php'); ?>
+<!-- Update Current Accounting Period Data in bu_settings -->
+    <?php include('conf/pop_bu_settings_table.php'); ?>
+
 

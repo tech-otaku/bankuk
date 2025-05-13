@@ -26,11 +26,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="bu_manage_accounts.php">Manage Accounts</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name, $parent = array('title' => 'Manage Accounts', 'url' => 'bu_manage_accounts.php')); ?>
                             </div>
                         </div>
                     </div>    <!-- /.container-fluid -->
@@ -51,11 +47,11 @@
                                             // Get the last account_id_alpha (I, J, K etc) used.
                                             $stmt = $pdo->prepare("
                                                 SELECT 
-                                                    account_id_alpha
+                                                    bu_accounts.`account_id_alpha`
                                                 FROM
                                                     bu_accounts
                                                 ORDER BY 
-                                                    account_id_alpha DESC          
+                                                    bu_accounts.`account_id_alpha` DESC          
                                                 LIMIT 1;
                                             ");
                                             $stmt->execute(); 
@@ -82,25 +78,7 @@
                                         </div>
                                     <!-- Bank Name -->
                                         <div class="form-group row">
-                                            <label for="bank-id" class="col-sm-2 col-form-label">Bank Name</label>
-                                            <div class="col-sm-3">
-                                                <?php
-                                                    $stmt = $pdo->prepare("
-                                                        CALL 
-                                                            bu_banks_dropdown();
-                                                    ");
-                                                    $stmt->execute();
-                                                
-                                                    echo '<select name="bank-id" id="bank-id" class="form-control" required>';
-                                                    echo '<option value="" selected disabled hidden>Bank name...</option>';
-                                                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                        echo '<option value="'.$row->bank_id.'" '.($row->bank_id === $bu_account['bank_id'] ? 'selected="selected"' : '').'>'.$row->legal_name .'</option>';
-                                                    }
-                                                    echo '</select>';
-
-                                                    $stmt = null;
-                                                ?>
-                                            </div>
+                                            <?php InputElementBankName ($pdo); ?>
                                         </div>
                                     <!-- Account Name -->
                                         <div class="form-group row">
@@ -125,34 +103,16 @@
                                         </div>
                                     <!-- Status -->
                                         <div class="form-group row">
-                                            <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                            <div class="col-sm-2">
-                                                <?php
-                                                    $status = array (
-                                                        "Open",
-                                                        "Closed"
-                                                    );
-
-                                                    echo '<select name="status" id="status" class="form-control" required>';
-                                                    echo '<option value="" selected disabled hidden>Select status...</option>';
-                                                    foreach ($status as $option) {
-                                                        echo '<option value="'.$option.'" '.($option === 'Open' ? 'selected="selected"' : '').'>'.$option .'</option>';
-                                                    }
-                                                    echo '</select>';
-                                                ?>
-                                            </div>
+                                            <?php InputElementAccountStatus (); ?>
                                         </div>
                                     <!-- Notes -->
                                         <div class="form-group row">
-                                            <label for="notes" class="col-sm-2 col-form-label">Notes</label>
-                                            <div class="col-sm-8">
-                                                <textarea name="notes" id="notes" class="form-control" rows="5" placeholder="Notes..." style="resize: none;"></textarea>
-                                            </div>
+                                            <?php InputElementNotes (); ?>
                                         </div>
                                     </div>    <!-- /.card-body -->
                                     <div class="card-footer">
                                         <button type="submit" name="add-account-submit" class="btn btn-success">Add</button>
-                                        <a class="btn btn-secondary float-right" href="bu_manage_accounts.php">Cancel</a>
+                                        <a class="btn btn-secondary float-end" href="bu_manage_accounts.php">Cancel</a>
                                     </div>
                                 </form>
                             </div>    <!-- /.card -->

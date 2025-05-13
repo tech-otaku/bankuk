@@ -30,10 +30,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -76,9 +73,9 @@
                                                     SELECT 
                                                         * 
                                                     FROM 
-                                                        bu_monthly_spend 
+                                                        bu_monthly_spend
                                                     ORDER BY 
-                                                        period DESC;
+                                                        bu_monthly_spend.`period` DESC;
                                                     ");
                                                 $stmt->execute(); 
 
@@ -143,10 +140,6 @@
         </div>  <!-- ./wrapper -->
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
-    <!-- Column Visibility Plugin -->
-        <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
     <!-- DataTable Table -->
         <script>
             var monthly_spend = new DataTable('#monthly-spend', {
@@ -176,7 +169,10 @@
                     {
                         className: 'end', 
                         type: 'date', 
-                        render: DataTable.render.datetime('ddd DD/MM/YYYY')  // requires moment.js
+                        render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).addClass(Chronology(cellData));
+                        }
                     }, 
                     {
                         className: 'salary',

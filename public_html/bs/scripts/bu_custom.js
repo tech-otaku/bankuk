@@ -17,6 +17,57 @@ $(document).ready(function() {
 */
 
 
+/*
+const useData = async () => {
+    let jsonData = await getData();
+    console.log(jsonData)
+}
+*/
+    
+
+
+/*
+async function myGetJSON() {
+    const response = await fetch("JSON/transactions.json");
+    const data = await response.json();
+    return data
+}
+
+async function collectData() {
+   return myGetJSON();
+}
+   
+
+function getData() {
+    var jsonTemp = null;
+    $.ajax({
+        'async': false,
+        'url': "JSON/transactions.json",
+        'success': function (data) {
+            jsonTemp = data;
+        }
+    });
+    return jsonTemp;
+}
+
+
+function getJSON() {
+    var jsonTemp = null;
+    $.ajax({
+        'async': false,
+        'url': "JSON/transactions.json"
+    })
+    .done(function( data, textStatus, jqXHR) {  // Used instead of the AJAX local callback event 'success: function()'. See https://stackoverflow.com/a/15821199/2518495
+        jsonTemp = data
+    })  // done
+    .fail(function ( jqXHR, textStatus, errorThrown) {  // Used instead of the AJAX local callback event 'error: function()'. See https://stackoverflow.com/a/15821199/2518495
+        console.log(jqXHR)
+    }); // fail
+    return jsonTemp
+}
+
+    */
+
 function DatePickerPlacement (e,i,p) {
     /***
      * `e` represents the input field `div#datepicker` 
@@ -71,6 +122,45 @@ function DatePickerPlacement (e,i,p) {
     }, 0);
 }
 
+
+function SuccessAlert (duration, dataReturnedByServer, reload=false) {
+    // See https://sweetalert2.github.io/#examples
+    //let timerInterval;
+    Swal.fire({
+        title: "<strong>Success</strong>",
+        html: dataReturnedByServer['message'],
+        icon: "success",
+        timer: duration,
+        timerProgressBar: true,
+        footer: reload ? 'The page will be reloaded when this alert is dismissed.' : '',    // Optional message in footer if reload is `true`
+        didOpen: () => {
+            //Swal.showLoading();
+            /*
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+            */
+        },
+        willClose: () => {
+            /*
+            clearInterval(timerInterval);
+            */
+        }
+        }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (reload) {
+            location.reload();
+        }
+        /*
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+        }
+        */
+    });
+
+}
+
 function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is returned from bu_ajax-update.php
     switch(x) {
 // ACCOUNT
@@ -109,13 +199,13 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
 
         if ($('form#update-account #notes').val().length === 0) {
         // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
-            $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+            $( DTTable.cell(DTRowIndex,0).node() ).removeClass('details-control has-note right down')
             $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
             $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
             $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-account-name')
         } else {
         // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
-            $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+            $( DTTable.cell(DTRowIndex,0).node() ).addClass('details-control has-note right')
             $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
             $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
             $( DTTable.cell(DTRowIndex,0).node() ).attr('data-account-name', inputFormFields.get('bankName') + ' ' + inputFormFields.get('accountName'))
@@ -138,19 +228,19 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
             var inputFormFields = new Map()
 
         // Start
-            inputFormFields.set('start',inputForm.find('#start').val())
+            inputFormFields.set('periodStart',inputForm.find('#period-start').val())
             //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
         // End
-            inputFormFields.set('end',inputForm.find('#end').val())
+            inputFormFields.set('periodEnd',inputForm.find('#period-end').val())
             //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
         // Period
             inputFormFields.set('period',inputForm.find('#period').val())
 
 
         // Start
-            DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('start'))
+            DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('periodStart'))
         // End
-            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('end'))
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('periodEnd'))
         // Period
             DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('period'))
             
@@ -219,13 +309,15 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
         // Account Name
             inputFormFields.set('accountName',inputForm.find('#account-id-alpha option:selected').text())
         // Type
-            inputFormFields.set('type',inputForm.find('#type option:selected').text())
+            inputFormFields.set('typeID',inputForm.find('#type-id option:selected').text())
         // Sub-Type
-            if (inputForm.find('#sub-type option:selected').val() === '') {
-                inputFormFields.set('subType','')
+            if (inputForm.find('#sub-type-id option:selected').val() === '') {
+                inputFormFields.set('subTypeID','')
             } else {
-                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
+                inputFormFields.set('subTypeID',inputForm.find('#sub-type-id option:selected').text())
             }
+        // Method
+            inputFormFields.set('methodID',inputForm.find('#method-id option:selected').text())
         // Entity
             inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
 
@@ -235,9 +327,11 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
         // Account Name
             DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('accountName'))
         // Type
-            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('type'))
+            DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('typeID'))
         // Sub-Type
-            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('subType'))
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('subTypeID'))
+        // Sub-Type
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('methodID'))
         // Entity
             DTTable.cell(DTRowIndex, 1).data(inputFormFields.get('entity'))
             
@@ -266,17 +360,17 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
         // Amount
             inputFormFields.set('amount',inputForm.find('#amount').val())
         // Type
-            inputFormFields.set('type',inputForm.find('#type option:selected').text())
+            inputFormFields.set('typeID',inputForm.find('#type-id option:selected').text())
         // Sub-Type
-            if (inputForm.find('#sub-type option:selected').val() === '') {
-                inputFormFields.set('subType','')
+            if (inputForm.find('#sub-type-id option:selected').val() === '') {
+                inputFormFields.set('subTypeID','')
             } else {
-                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
+                inputFormFields.set('subTypeID',inputForm.find('#sub-type-id option:selected').text())
             }
         // Entity
             inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
-        // Regular Debit Type
-            inputFormFields.set('regularDebitType',inputForm.find('#regular-debit-type option:selected').text())
+        // Method
+            inputFormFields.set('methodID',inputForm.find('#method-id option:selected').text())
         // Day
             inputFormFields.set('day',inputForm.find('#day').val())
         // Period
@@ -296,13 +390,13 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
         // Amount
             DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('amount'))
         // Type
-            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('type'))
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('typeID'))
         // Sub-Type
-            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('subType'))
+            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('subTypeID'))
         // Entity
-            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('entity'))
-        // Regular Debit Type
-            DTTable.cell(DTRowIndex, 8).data(inputFormFields.get('regularDebitType'))
+            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('methodID'))
+        // Entity
+            DTTable.cell(DTRowIndex, 8).data(inputFormFields.get('entity'))
         // Day
             DTTable.cell(DTRowIndex, 9).data(inputFormFields.get('day'))
         // Period
@@ -322,11 +416,11 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
             }
 
         // Remove the `past`, `today` or `future` class and re-add it in case the record's date has changed
-            $( DTTable.cell(DTRowIndex,7).node() ).removeClass('past today future').addClass(Chronology(inputFormFields.get('last')))
+            //$( DTTable.cell(DTRowIndex,7).node() ).removeClass('past today future').addClass(Chronology(inputFormFields.get('last')))
             
             if ($('form#update-regular-debit #notes').val().length === 0) {
             // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
-                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('details-control has-note right down')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-entity-description')
@@ -334,7 +428,7 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-date')
             } else {
             // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
-                $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).addClass('details-control has-note right')
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-entity-description', inputFormFields.get('entity'))
@@ -369,6 +463,8 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
 
             break;
 
+
+
 // TRANSACTION
         case 'update-transaction':
             var DTTable = $('#transactions').DataTable()
@@ -379,25 +475,27 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
             var inputFormFields = new Map()
 
         // Account ID Alpha
-            inputFormFields.set('accountIDAlpha',inputForm.find('#account-id-alpha option:selected').val())
+            inputFormFields.set('accountIDAlpha',inputForm.find('#account-id-alpha-read-only').val())
         // Account Name
             inputFormFields.set('accountName',inputForm.find('#account-id-alpha option:selected').text())
         // Amount
             inputFormFields.set('amount',inputForm.find('#amount').val())
-        // Type
-            inputFormFields.set('type',inputForm.find('#type option:selected').text())
-        // Sub-Type
-            if (inputForm.find('#sub-type option:selected').val() === '') {
-                inputFormFields.set('subType','')
-            } else {
-                inputFormFields.set('subType',inputForm.find('#sub-type option:selected').text())
-            }
         // Entity
             inputFormFields.set('entity',inputForm.find('#entity-id option:selected').text())
+        // Type
+            inputFormFields.set('typeID',inputForm.find('#type-id option:selected').text())
+        // Sub-Type
+            if (inputForm.find('#sub-type-id option:selected').val() === '') {
+                inputFormFields.set('subTypeID','')
+            } else {
+                inputFormFields.set('subTypeID',inputForm.find('#sub-type-id option:selected').text())
+            }
+        // Method
+            inputFormFields.set('methodID',inputForm.find('#method-id option:selected').text())
         // Date
-            inputFormFields.set('date',inputForm.find('#datepicker').val())
+            inputFormFields.set('date',inputForm.find('#transaction-date').val())
             //inputFormFields.set('date',inputForm.find('#datepicker-input').val())    // Tempus Dominus DatePicker
-        //Notes
+        // Notes
             inputFormFields.set('notes',inputForm.find('#notes').val())
 
 
@@ -407,14 +505,16 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
             DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('accountName'))
         // Amount
             DTTable.cell(DTRowIndex, 3).data(inputFormFields.get('amount'))
-        // Type
-            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('type'))
-        // Sub-Type
-            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('subType'))
         // Entity
-            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('entity'))
+            DTTable.cell(DTRowIndex, 4).data(inputFormFields.get('entity'))
+        // Type
+            DTTable.cell(DTRowIndex, 5).data(inputFormFields.get('typeID'))
+        // Sub-Type
+            DTTable.cell(DTRowIndex, 6).data(inputFormFields.get('subTypeID'))
+        // Method
+            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('methodID'))
         // Date
-            DTTable.cell(DTRowIndex, 7).data(inputFormFields.get('date'))
+            DTTable.cell(DTRowIndex, 8).data(inputFormFields.get('date'))
         // Notes
             
         // Remove the `account-code-*` class and re-add it in case the record's Account ID Alpha has changed  
@@ -432,9 +532,9 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
         // Remove the `past`, `today` or `future` class and re-add it in case the record's date has changed
             $( DTTable.cell(DTRowIndex,7).node() ).removeClass('past today future').addClass(Chronology(inputFormFields.get('date')))
             
-            if ($('form#update-transaction #notes').val().length === 0) {
+            if ($('form#update-transaction #notes').val().length === 0) {               
             // Remove the `has-note` class and associated `data-*` attributes if the record's note has been deleted
-                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).removeClass('details-control has-note right down')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-counter')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-note')
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-entity-description')
@@ -442,7 +542,7 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
                 $( DTTable.cell(DTRowIndex,0).node() ).removeAttr('data-date')
             } else {
             // Add the `has-note` class and associated `data-*` attributes if the record's existing note has been updated or a new note has been added
-                $( DTTable.cell(DTRowIndex,0).node() ).addClass('has-note')
+                $( DTTable.cell(DTRowIndex,0).node() ).addClass('details-control has-note right')
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-counter', $( DTTable.cell(DTRowIndex,0).node() ).text())
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-note', nl2br(inputFormFields.get('notes')))
                 $( DTTable.cell(DTRowIndex,0).node() ).attr('data-entity-description', inputFormFields.get('entity'))
@@ -455,6 +555,52 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
 
             break;
 
+// TRANSACTION METHOD
+        case 'update-transaction-method':
+            var DTTable = $('#transaction-methods').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Description
+            inputFormFields.set('methodDescription',inputForm.find('#method-description').val())
+
+
+        // Description
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('methodDescription'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+
+// TRANSACTION SUB-TYPE
+        case 'update-transaction-sub-type':
+            var DTTable = $('#transaction-sub-types').DataTable()
+            var DTRowIndex = y
+            var DOMRowIndex = z
+
+            var inputForm = $('form#' + x)
+            var inputFormFields = new Map()
+
+        // Description
+            inputFormFields.set('subTypeDescription',inputForm.find('#sub-type-description').val())
+
+
+        // Description
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('subTypeDescription'))
+
+
+        // Re-draw the DataTable now the its record has been updated
+            DTTable.draw(false)
+
+            break;
+
+
 // TRANSACTION TYPE
         case 'update-transaction-type':
             var DTTable = $('#transaction-types').DataTable()
@@ -465,11 +611,11 @@ function UpdateDataTable(x,y,z,data) {  // The 'data' param is optional and is r
             var inputFormFields = new Map()
 
         // Description
-            inputFormFields.set('description',inputForm.find('#description').val())
+            inputFormFields.set('typeDescription',inputForm.find('#type-description').val())
 
 
         // Description
-            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('description'))
+            DTTable.cell(DTRowIndex, 2).data(inputFormFields.get('typeDescription'))
 
 
         // Re-draw the DataTable now the its record has been updated
@@ -578,14 +724,15 @@ function Chronology (tDate) {
     todaysDate.setHours(0,0,0,0);
     todaysDate = todaysDate.getTime();
 
-    //console.log(todaysDate);
-    //console.log(tDate)
+    //console.log('Today ' + todaysDate);
+    //console.log('Transaction ' + tDate)
 
     //let transactionDate = new Date(tDate.substr(10), parseFloat(tDate.substr(7,2)) - 1, tDate.substr(4,2));
     let transactionDate = new Date(tDate);
-    //console.log(transactionDate);
+    transactionDate.setHours(0,0,0,0);
+    //console.log('transactionDate' + transactionDate);
     transactionDate = transactionDate.getTime();
-    //console.log(transactionDate);
+    //console.log('transactionDate' + transactionDate);
 
     if (transactionDate > todaysDate) { 
         return 'future'; 
@@ -596,7 +743,6 @@ function Chronology (tDate) {
     }
 
 }
-
 function ExcludedDates(date, excludedDays){           //  See https://stackoverflow.com/a/3354421/2518495
     //console.log('date' + date.getTime() + ' string ' + date)
     var day = date.getDay(), Sunday = 0, Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6;
@@ -682,15 +828,16 @@ function ExcludedDates(date, excludedDays){           //  See https://stackoverf
 
 $(document).ready(function() {
 
-    $(".add-form select#sub-type.form-control, .update-form select#sub-type.form-control").on('change', function() {   
+    $(".add-form select#sub-type-id.form-control, .update-form select#sub-type-id.form-control, .duplicate-form select#sub-type-id.form-control").on('change', function() {   
+        //console.log('Fired')
         if (this.value) {
             $(this).css('color', '#495057')
         } else {
-            $(this).css('color', '#999999')
+            $(this).css('color', '#cacaca')
         }
     });
 
-    $(".add-form input#amount.form-control, .update-form input#amount.form-control").on("change paste", function() {
+    $(".add-form input#amount.form-control, .update-form input#amount.form-control, .duplicate-form input#amount.form-control").on("change paste", function() {
         if (parseFloat($(this).val()) < 0) {
             $(this).addClass('debit')
         } else {
@@ -698,7 +845,17 @@ $(document).ready(function() {
         }
     });
 
+    /**
+     * - This event is fired when the user selects a new option in the Account Data dropdown.
+     * - It updates the read-only input element that contains the account's Alpha ID (`account_id_alpha`) to 
+     * that of the currently selected (changed) option.
+     */ 
+    $(".add-form select#account-id-alpha.form-control, .update-form select#account-id-alpha.form-control").on('change', function() {
+        var alphaID = this.value                                            // The value of the currently selected (changed) option.
+        $(this).closest('form').find('#account-id-alpha-read-only').val(alphaID)     // The read-only input element
+    });
 
+    /*
     $("table.bu-data-table").on("click", ".has-note", function(event) {
         console.log($(this).closest('table').attr('id'))
         switch($(this).closest('table').attr('id')) {
@@ -731,61 +888,76 @@ $(document).ready(function() {
 
         
     })
+        */
 
-    $(".prefill-supermarket").on("click", function(event) {
-        $("#account-id-alpha option[value='G']").attr("selected", true);
-        //$("#account-id-alpha").val('G');    // Santander Edge Up Current Account - XXX9151 [G]
-        $("#type").val('5');                // Supermarket
-        $("#entity-id").val('P1280');        // Sainsbury's
+    // Add event listener for opening and closing details
+    $('table').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = $('table#' + $(this).closest('table').attr('id')).DataTable().row(tr);   // $('table#<tableid>').DataTable().row(tr)
 
-    })
+        console.log($(this).attr("class"))
+        console.log($(this).closest('table').attr('id'))
 
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+            $(this).removeClass('down')
+            $(this).addClass('right')
+        } else {
+            // Open this row
+            row.child('<div class="note">' + $(this).attr("data-note")  + '</div>').show();
+            tr.addClass('shown');
+            $(this).removeClass('right')
+            $(this).addClass('down')
+        }
+    });
+    
 
     $('#prefill').on('change', function() {
         var selected = $(this).find('option:selected');     // See https://stackoverflow.com/a/4564711
-        //console.log(selected.val())
+        //console.log(selected.data('account-id-alpha'))
+        //console.log(selected.data('type-id'))
+        console.log(selected.data())
         //var extra = selected.data('foo'); 
         //console.log(selected.data('entity-id') );
         //$("#account-id-alpha option[value='G']").attr("selected", true);
         $("#account-id-alpha").val(selected.data('account-id-alpha'));
-        $("#type").val(selected.data('type'));
+        $("#type-id").val(selected.data('type-id'));
+        $("#sub-type-id").val(selected.data('sub-type-id'));
         $("#entity-id").val(selected.data('entity-id'));
+        $("#method-id").val(selected.data('method-id'));
+        $("#notes").val(selected.data('notes'));
+        $('form#add-transaction.add-form select#sub-type-id').change();
+        $('form#add-transaction.add-form #amount').focus();
+        $('form#add-transaction.add-form #create-prefill').prop("checked", false);
+        $('form#add-transaction.add-form #create-prefill').prop("disabled", true);
 
         if (selected.val() === "clear") {
             //$("option:eq(0)").prop("selected", true);
             $("option")[0].selected = true
+            $('form#add-transaction.add-form #amount').blur();
+            $('form#add-transaction.add-form #create-prefill').prop("disabled", false);
 
             //$("option").val('Pre-fill...');
         }
         
-        /*
-        switch(this.value) {
-            case 'co-op':
-                // code block
-                $("#type").val(selected.data('type'));
-                $("#entity-id").val(selected.data('entity'));    // Co-op
-                break;
-            case 'dunelm':
-                // code block
-                $("#type").val('6');
-                $("#entity-id").val('P6038');    // Dunelm
-                break;
-            case 'national-lottery':
-                $("#type").val('6');
-                // code block
-                $("#entity-id").val('P0700');    // National Lottery
-                break;
-            case 'sainsburys':
-                $("#type").val('5');
-                $("#entity-id").val('P1280');    // Sainsbury's
-                break;
-            case 'tesco-express':
-                $("#type").val('5');
-                $("#entity-id").val('P0186');    // Tesco Express
-                break;
-            default:
-                // code block
-          }
-                */
-      });
+    });
+
+
+    $('form#add-tax-year input#start-year.form-control').on('change', function() {
+        startYear = parseInt($('form#add-tax-year input#start-year.form-control').val())
+        $('form#add-tax-year input#end-year.form-control').val(startYear + 1)
+        $('form#add-tax-year input#tax-year.form-control').val(startYear + '/' + (startYear + 1).toString().slice(-2))
+        $('form#add-tax-year input#tax-year-start.form-control').val(startYear + '-04-06')
+        $('form#add-tax-year input#tax-year-end.form-control').val(startYear + 1 + '-04-05')
+    });
+
+   
+
+
+
+
+    
+
 });

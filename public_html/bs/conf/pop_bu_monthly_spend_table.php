@@ -22,40 +22,40 @@
     $stmt = $pdo->prepare("
         INSERT INTO 
             bu_monthly_spend(
-                salary,
-                pension,
-                cash,
-                utilities,
-                commute,
-                cards,
-                supermarket,
-                other,
-                rent,
-                charities,
-                period,
-                `end`
+                bu_monthly_spend.`salary`,
+                bu_monthly_spend.`pension`,
+                bu_monthly_spend.`cash`,
+                bu_monthly_spend.`utilities`,
+                bu_monthly_spend.`commute`,
+                bu_monthly_spend.`cards`,
+                bu_monthly_spend.`supermarket`,
+                bu_monthly_spend.`other`,
+                bu_monthly_spend.`rent`,
+                bu_monthly_spend.`charities`,
+                bu_monthly_spend.`period`,
+                bu_monthly_spend.`end`
             )
         SELECT
-            SUM(IF(`type` = 'A', amount, 0)),
-            SUM(IF(`type` = 'B', amount, 0)),
-            SUM(IF(`type` = '1', amount, 0)),
-            SUM(IF(`type` = '2', amount, 0)),
-            SUM(IF(`type` = '3', amount, 0)),
-            SUM(IF(`type` = '4', amount, 0)),
-            SUM(IF(`type` = '5', amount, 0)),
-            SUM(IF(`type` = '6', amount, 0)),
-            SUM(IF(`type` = '7', amount, 0)),
-            SUM(IF(`type` = '8', amount, 0)),
-            ap1.period,
-            ap1.`end`
+            SUM(IF(bu_transactions.`type_id` = 'A', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = 'B', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '1', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '2', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '3', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '4', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '5', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '6', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '7', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '8', bu_transactions.`amount`, 0)),
+            bu_accounting_periods.`period`,
+            bu_accounting_periods.`period_end`
         FROM
-            bu_transactions AS t1
+            bu_transactions
         LEFT JOIN 
-            bu_accounting_periods AS ap1 ON ap1.period = t1.period
+            bu_accounting_periods ON bu_accounting_periods.`period` = bu_transactions.`period`
         WHERE 
-            ap1.period >= ? AND ap1.period <= ?
+            bu_accounting_periods.`period` >= ? AND bu_accounting_periods.`period` <= ?
         GROUP BY
-            ap1.period, ap1.`end`;
+            bu_accounting_periods.`period`, bu_accounting_periods.`period_end`;
     ");
     $stmt->execute(
         [

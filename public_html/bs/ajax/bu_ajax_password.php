@@ -32,9 +32,9 @@
                     UPDATE
                         bu_admin
                     SET
-                        password_hash = ?
+                        bu_admin.`password_hash` = ?
                     WHERE
-                        admin_id = ?;
+                        bu_admin.`admin_id` = ?;
                 ");
                 $stmt->execute(
                     [

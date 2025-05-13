@@ -5,7 +5,7 @@
     include('conf/bu_custom.php');
     check_login();
     $admin_id = $_SESSION['admin_id'];
-    $page_name = "Manage Transaction [Sub-]Types";
+    $page_name = "Manage Transaction Types";
 ?>
 
 <!DOCTYPE html>
@@ -27,10 +27,7 @@
                                 <h1><?php echo $page_name; ?></h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="bu_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><?php echo $page_name; ?></li>
-                                </ol>
+                                <?php BreadCrumb($page_name); ?>
                             </div>
                         </div>
                     </div>
@@ -49,10 +46,9 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Transaction Type</th>
-                                                <th>Description</th>
-                                                <th>Used [Type]</th>
-                                                <th>Used [Sub-Type]</th>
+                                                <th>Type ID</th>
+                                                <th>Type Description</th>
+                                                <th>Used</th>
                                                 <th style="text-align: center">Actions</th>
                                             </tr>
                                         </thead>
@@ -61,39 +57,21 @@
                                                 $counter = 1;
 
                                                 $stmt = $pdo->prepare("
-                                                    CREATE TEMPORARY TABLE
-                                                        temp
                                                     SELECT 
-                                                        tt1.type,
-                                                        COUNT(t1.type) AS _used_subtype
+                                                        bu_transaction_types.`id`,
+                                                        bu_transaction_types.`type_id`,
+                                                        bu_transaction_types.`type_description`,
+                                                        COUNT(bu_transactions.`type_id`) AS _used
                                                     FROM
-                                                        bu_transaction_types AS tt1
+                                                        bu_transaction_types
                                                     LEFT JOIN
-                                                        bu_transactions AS t1 ON tt1.type = t1.sub_type
+                                                        bu_transactions ON bu_transactions.`type_id` = bu_transaction_types.`type_id`
                                                     GROUP BY 
-                                                        tt1.type;
-                                                ");
-                                                $stmt->execute();
-                                                $stmt= null;
-
-                                                $stmt = $pdo->prepare("
-                                                    SELECT 
-                                                        tt1.id,
-                                                        tt1.type,
-                                                        tt1.description,
-                                                        COUNT(t1.type) AS _used_type,
-                                                        temp._used_subtype
-                                                    FROM
-                                                        bu_transaction_types AS tt1
-                                                    LEFT JOIN
-                                                        bu_transactions AS t1 ON tt1.type = t1.type
-                                                    LEFT JOIN
-                                                        temp ON tt1.type = temp.type
-                                                    GROUP BY 
-                                                        tt1.id, 
-                                                        tt1.type, 
-                                                        temp._used_subtype, 
-                                                        tt1.description;
+                                                        bu_transaction_types.`id`, 
+                                                        bu_transaction_types.`type_id`, 
+                                                        bu_transaction_types.`type_description`
+                                                    ORDER BY
+                                                        bu_transaction_types.`type_description`;
                                                 ");
                                                 $stmt->execute(); 
 
@@ -101,28 +79,21 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $counter; ?></td>
-                                                <td><?php echo $row->type; ?></td>
-                                                <td><?php echo $row->description; ?></td>
+                                                <td><?php echo $row->type_id; ?></td>
+                                                <td><?php echo $row->type_description; ?></td>
                                                 <td>
-                                                    <?php if ($row->_used_type != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-4&value=<?php echo rawurlencode($row->description); ?>"><?php echo $row->_used_type; ?></a>
+                                                    <?php if ($row->_used != 0) { ?>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-5&value=<?php echo rawurlencode($row->type_description); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
-                                                        echo $row->_used_type;
-                                                    } ?>
-                                                </td>
-                                                <td>
-                                                    <?php if ($row->_used_subtype != 0) { ?>
-                                                        <a href="bu_manage_transactions.php?filter=filter-col-5&value=<?php echo rawurlencode($row->description); ?>"><?php echo $row->_used_subtype; ?></a>
-                                                    <?php } else { 
-                                                        echo $row->_used_subtype;
+                                                        echo $row->_used;
                                                     } ?>
                                                 </td>
                                                 <td style="text-align: center">
-                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-transaction-type-modal" data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-type-used-by="<?php echo $row->_used_type; ?>" data-subtype-used-by="<?php echo $row->_used_subtype; ?>" data-record-type="transaction">
+                                                    <a class="btn btn-success btn-sm view-record" href="#" data-bs-toggle="modal" data-bs-target="#update-transaction-type-modal" data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-used-by="<?php echo $row->_used; ?>"  data-record-type="transaction">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
 
-                                                    <a data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction type" data-record-identifier="<?php echo $row->description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo (($row->_used_type + $row->_used_subtype) != 0 ? ' disabled' : '');?>" href="#">
+                                                    <a data-mysql-table="bu_transaction_types" data-record-id="<?php echo $row->id; ?>" data-record-type="transaction type" data-record-identifier="<?php echo $row->type_description; ?>"  class="btn btn-danger btn-sm delete-record<?php echo (($row->_used) != 0 ? ' disabled' : '');?>" href="#">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
@@ -156,7 +127,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
                 <div class="modal-content"  style="position: relative;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Transaction TYpe</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">View | Update Transaction Type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -186,12 +157,11 @@
                     {label: 'All', value: -1 }
                 ],
                 columns: [
-                    {className: 'counter', width: '50px'}, 
-                    {className: 'type', type: 'num'},
-                    {className: 'description'},
-                    {className: 'used', type: 'num'},
-                    {className: 'used', type: 'num'},
-                    {className: 'actions', width: '95px', orderable: false}
+                    {name: 'counter', className: 'counter', width: '50px'}, 
+                    {name: 'type_id', className: 'type', type: 'num'},
+                    {name: 'type_description', className: 'description'},
+                    {name: 'used', className: 'used', type: 'num'},
+                    {name: 'actions', className: 'actions', width: '95px', orderable: false}
                 ],
                 layout: {
                     topStart: null,
@@ -201,7 +171,8 @@
             });
         </script>
     <!-- AJAX Update -->
-        <script src="ajax/bu_ajax_update_transaction_type.js"></script>
+        <!-- <script src="ajax/bu_ajax_update_transaction_sub_type.js"></script> -->
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

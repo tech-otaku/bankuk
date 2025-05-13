@@ -1,4 +1,4 @@
-<form id="update-entity" class="update-form" method="post" enctype="multipart/form-data" role="form">
+<form id="update-entity" class="update-form" data-datatable-id="entities" method="post" enctype="multipart/form-data" role="form">
     <div class="card-body">
     <!-- DataTables Row Index [Hidden] -->
         <input type="text" name="dt-row-index" id="dt-row-index" hidden>
