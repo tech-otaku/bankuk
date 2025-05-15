@@ -53,6 +53,7 @@
             "header": "Prefill",
             "fields": [
                 {"type":"text", "id": "record-id", "column": "id", "datatable":false},
+                {"type":"text", "id":"prefill-name", "column":"name", "datatable":true, "dt_name":"prefill_name"},
                 {"type":"select", "id":"entity-id", "column":"entity_id", "datatable":true, "dt_name":"entity"},
                 {"type":"select", "id":"account-id-alpha", "column":"account_id_alpha", "datatable":true, "dt_name":"account_details"},
                 {"type":"select", "id":"type-id", "column":"type_id", "datatable":true, "dt_name":"type"},

@@ -249,7 +249,7 @@
                 UPDATE 
                     bu_prefills 
                 SET 
-                    -- bu_prefills.`name` = ?,
+                    bu_prefills.`name` = ?,
                     bu_prefills.`account_id` = ?, 
                     bu_prefills.`account_id_alpha` = ?, 
                     bu_prefills.`type_id` = ?, 
@@ -262,7 +262,7 @@
             ");        
             $stmt->execute(
                 [
-                    //$_POST['prefill-name'],
+                    $_POST['prefill-name'],
                     $bu_account['account_id'],
                     $_POST['account-id-alpha'], 
                     $_POST['type-id'], 

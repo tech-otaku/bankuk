@@ -7,14 +7,12 @@
     <!-- Record ID [Hidden] -->
         <input type="text" name="record-id" id="record-id" hidden>
     <!-- Name -->
-        <!--
         <div class="form-group row">
             <label for="prefill-name" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-8">
                 <input type="text" name="prefill-name" id="prefill-name" class="form-control" required>
             </div>
         </div>
-        -->
     <!-- Entity -->
         <div class="form-group row">
             <?php InputElementEntity ($pdo); ?>

@@ -75,7 +75,7 @@
                                                         LEFT JOIN
                                                             bu_entities ON bu_prefills.`entity_id` = bu_entities.`entity_id`
                                                         ORDER BY 
-                                                            bu_entities.`entity_description` ASC
+                                                            bu_prefills.`name` ASC
                                                     ");
                                                     $stmt->execute();
 
@@ -83,7 +83,7 @@
                                                     echo '<option value="" selected disabled hidden>Pre-fill (optional)...</option>';
                                                     echo '<option value="clear" data-account-id-alpha="" data-type="" data-entity-description="">Clear</option>';
                                                     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                                                        echo '<option value="' . $row->entity_description . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type-id="' . $row->type_id . '" data-sub-type-id="' . $row->sub_type_id . '" data-entity-id="' . $row->entity_id . '" data-method-id="' . $row->method_id . '" data-notes="' . $row->notes. '">' . $row->entity_description . '</option>';
+                                                        echo '<option value="' . $row->entity_description . '" data-account-id-alpha="' . $row->account_id_alpha . '" data-type-id="' . $row->type_id . '" data-sub-type-id="' . $row->sub_type_id . '" data-entity-id="' . $row->entity_id . '" data-method-id="' . $row->method_id . '" data-notes="' . $row->notes. '">' . $row->name . '</option>';
                                                     }
                                                     echo '</select>';
 

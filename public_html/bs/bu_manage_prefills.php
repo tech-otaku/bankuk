@@ -64,7 +64,7 @@
                 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card w-75 mx-auto">
+                            <div class="card w-100 mx-auto">
                                 <div class="card-header p-6">
                                     <a class="btn btn-success" href="bu_add_prefill.php">Add Pre-fill</a>
                                     <button type="button" id="clear-filters" class="btn btn-warning btn-sm float-end d-none">Clear Filters</a>  <!-- `d-none` Bootstrap class initially hides the button -->
@@ -75,7 +75,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-left">#</th>
-                                                <!-- <th>Name</th> -->
+                                                <th>Name</th>
                                                 <th>Entity</th>                                                
                                                 <th>Account Details</th>
                                                 <th>Type</th>
@@ -87,7 +87,7 @@
                                         <tfoot class="place-below-table-header">    <!-- The `place-below-table-header` class uses `display: table-header-group` to place the footer immediately below the table header before the table body -->
                                             <tr>
                                                 <th></th>
-                                                <!-- <th></th> -->
+                                                <th></th>
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
@@ -103,7 +103,7 @@
                                                 $stmt = $pdo->prepare("
                                                     SELECT
                                                         bu_prefills.`id`,
-                                                        -- bu_prefills.`name`,
+                                                        bu_prefills.`name`,
                                                         bu_prefills.`account_id_alpha`,
                                                         bu_prefills.`notes`,
                                                         bu_banks.`trading_name`,
@@ -130,7 +130,7 @@
                                                     LEFT JOIN
                                                         bu_transaction_methods ON bu_prefills.`method_id` = bu_transaction_methods.`method_id`
                                                     ORDER BY 
-                                                        bu_entities.`entity_description` ASC
+                                                        bu_prefills.`name` ASC
                                                 ");
                                                 $stmt->execute();
 
@@ -139,7 +139,7 @@
                                             <tr>
                                                 <!-- <td><?php //echo ((!empty($row->notes)) ? '<i class="fa-solid fa-book"></i> ' : "") . $counter; ?></td> -->
                                                 <td <?php echo ((!empty($row->notes)) ? 'class="has-note right details-control" data-note="' . nl2br($row->notes) . '"'  : "") . '>' . $counter; ?></td>
-                                                <!-- <td><?php //echo $row->name; ?></td> -->
+                                                <td><?php echo $row->name; ?></td>
                                                 <td><?php echo $row->entity_description; ?></td>
                                                 <td><?php echo $row->trading_name . ' ' . $row->_account_name . ' - ' . $row->account_number . ' ['. $row->account_id_alpha . ']' . ($row->status === 'Closed' ? ' CLOSED' : ''); ?></td>
                                                 <!-- <td><?php //echo $fmt_currency->formatCurrency($row->amount, "GBP"); ?></td> -->
@@ -230,22 +230,20 @@
                         searchable: false, 
                         width: '100px'
                     },
-                    /*
                     {   // Column Index 1
                         name: 'prefill_name',
                         className: 'name', 
                         width: '500px'
                     },
-                    */
                     {   // Column Index 1
                         name: 'entity',
                         className: 'entity', 
-                        width: '500px'
+                        width: '300px'
                     }, 
                     {
                         name: 'account_details',
                         className: 'account-name', 
-                        width: '300px'
+                        width: '200px'
                     }, 
                     {
                         name: 'type',
@@ -270,6 +268,9 @@
                         orderable: false
                     } 
                 ],
+                order: [
+                        [ 1, 'asc' ]
+                    ],
             // Callbacks
                 initComplete: function () {
                     CreateFilterDropdowns (this.api().columns(['account_details:name','type:name','sub_type:name','method:name']))                   
