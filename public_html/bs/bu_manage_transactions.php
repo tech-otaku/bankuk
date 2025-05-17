@@ -378,7 +378,7 @@
                     ],
                 // Callbacks
                     initComplete: function () {
-                        console.log(this)
+                        //console.log(this)
 
                         CreateFilterDropdowns (this.api().columns(['account_id_alpha:name','account_details:name','entity:name','type:name','sub_type:name','method:name']))
                         CreateFilterDropdownsIntegerSort (this.api().columns(['amount:name','tax_year:name','period:name']))
@@ -387,21 +387,33 @@
                          * When the URL contains a filter parameter, all filters should be cleared before applying the filter contained in the URL
                          * This happens after any filters are restored from the save 'state' object.
                          */
+
                         const urlParams = new URLSearchParams(window.location.search);
 
-                        if (urlParams.has('filter')) {                                          // URL contains filter paramater; 'bu_manage_transactions.php?filter=filter-col-6&value=BT'
+                        if ( Array.from(urlParams).length !== 0 ) {     // URL contains filter paramater(s); 'bu_manage_transactions.php?filter-col-5=Non-taxable%20Interest&filter-col-10=99'
 
-                            $('select').each(function() {                                       // Effective for all select elements on the page
-                                // $(this) now refers to one specific <select> element
-                                $(this).prop("selectedIndex", 0).val();                         // Set the option of the select element to its first (0) option which is 'Show all' 
-                                $(this).trigger('change');                                      // Update the display based on the filter condition; 'Show all'
-                            });
+                            $(this).DataTable().search('').columns().search('').draw()  // Reset all current search parameters
 
-                            $("#" + urlParams.get('filter')).val(urlParams.get('value'));       // Set the appropriate filter to the value included in the URL
-                            $("#" + urlParams.get('filter')).trigger("change");                 // Update the display based on the new filter condition
+                            
+                        // In the URL, each search parameter is separated by '&' and defined as a key/value pair.  
+                            for (const [key, value] of urlParams.entries()) {
+                            // Iterate over each of the search parameters in the URL.
+                            
+                                $(`#${key}`).val(value)     // e.g. $('#filter-col-10').val('99')
 
+                                if (key === 'dt-search-0') {
+                                // Search Box
+                                    $(`#${key}`).trigger('keyup')
+                                } else {
+                                // Select Dropdowns
+                                    $(`#${key}`).trigger('change')
+                                }
+
+                            }
+                            
                         }
 
+                    // Page Loading 
                         $('h2.loading').remove();   // Remove the 'Loading' message now the table's ready 
                         $(this).show()              // The table is initially hidden (style="display:none"), once it's ready, show it. 
                             

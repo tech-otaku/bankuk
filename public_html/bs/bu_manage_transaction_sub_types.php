@@ -84,7 +84,7 @@
                                                 <td><?php echo $row->sub_type_description; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-6&value=<?php echo rawurlencode($row->sub_type_description); ?>"><?php echo $row->_used; ?></a>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter-col-6=<?php echo rawurlencode($row->sub_type_description); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>

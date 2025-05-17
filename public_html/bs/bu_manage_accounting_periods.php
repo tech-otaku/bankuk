@@ -103,7 +103,7 @@
                                                 <td><?php echo $row->period; ?></td>
                                                 <td>
                                                     <?php if ($row->_used != 0) { ?>
-                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter=filter-col-10&value=<?php echo rawurlencode($row->period); ?>"><?php echo $row->_used; ?></a>
+                                                        <a class="text-decoration-none" href="bu_manage_transactions.php?filter-col-10=<?php echo rawurlencode($row->period); ?>"><?php echo $row->_used; ?></a>
                                                     <?php } else { 
                                                         echo $row->_used;
                                                     } ?>
