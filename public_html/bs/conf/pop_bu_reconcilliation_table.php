@@ -35,7 +35,8 @@
                 bu_reconcilliation.`end`
             )
         SELECT
-            SUM(IF(bu_transactions.`type_id` IN ('A' , 'B'), bu_transactions.`amount`, 0)),
+            -- SUM(IF(bu_transactions.`type_id` IN ('A' , 'B'), bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`type_id` = '20', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = 'C', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = 'D', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = 'E', bu_transactions.`amount`, 0)),

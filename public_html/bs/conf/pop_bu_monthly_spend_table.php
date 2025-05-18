@@ -36,8 +36,10 @@
                 bu_monthly_spend.`end`
             )
         SELECT
-            SUM(IF(bu_transactions.`type_id` = 'A', bu_transactions.`amount`, 0)),
-            SUM(IF(bu_transactions.`type_id` = 'B', bu_transactions.`amount`, 0)),
+            -- SUM(IF(bu_transactions.`type_id` = 'A', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`sub_type_id` = 'A', bu_transactions.`amount`, 0)),
+            -- SUM(IF(bu_transactions.`type_id` = 'B', bu_transactions.`amount`, 0)),
+            SUM(IF(bu_transactions.`sub_type_id` = 'B', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = '1', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = '2', bu_transactions.`amount`, 0)),
             SUM(IF(bu_transactions.`type_id` = '3', bu_transactions.`amount`, 0)),
