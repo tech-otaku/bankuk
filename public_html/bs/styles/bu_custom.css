@@ -16,6 +16,10 @@ main > .container {
     background-color: #ffc107 !important;
 }
 
+a.no-link-color {
+    color: inherit;
+}
+
 
 div.content-wrapper {
     margin-left: 0 !important;

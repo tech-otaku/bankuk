@@ -115,20 +115,21 @@
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
+                                            
                                             <tr>
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td><?php echo $row->end; ?></td>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->opening, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->income, "GBP"); ?></td>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->income, 'filter' => 'filter-col-5=' . rawurlencode('Income') . '&filter-col-10=' . $row->period));?>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->monthly_spend, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->taxable_interest, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->tax_free_interest, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->cashback, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->transfers_to, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->transfers_from, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->excluded_spend, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->excluded_income, "GBP"); ?></td>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->taxable_interest, 'filter' => 'filter-col-5=' . rawurlencode('Taxable Interest') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->tax_free_interest, 'filter' => 'filter-col-5=' . rawurlencode('Non-taxable Interest') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->cashback, 'filter' => 'dt-search-0=' . rawurlencode('cashback') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_to, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_from, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_spend, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
+                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_income, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->closing, "GBP"); ?></td>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->savings_actual, "GBP"); ?></td>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->savings, "GBP"); ?></td>
@@ -228,25 +229,25 @@
                         className: 'monthly-spend currency'
                     },
                     {
-                        className: 'taxable-interest currency'
+                        //className: 'taxable-interest currency'
                     },
                     {
-                        className: 'tax-free-interest currency'
+                        //className: 'tax-free-interest currency'
                     },
                     {
-                        className: 'cashback currency'
+                        //className: 'cashback currency'
                     },
                     {
-                        className: 'transfers-to currency'
+                        //className: 'transfers-to currency'
                     },
                     {
-                        className: 'transfers-from currency'
+                        //className: 'transfers-from currency'
                     },
                     {
-                        className: 'excluded-spend currency'
+                        //className: 'excluded-spend currency'
                     },
                     {
-                        className: 'excluded-income currency'
+                        //className: 'excluded-income currency'
                     },
                     {
                         className: 'closing currency'
