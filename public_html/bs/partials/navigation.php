@@ -18,6 +18,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="bu_reconcilliation.php">Reconcilliation</a>
                 </li>
+            <!-- Transactions -->
+                <li class="nav-item nav-bar-separator">
+                    <a class="nav-link" href="bu_manage_transactions.php">Transactions</a>
+                </li>
             <!-- Accounting Periods -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_accounting_periods.php">Accounting Periods</a>

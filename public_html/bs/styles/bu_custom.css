@@ -12,6 +12,10 @@ main > .container {
 }
 */
 
+.navbar-nav .nav-bar-separator {
+    border-right: 2px solid silver;
+ }
+
 .filter-applied {
     background-color: #ffc107 !important;
 }
