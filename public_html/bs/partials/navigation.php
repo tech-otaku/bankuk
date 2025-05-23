@@ -22,6 +22,24 @@
                 <li class="nav-item nav-bar-separator">
                     <a class="nav-link" href="bu_manage_transactions.php">Transactions</a>
                 </li>
+            <!-- Add Record Dropdown -->
+            <li class="nav-item nav-bar-separator dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-add" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Add Record
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-add">
+                        <li><a class="dropdown-item" href="bu_add_accounting_period.php">Accounting Period</a></li>
+                        <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
+                        <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
+                        <li><a class="dropdown-item" href="bu_add_entity.php">Entity</a></li>
+                        <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
+                        <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
+                        <li><a class="dropdown-item disabled" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
+                        <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
+                        <li><a class="dropdown-item" href="bu_add_transaction_sub_type.php">Transaction Sub-Type</a></li>
+                        <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
+                    </ul>
+                </li>
             <!-- Accounting Periods -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_accounting_periods.php">Accounting Periods</a>
@@ -54,10 +72,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_tax_years.php">Tax Years</a>
                 </li>
-            <!-- Transactions -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_transactions.php">Transactions</a>
-                </li>
             <!-- Transaction Methods -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_transaction_methods.php">Transaction Methods</a>
@@ -69,24 +83,6 @@
             <!-- Transaction Sub Types -->
                 <li class="nav-item">
                     <a class="nav-link" href="bu_manage_transaction_sub_types.php">Transaction Sub-Types</a>
-                </li>
-            <!-- Add Record Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-add" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Add Record
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdown-add">
-                        <li><a class="dropdown-item" href="bu_add_accounting_period.php">Accounting Period</a></li>
-                        <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
-                        <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
-                        <li><a class="dropdown-item" href="bu_add_entity.php">Entity</a></li>
-                        <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
-                        <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
-                        <li><a class="dropdown-item disabled" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
-                        <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
-                        <li><a class="dropdown-item" href="bu_add_transaction_sub_type.php">Transaction Sub-Type</a></li>
-                        <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
-                    </ul>
                 </li>
             <!-- System -->
                 <li class="nav-item dropdown">
@@ -102,11 +98,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
-            <!-- Disabled -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>            
         <!-- Search -->
             <!-- 
             <form class="d-flex">
