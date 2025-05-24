@@ -85,16 +85,16 @@
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td><?php echo $row->end; ?></td>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->salary, 'filter' => 'filter-col-6=' . rawurlencode('Salary') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->pension, 'filter' => 'filter-col-6=' . rawurlencode('Pension') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->cash, 'filter' => 'filter-col-5=' . rawurlencode('ATM') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->utilities, 'filter' => 'filter-col-5=' . rawurlencode('Utility') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->commute, 'filter' => 'filter-col-5=' . rawurlencode('Commute') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->cards, 'filter' => 'filter-col-5=' . rawurlencode('Card') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->supermarket, 'filter' => 'filter-col-5=' . rawurlencode('Supermarket') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->other, 'filter' => 'filter-col-5=' . rawurlencode('Other') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->rent, 'filter' => 'filter-col-5=' . rawurlencode('Rent') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->charities, 'filter' => 'filter-col-5=' . rawurlencode('Charity') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-6=<?php echo rawurlencode('Salary'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->salary; ?></td>
+                                                <td data-filter-url-param="filter-col-6=<?php echo rawurlencode('Pension'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->pension; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('ATM'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->cash; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Utility'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->utilities; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Commute'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->commute; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Card'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->cards; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Supermarket'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->supermarket; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Other'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->other; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Rent'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->rent; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Charity'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->charities; ?></td>
 
                                                 <?php
                                                     $total_spend = 
@@ -160,144 +160,30 @@
                     }
                 ],
                 columns: [
-                    {
-                        className: 'counter'
-                    }, 
-                    {
-                        className: 'period'
-                    },
-                    {
-                        className: 'end', 
+                    { name: 'counter' }, 
+                    { name: 'period' },
+                    { 
+                        name: 'end', 
                         type: 'date', 
                         render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
                         createdCell: function (td, cellData, rowData, row, col) {
                             $(td).addClass(Chronology(cellData));
                         }
                     }, 
+                    { name: 'salary' },
+                    { name: 'pension' },
+                    { name: 'cash' },
+                    { name: 'utilities' },
+                    { name: 'commute' },
+                    { name: 'cards' },
+                    { name: 'supermarket' },
+                    { name: 'other' },
+                    { name: 'rent' },
+                    { name: 'charities' },
                     {
-                        //className: 'salary',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'pension',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'cash',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'), 
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'utilities currency',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /* 
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                            */
-                    },
-                    {
-                        //className: 'commute',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /* 
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'cards currency',
-                        type: 'num',
-                        /*
-                        render: DataTable.render.number(',', '.', '2', '£'), 
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                            */
-                    },
-                    {
-                        //className: 'supermarket',
-                        type: 'num',
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /* 
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'other',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'rent',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
-                        //className: 'charities',
-                        type: 'num', 
-                        //render: DataTable.render.number(',', '.', '2', '£'),
-                        /*
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            if (cellData < 0) {
-                                $(td).addClass('debit');
-                            }
-                        }
-                        */
-                    },
-                    {
+                        name: 'total_spend',
                         className: 'total-spend',
-                        type: 'num', 
-                        render: DataTable.render.number(',', '.', '2', '£'), 
+                        render: DataTable.render.number(',', '.', '2', '£'),            
                         createdCell: function (td, cellData, rowData, row, col) {
                             if (cellData < 0) {
                                 $(td).addClass('debit');
@@ -305,8 +191,8 @@
                         }
                     },
                     {
+                        name: 'remaining',
                         className: 'remaining',
-                        type: 'num', 
                         render: DataTable.render.number(',', '.', '2', '£'), 
                         createdCell: function (td, cellData, rowData, row, col) {
                             if (cellData < 0) {
@@ -315,10 +201,36 @@
                         }
                     }
                 ],
+                columnDefs: [
+                    {
+                        targets: [ 
+                            'salary:name',
+                            'pension:name',
+                            'cash:name',
+                            'utilities:name',
+                            'commute:name',
+                            'cards:name',
+                            'supermarket:name',
+                            'other:name',
+                            'rent:name',
+                            'charities:name',
+                        ],
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            var amount = DataTable.render.number(',', '.', '2', '£').display(cellData)  // See https://datatables.net/examples/basic_init/data_rendering.html
+                
+                            var filter_url_param = $(td).attr("data-filter-url-param");
+                            $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
+                           
+                            if (intVal(cellData) < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
+                    }
+                ],
             // Callbacks
                 drawCallback: function (settings) {
                     //customClass('account-code', 'account-code-')
-                    customClass('currency', 'debit')
+                    //customClass('currency', 'debit')
                     //customClass('transaction-date', '')
                 },
             });

@@ -120,19 +120,27 @@
                                                 <td><?php echo $counter; ?></td>
                                                 <td><?php echo $row->period; ?></td>
                                                 <td><?php echo $row->end; ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->opening, "GBP"); ?></td>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->income, 'filter' => 'filter-col-5=' . rawurlencode('Income') . '&filter-col-10=' . $row->period));?>
+                                                <td><?php echo $row->opening; ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Income'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->income; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->income, 'filter' => 'filter-col-5=' . rawurlencode('Income') . '&filter-col-10=' . $row->period));?>
                                                 <td><?php echo $fmt_currency->formatCurrency($row->monthly_spend, "GBP"); ?></td>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->taxable_interest, 'filter' => 'filter-col-5=' . rawurlencode('Taxable Interest') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->tax_free_interest, 'filter' => 'filter-col-5=' . rawurlencode('Non-taxable Interest') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->cashback, 'filter' => 'dt-search-0=' . rawurlencode('cashback') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_to, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_from, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_spend, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
-                                                <?php TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_income, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->closing, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->savings_actual, "GBP"); ?></td>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->savings, "GBP"); ?></td>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Taxable Interest'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->taxable_interest; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->taxable_interest, 'filter' => 'filter-col-5=' . rawurlencode('Taxable Interest') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Non-taxable Interest'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->tax_free_interest; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->tax_free_interest, 'filter' => 'filter-col-5=' . rawurlencode('Non-taxable Interest') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="dt-search-0=<?php echo rawurlencode('cashback'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->cashback; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->cashback, 'filter' => 'dt-search-0=' . rawurlencode('cashback') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Transfer'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->transfers_to; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_to, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Transfer'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->transfers_from; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->transfers_from, 'filter' => 'filter-col-5=' . rawurlencode('Transfer') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Excluded'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->excluded_spend; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_spend, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
+                                                <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Excluded'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->excluded_income; ?></td>
+                                                <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->excluded_income, 'filter' => 'filter-col-5=' . rawurlencode('Excluded') . '&filter-col-10=' . $row->period));?>
+                                                <td><?php echo $row->closing; ?></td>
+                                                <td><?php echo $row->savings_actual; ?></td>
+                                                <td><?php echo $row->savings; ?></td>
 
                                                 <?php 
                                                     $monthly_spend_savings = 
@@ -155,7 +163,7 @@
                                                         */
                                                 ?>
                                                 
-                                                <td><?php echo $fmt_currency->formatCurrency($monthly_spend_savings, "GBP"); ?></td>
+                                                <td><?php echo $monthly_spend_savings; ?></td>
                                                 <!--
                                                 <td><?php //echo $fmt_currency->formatCurrency($remaining, "GBP"); ?></td>
                                                 -->
@@ -189,7 +197,7 @@
 
                 drawCallback: function (settings) {
 //                    customClass('account-code', 'account-code-')
-                    customClass('currency', 'debit')
+                    //customClass('currency', 'debit')
                     //customClass('transaction-date', '')
                 },
                 order: [
@@ -207,59 +215,93 @@
                     }
                 ],
                 columns: [
+                    { name: 'counter' }, 
+                    { name: 'period' },
                     {
-                        className: 'counter'}, 
-                    {
-                        className: 'period'},
-                    {
-                        className: 'end', 
+                        name: 'end', 
                         type: 'date', 
                         render: DataTable.render.datetime('ddd DD/MM/YYYY'),  // requires moment.js
                         createdCell: function (td, cellData, rowData, row, col) {
                             $(td).addClass(Chronology(cellData));
                         }
                     },  
-                    {
-                        className: 'opening'
+                    { 
+                        name: 'opening',
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     },
-                    {
-                        className: 'income currency'
+                    { name: 'income' },
+                    { name: 'monthly_spend' },
+                    { name: 'taxable_interest' },
+                    { name: 'tax_free_interest' },
+                    { name: 'cashback' },
+                    { name: 'transfers_to' },
+                    { name: 'transfers_from' },
+                    { name: 'excluded_spend' },
+                    { name: 'excluded_income' },
+                    { 
+                        name: 'closing',
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     },
-                    {
-                        className: 'monthly-spend currency'
+                    { 
+                        name: 'savings_actual',
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     },
-                    {
-                        //className: 'taxable-interest currency'
+                    { 
+                        name: 'savings',
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     },
-                    {
-                        //className: 'tax-free-interest currency'
+                    { 
+                        name: 'monthly_spend_savings',
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     },
+                ],
+                columnDefs: [
                     {
-                        //className: 'cashback currency'
-                    },
-                    {
-                        //className: 'transfers-to currency'
-                    },
-                    {
-                        //className: 'transfers-from currency'
-                    },
-                    {
-                        //className: 'excluded-spend currency'
-                    },
-                    {
-                        //className: 'excluded-income currency'
-                    },
-                    {
-                        className: 'closing currency'
-                    },
-                    {
-                        className: 'savings-1 currency'
-                    },
-                    {
-                        className: 'savings-2 currency'
-                    },
-                    {
-                        className: 'savings-3 currency'
+                        targets: [ 
+                            'income:name',
+                            'taxable_interest:name',
+                            'tax_free_interest:name',
+                            'cashback:name',
+                            'transfers_to:name',
+                            'transfers_from:name',
+                            'excluded_spend:name',
+                            'excluded_income:name'
+                        ],
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            var amount = DataTable.render.number(',', '.', '2', '£').display(cellData)  // See https://datatables.net/examples/basic_init/data_rendering.html
+                
+                            var filter_url_param = $(td).attr("data-filter-url-param");
+                            $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
+                           
+                            if (intVal(cellData) < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
                     }
                 ]
             });
