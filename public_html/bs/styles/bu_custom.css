@@ -10,11 +10,356 @@ table#transactions, table#summary {
 main > .container {
     padding: 60px 15px 0;
 }
-*/
 
+/*
 .navbar-nav .nav-bar-separator {
     border-right: 2px solid #3d8bfd;
 }
+    */
+    /*
+                           Hover    Odd    Even
+                            85%     90%     95%     (lighter)
+A    RED     #FE2712    #ffdfdb #ffe9e7 #fff4f3
+B    BROWN   #85534e	
+C    ORANGE  #FB9902	
+D    Y-O     #FCCC1A	
+E    YELLOW  #FEFE33	
+F    Y-G     #B2D732
+G    BLUE    #0000FF
+H    B-G     #347C98	
+I    GREEN   #66B032    #e0f2d3 #eff9e9 #f7fcf4	
+J    B-P     #4424D6	
+K    PURPLE  #8601AF
+L	
+M    R-P     #C21460
+N
+*/
+
+:root {
+    --aqua-base: #e3f2f6;
+    --aqua-odd: #d8edf3;
+    --aqua-hover: #cee8ef;
+    --aqua-show: #3a99b3;
+    --blue-base: #dce8f7;
+    --blue-odd: #d1e1f4;
+    --blue-hover: #c5d9f2;
+    --blue-show: #2b6dbe;
+    --blue-dull-base: #e5ecf4;
+    --blue-dull-odd: #dbe5f0;
+    --blue-dull-hover: #d1ddec;
+    --blue-dull-show: #4673a6;
+    --brown-base: #e5e2d3;
+    --brown-odd: #e0ddcb;
+    --brown-hover: #dbd7c2;
+    --brown-show: #8a8152;
+    --gold-base: #fbf5df;
+    --gold-odd: #f9f1d2;
+    --gold-hover: #f8edc6;
+    --gold-show: #d3ab1a;
+    --green-base: #f0f4e6;
+    --green-odd: #eaf0dc;
+    --green-hover: #e4ebd2;
+    --green-show: #8aa548;
+    --lavender-base: #ebe7f1;
+    --lavender-odd: #e4deec;
+    --lavender-hover: #dcd5e7;
+    --lavender-show: #705795;
+    --peach-base: #fdeee2;
+    --peach-odd: #fce6d5;
+    --peach-hover: #fbdec7;
+    --peach-show: #e06c0f;
+    --pink-base: #f5e5e4;
+    --pink-odd: #f1dbda;
+    --pink-hover: #edd1cf;
+    --pink-show: #ad4640;
+    --purple-base: #ebe4f5;
+    --purple-odd: #e3daf1;
+    --purple-hover: #dccfed;
+    --purple-show: #6d40ad;
+    --sage-base: #e8ebe1;
+    --sage-odd: #e2e5d9;
+    --sage-hover: #dbe0d0;
+    --sage-show: #7c8a5c;
+    --smoke-base: #f5f5f5;
+    --smoke-odd: #eeeeee;
+    --smoke-hover: #e6e6e6;
+    --smoke-show: #7a7a7a;
+    --yellow-base: #fffff1;
+    --yellow-odd: #ffffe2;
+    --yellow-hover: #ffffd3;
+    --yellow-show: #f8f800;
+
+}
+
+
+/**
+  * Account Code A
+  */
+    .table.bu-table-striped>tbody>tr.account-code-a {
+        background-color: var(--lavender-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-a:nth-of-type(odd) {       
+        background-color: var(--lavender-odd) !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-a:hover {
+        background-color: var(--lavender-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-a td.has-note::before {
+        color: var(--lavender-show) !important;                          /* 50% darker */
+    }
+
+
+/**
+  * Account Code B
+  */
+.table.bu-table-striped>tbody>tr.account-code-b {
+    background-color: var(--brown-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-b:nth-of-type(odd) {       
+    background-color: var(--brown-odd)  !important;              /* 3% darker */
+    
+}
+
+.table.bu-table-hover>tbody>tr.account-code-b:hover {
+    background-color: var(--brown-hover) !important;               /* 6% darker */  
+}
+
+.table.bu-table-striped>tbody>tr.account-code-b td.has-note::before {
+    color: var(--brown-show) !important;                          /* 50% darker */
+}
+
+
+/**
+  * Account Code C
+  */
+  
+  .table.bu-table-striped>tbody>tr.account-code-c {
+    background-color: var(--blue-dull-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-c:nth-of-type(odd) {       
+    background-color: var(--blue-dull-odd)  !important;              /* 3% darker */
+}
+
+.table.bu-table-hover>tbody>tr.account-code-c:hover {
+    background-color: var(--blue-dull-hover) !important;               /* 6% darker */ 
+}
+
+.table.bu-table-striped>tbody>tr.account-code-c td.has-note::before {
+    color: var(--blue-dull-show) !important;                          /* 50% darker */
+}
+
+
+/**
+  * Account Code D
+  */
+    .table.bu-table-striped>tbody>tr.account-code-d {
+        background-color: var(--peach-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-d:nth-of-type(odd) {       
+        background-color: var(--peach-odd)  !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-d:hover {
+        background-color: var(--peach-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-d td.has-note::before {
+        color: var(--peach-show) !important;                          /* 50% darker */
+        
+    }
+
+
+/**
+  * Account Code E
+  */
+  .table.bu-table-striped>tbody>tr.account-code-e {
+    background-color: var(--aqua-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-e:nth-of-type(odd) {       
+    background-color: var(--aqua-odd)  !important;              /* 3% darker */
+}
+
+.table.bu-table-hover>tbody>tr.account-code-e:hover {
+    background-color: var(--aqua-hover) !important;               /* 6% darker */ 
+}
+
+.table.bu-table-striped>tbody>tr.account-code-e td.has-note::before {
+    color: var(--aqua-show) !important;                          /* 50% darker */
+    
+}
+
+
+/**
+  * Account Code F
+  */
+  .table.bu-table-striped>tbody>tr.account-code-f {
+    background-color: var(--green-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-f:nth-of-type(odd) {       
+    background-color: var(--green-odd)  !important;              /* 3% darker */
+}
+
+.table.bu-table-hover>tbody>tr.account-code-f:hover {
+    background-color: var(--green-hover) !important;               /* 6% darker */ 
+}
+
+.table.bu-table-striped>tbody>tr.account-code-f td.has-note::before {
+    color: var(--green-show) !important;                          /* 50% darker */
+}
+
+
+/**
+  * Account Code G
+  */
+    .table.bu-table-striped>tbody>tr.account-code-g {
+        
+        background-color: var(--smoke-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-g:nth-of-type(odd) {       
+        
+        background-color: var(--smoke-odd)  !important;              /* 3% darker */
+    }
+
+    .table.table.bu-table-hover>tbody>tr.account-code-g:hover {
+        
+        background-color: var(--smoke-hover) !important;               /* 6% darker */  
+    }
+
+    .table.table.bu-table-striped>tbody>tr.account-code-g td.has-note::before {
+        
+        color: var(--smoke-show) !important;                          /* 50% darker */
+    }
+
+
+/**
+  * Account Code H
+  */
+    .table.bu-table-striped>tbody>tr.account-code-h {
+        background-color: var(--blue-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-h:nth-of-type(odd) {       
+        background-color: var(--blue-odd) !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-h:hover {
+        background-color: var(--blue-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-h td.has-note::before {
+        color: var(--blue-show) !important;                          /* 50% darker */
+    }
+
+
+/**
+  * Account Code I
+  */
+    .table.bu-table-striped>tbody>tr.account-code-i {
+        background-color: var(--gold-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-i:nth-of-type(odd) {       
+        background-color: var(--gold-odd)  !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-i:hover {
+        background-color: var(--gold-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-i td.has-note::before {
+        color: var(--gold-show) !important;                          /* 50% darker */
+    }
+
+
+/**
+  * Account Code J
+  */
+    .table.bu-table-striped>tbody>tr.account-code-j {
+        background-color: var(--pink-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-j:nth-of-type(odd) {       
+        background-color: var(--pink-odd)  !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-j:hover {
+        background-color: var(--pink-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-j td.has-note::before {
+        color: var(--pink-show) !important;                          /* 50% darker */
+    }
+
+
+/**
+  * Account Code K
+  */
+  .table.bu-table-striped>tbody>tr.account-code-k {
+    background-color: var(--yellow-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-k:nth-of-type(odd) {       
+    background-color: var(--yellow-odd)  !important;              /* 3% darker */
+}
+
+.table.bu-table-hover>tbody>tr.account-code-k:hover {
+    background-color: var(--yellow-hover) !important;               /* 6% darker */ 
+}
+
+.table.bu-table-striped>tbody>tr.account-code-k td.has-note::before {
+    color: var(--yellow-show) !important;                          /* 50% darker */
+}
+
+
+/**
+  * Account Code L
+  */
+  .table.bu-table-striped>tbody>tr.account-code-l {
+    background-color: var(--purple-base) !important;               /* Base */
+}
+
+.table.bu-table-striped>tbody>tr.account-code-l:nth-of-type(odd) {       
+    background-color: var(--purple-odd)  !important;              /* 3% darker */
+}
+
+.table.bu-table-hover>tbody>tr.account-code-l:hover {
+    background-color: var(--purple-hover) !important;               /* 6% darker */ 
+}
+
+.table.bu-table-striped>tbody>tr.account-code-l td.has-note::before {
+    color: var(--purple-show) !important;                          /* 50% darker */
+}
+
+
+/**
+  * Account Code N
+  */
+    .table.bu-table-striped>tbody>tr.account-code-n {
+        background-color: var(--sage-base) !important;               /* Base */
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-n:nth-of-type(odd) {       
+        background-color: var(--sage-odd)  !important;              /* 3% darker */
+    }
+
+    .table.bu-table-hover>tbody>tr.account-code-n:hover {
+        background-color: var(--sage-hover) !important;               /* 6% darker */ 
+    }
+
+    .table.bu-table-striped>tbody>tr.account-code-n td.has-note::before {
+        color: var(--sage-show) !important;                          /* 50% darker */
+    }
+
+
 
 .filter-applied {
     background-color: #ffc107 !important;
@@ -60,57 +405,14 @@ th {
 }
 
 
-tr.account-code-a {
-    background-color: #ebe7f1 !important;
-}
 
-tr.account-code-b {
-    background-color: #e5e2d3 !important;
-}
 
-tr.account-code-c {
-    background-color: #dce8f7 !important;
-}
 
-tr.account-code-d {
-    background-color: #fdeee2 !important;
-}
 
-tr.account-code-e {
-    background-color: #e3f2f6 !important;
-}
 
-tr.account-code-f {
-    background-color: #f0f4e6 !important;
-}
 
-tr.account-code-g {
-    background-color: #e5ecf4 !important;
-}
 
-tr.account-code-h {
-    background-color: #f5f5f5 !important;
-}
 
-tr.account-code-i {
-    background-color: #fbf5df !important;
-}
-
-tr.account-code-j {
-    background-color: #f5e5e4 !important;
-}
-
-tr.account-code-k {
-    background-color: #fffff1 !important;
-}
-
-tr.account-code-l {
-    background-color: #ebe4f5 !important;
-}
-
-tr.account-code-n {
-    background-color: #d8e8dd !important;
-}
 
 td.has-note::before {
     -moz-osx-font-smoothing: grayscale;
@@ -138,58 +440,6 @@ td.has-note.down::before {
     content: "\f0d7";
 }
 
-tr.account-code-a td.has-note::before {
-    color: #705795 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-b td.has-note::before {
-    color: #8a8152 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-c td.has-note::before {
-    color: #2b6dbe !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-d td.has-note::before {
-    color: #e06c0f !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-e td.has-note::before {
-    color: #3a99b3 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-f td.has-note::before {
-    color: #8aa548 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-g td.has-note::before {
-    color: #4673a6 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-h td.has-note::before {
-    color: #7a7a7a !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-i td.has-note::before {
-    color: #d3ab1a !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-j td.has-note::before {
-    color: #ad4640 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-k td.has-note::before {
-    color: #dfdf00 !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-l td.has-note::before {
-    color: #6d40ad !important;  /* 50% darker than tr.account-code-a */
-}
-
-tr.account-code-n td.has-note::before {
-    color: #538d65 !important;  /* 50% darker than tr.account-code-n */
-}
-
 tr:not([class]) td.has-note::before {
     color: #999 !important;
 }
@@ -201,55 +451,6 @@ tr:not([class]) td.has-note {
 }
     */
 
-/*
-tr.account-code-a td.has-note {
-    background-color: #b9abce !important;
-}
-
-tr.account-code-b td.has-note {
-    background-color: #c4be9c !important;
-}
-
-tr.account-code-c td.has-note {
-    background-color: #90b6e6 !important;
-}
-
-tr.account-code-d td.has-note {
-    background-color: #f7b988 !important;
-}
-
-tr.account-code-e td.has-note {
-    background-color: #9bd1df !important;
-}
-
-tr.account-code-f td.has-note {
-    background-color: #c8d7a4 !important;
-}
-
-tr.account-code-g td.has-note {
-    background-color: #a3bbd8 !important;
-}
-
-tr.account-code-h td.has-note {
-    background-color: #c4c4c4 !important;
-}
-
-tr.account-code-i td.has-note {
-    background-color: #f0db8b !important;
-}
-
-tr.account-code-j td.has-note {
-    background-color: #dba39f !important;
-}
-
-tr.account-code-k td.has-note {
-    background-color: #ffff8e !important;
-}
-
-tr.account-code-l td.has-note {
-    background-color: #b89fdb !important;
-}
-*/
 
 tr.regular-debit td.has-note {
     /*background-color: #aaaaaa !important;
@@ -269,7 +470,7 @@ td.transaction-amount {
 }
 
 .debit {
-    color: #ff0000;
+    color: #ff0000 !important;
 }
 
 td/*.transaction-date*/.future {

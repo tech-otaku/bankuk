@@ -90,7 +90,7 @@
                                 
                                 <div class="card-body pt-0">
                                     <h2 class="loading text-center"><i class="fa fa-spinner fa-spin" style="font-size:36px; margin-top:25px;"></i></i></h2>     <!-- DOM element is removed at the end of the `initComplete` callback once the table is ready -->
-                                    <table id="transactions" class="table table-hover table-bordered table-striped bu-data-table" style="display:none">     <!-- Initially hidden, the table is displayed at the end of the `initComplete` callback once it's ready -->
+                                    <table id="transactions" class="table table-bordered bu-data-table bu-table-striped bu-table-hover" style="display:none">     <!-- Initially hidden, the table is displayed at the end of the `initComplete` callback once it's ready -->
                                         <thead>
                                             <tr>
                                                 <th class="text-left">#</th>
@@ -313,7 +313,7 @@
                             name: 'amount',
                             className: 'transaction-amount exclude-from-column-visibility',
                             width: '125px',
-                            type: 'num', 
+                            //type: 'num', 
                             render: DataTable.render.number(',', '.', '2', '£'), 
                             createdCell: function (td, cellData, rowData, row, col) {
                                 if (cellData < 0) {
@@ -348,6 +348,7 @@
                             type: 'date',  
                             render: DataTable.render.datetime('ddd DD/MM/YYYY'),   // requires moment.js
                             createdCell: function (td, cellData, rowData, row, col) {
+                                //console.log($(td).attr('data-order'))
                                 $(td).addClass(Chronology(cellData));
                             },
                             orderable: true
@@ -594,6 +595,7 @@
                         //customClass('transaction-date', '')
                     },
                     createdRow: function (row, data, dataIndex) {
+                        //console.log(data[1].toLowerCase())
                         //console.log('DataTables createdRow Fired')
                         // data[1] contains the alpha account code A, B, ..., K
                         $(row).addClass('account-code-' + data[1].toLowerCase());   // 'account-code-a' where data[1] = 'A', for example

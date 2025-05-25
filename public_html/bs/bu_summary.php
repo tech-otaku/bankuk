@@ -137,7 +137,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table id="summary" class="table table-hover table-bordered table-striped">
+                                    <table id="summary" class="table bu-table-hover table-bordered bu-table-striped">
                                         <thead>
                                             <tr>                                    <!-- Row 1 -->
                                                 <th rowspan="2" style="vertical-align: middle;">A/C Code</th>           <!-- Column 1 -->

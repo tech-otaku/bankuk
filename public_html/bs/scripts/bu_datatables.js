@@ -76,7 +76,8 @@ function CreateFilterDropdownsIntegerSort(api) {
          * The arrow function '(a, b) => a - b' passed to sort() enures they are sorted as numbers - 1, 2, 10, 11, 12, 20 etc
          */
         column.data().unique().sort(function (a, b) {
-            return a - b          // See https://stackoverflow.com/a/68980030/2518495 re sorting on integers
+            // Descending (b - a), Ascending (a - b)
+            return b - a          // See https://stackoverflow.com/a/68980030/2518495 re sorting on integers
         }).each(function (d, j) {
             select.append(
                 '<option value="' + d + '">' + d + '</option>'

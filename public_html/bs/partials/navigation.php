@@ -23,7 +23,7 @@
                     <a class="nav-link" href="bu_manage_transactions.php">Transactions</a>
                 </li>
             <!-- Add Record Dropdown -->
-            <li class="nav-item nav-bar-separator dropdown">
+                <li class="nav-item nav-bar-separator dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown-add" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Add Record
                     </a>
@@ -40,49 +40,24 @@
                         <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
                     </ul>
                 </li>
-            <!-- Accounting Periods -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_accounting_periods.php">Accounting Periods</a>
-                </li>
-            <!-- Accounts -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_accounts.php">Accounts</a>
-                </li>
-            <!-- Banks -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_banks.php">Banks</a>
-                </li>
-            <!-- Entities -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_entities.php">Entities</a>
-                </li>
-            <!-- Pre-fills -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_prefills.php">Pre-fills</a>
-                </li>
-            <!-- Regular Debits -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_regular_debits.php">Regular Debits</a>
-                </li>
-            <!-- Regular Debit Types -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="bu_manage_regular_debit_types.php" aria-disabled="true">Regular Debit Types</a>
-                </li>
-            <!-- Tax Years -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_tax_years.php">Tax Years</a>
-                </li>
-            <!-- Transaction Methods -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_transaction_methods.php">Transaction Methods</a>
-                </li>
-            <!-- Transaction Types -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_transaction_types.php">Transaction Types</a>
-                </li>
-            <!-- Transaction Sub Types -->
-                <li class="nav-item">
-                    <a class="nav-link" href="bu_manage_transaction_sub_types.php">Transaction Sub-Types</a>
+            <!-- Manage Dropdown -->
+                <li class="nav-item nav-bar-separator dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-add" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-add">
+                        <li><a class="dropdown-item" href="bu_manage_accounting_periods.php">Accounting Periods</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_accounts.php">Accounts</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_banks.php">Banks</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_entities.php">Entities</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_prefills.php">Pre-fills</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_regular_debits.php">Regular Debits</a></li>
+                        <li><a class="dropdown-item disabled" href="bu_manage_regular_debit_types.php" aria-disabled="true">Regular Debit Types</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_tax_years.php">Tax Years</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_transaction_methods.php">Transaction Methods</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_transaction_types.php">Transaction Types</a></li>
+                        <li><a class="dropdown-item" href="bu_manage_transaction_sub_types.php">Transaction Sub-Types</a></li>
+                    </ul>
                 </li>
             <!-- System -->
                 <li class="nav-item dropdown">
