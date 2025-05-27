@@ -78,7 +78,7 @@
                                                 $counter = 1;
 
                                                 $stmt = $pdo->prepare("
-                                                    SELECT 
+                                                    SELECT
                                                         bu_reconcilliation.`period`,
                                                         bu_reconcilliation.`end`,
                                                         bu_reconcilliation.`opening`,
@@ -94,6 +94,7 @@
                                                         bu_reconcilliation.`closing`,
                                                         bu_reconcilliation.`savings_actual`,
                                                         bu_reconcilliation.`savings`,
+                                                        bu_monthly_spend.`id` AS _monthly_spend_record_id,
                                                         bu_monthly_spend.`salary`,
                                                         bu_monthly_spend.`pension`,
                                                         bu_monthly_spend.`cash`,
@@ -123,7 +124,7 @@
                                                 <td><?php echo $row->opening; ?></td>
                                                 <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Income'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->income; ?></td>
                                                 <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->income, 'filter' => 'filter-col-5=' . rawurlencode('Income') . '&filter-col-10=' . $row->period));?>
-                                                <td><?php echo $fmt_currency->formatCurrency($row->monthly_spend, "GBP"); ?></td>
+                                                <td><a class="no-link-color" href="#" data-bs-toggle="modal" data-bs-target="#view-monthly-spend-modal" data-mysql-table="bu_monthly_spend" data-record-id="<?php echo $row->_monthly_spend_record_id; ?>"><?php echo $fmt_currency->formatCurrency($row->monthly_spend, "GBP"); ?></a></td>
                                                 <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Taxable Interest'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->taxable_interest; ?></td>
                                                 <?php //TableCellLinks($fmt_currency, $data = array('amount' => $row->taxable_interest, 'filter' => 'filter-col-5=' . rawurlencode('Taxable Interest') . '&filter-col-10=' . $row->period));?>
                                                 <td data-filter-url-param="filter-col-5=<?php echo rawurlencode('Non-taxable Interest'); ?>&filter-col-10=<?php echo $row->period; ?>"><?php echo $row->tax_free_interest; ?></td>
@@ -142,7 +143,8 @@
                                                 <td><?php echo $row->savings_actual; ?></td>
                                                 <td><?php echo $row->savings; ?></td>
 
-                                                <?php 
+                                                <?php
+
                                                     $monthly_spend_savings = 
                                                         $row->salary +
                                                         $row->pension +
@@ -189,6 +191,153 @@
         <!-- Common Footer -->
             <?php include("partials/footer.php"); ?>
         </div>  <!-- ./wrapper -->
+    <!-- Update Transaction Modal -->
+        <div class="modal fade" id="view-monthly-spend-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">   <!-- `.modal-dialog-centered` to centre on screen -->
+                <div class="modal-content"  style="position: relative;">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel"><!-- jQuery populated --></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Inject the update transaction form -->
+                        <?php //include("forms/form_update_transaction.php"); ?>
+                        <div class="card-body">
+                            <div id="view-monthly-spend" class="container w-75" style="border: 1px solid #6c757d;">
+                                <h4 id="caption"></h4>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Salary
+                                    </div>
+                                    <div id="salary" class="col text-end" >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Pension
+                                    </div>
+                                    <div id="pension" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Cash
+                                    </div>
+                                    <div id="cash" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Utilities
+                                    </div>
+                                    <div id="utilities" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Commute
+                                    </div>
+                                    <div id="commute" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Cards
+                                    </div>
+                                    <div id="cards" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Supermarket
+                                    </div>
+                                    <div id="supermarket" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Other
+                                    </div>
+                                    <div id="other" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Rent
+                                    </div>
+                                    <div id="rent" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Charities
+                                    </div>
+                                    <div id="charities" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-secondary">
+                                    &nbsp;
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        Total Spend
+                                    </div>
+                                    <div id="total_spend" class="col text-end">
+                                    </div>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col">
+                                        Remaining
+                                    </div>
+                                    <div id="remaining" class="col text-end">
+                                    </div>
+                                </div>
+                            </div>
+                        <!--       
+                        <div class="card-footer">
+                            
+                        </div>
+                                            -->
+
+                    </div>
+                    <div class="modal-footer">
+                    <!-- Update-modal's close button -->
+                        <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
+        <style>
+            
+            table#view-monthly-spend {
+                table-layout: fixed;
+                width: 100%;
+                border-collapse: collapse;
+                border: 3px solid purple;
+            }
+            table#view-monthly-spend thead th:nth-child(1) {
+                width: 30%;
+            }
+
+            table#view-monthly-spend thead th:nth-child(2) {
+                width: 20%;
+            }
+
+            table#view-monthly-spend thead th:nth-child(3) {
+                width: 15%;
+            }
+
+            table#view-monthly-spend thead th:nth-child(4) {
+                width: 35%;
+            }
+
+            table#view-monthly-spend th,
+            table#view-monthly-spend td {
+                padding: 20px;
+            }
+        </style>
+        -->
     <!-- Common Scripts -->
         <?php include("partials/scripts.php"); ?>
     <!-- DataTable Table -->
@@ -295,8 +444,12 @@
                         createdCell: function (td, cellData, rowData, row, col) {
                             var amount = DataTable.render.number(',', '.', '2', '£').display(cellData)  // See https://datatables.net/examples/basic_init/data_rendering.html
                 
-                            var filter_url_param = $(td).attr("data-filter-url-param");
-                            $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
+                            if (intVal(cellData) !== 0) {
+                                var filter_url_param = $(td).attr("data-filter-url-param");
+                                $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
+                            } else {
+                                $(td).text(amount)
+                            }
                            
                             if (intVal(cellData) < 0) {
                                 $(td).addClass('debit');
@@ -306,6 +459,39 @@
                 ]
             });
         </script>
+    <!-- DataTable -->
+     <!--
+        <script>
+            new DataTable('#view-monthly-spend', {
+                ordering: false,
+                layout: {
+                    topStart: null,
+                    topEnd: null,
+                    bottomStart: null,
+                    bottomEnd: null
+                },
+                columns: [
+                    {
+                        name:'header', 
+                        orderable:false
+                    },
+                    {
+                        name:'value', 
+                        orderable:false,
+                        render: DataTable.render.number(',', '.', '2', '£'),
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            if (cellData < 0) {
+                                $(td).addClass('debit');
+                            }
+                        }
+                    }
+                ],
+                drawCallback ()
+            });
+        </script>
+            -->
+    <!-- Ajax Delete -->
+        <script src="ajax/bu_ajax_view_monthly_spend.js"></script>
     <!-- Page Script -->
         <script>
             $(function() {

@@ -66,3 +66,25 @@
         ]
     );
     $stmt = null;
+
+    // Populate the `total_spend` and `remaining` columns in the bu_monthly_spend table 
+        $stmt = $pdo->prepare("
+            UPDATE 
+                bu_monthly_spend 
+            SET 
+                bu_monthly_spend.`total_spend` = 
+                    bu_monthly_spend.`cash` + 
+                    bu_monthly_spend.`utilities` + 
+                    bu_monthly_spend.`commute` + 
+                    bu_monthly_spend.`cards` + 
+                    bu_monthly_spend.`supermarket` + 
+                    bu_monthly_spend.`other` +
+                    bu_monthly_spend.`rent` + 
+                    bu_monthly_spend.`charities`,
+                bu_monthly_spend.`remaining` = 
+                    bu_monthly_spend.`salary` + 
+                    bu_monthly_spend.`pension` + 
+                    bu_monthly_spend.`total_spend`;
+        ");
+        $stmt->execute();
+        $stmt = null;

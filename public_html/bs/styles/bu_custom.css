@@ -35,7 +35,20 @@ M    R-P     #C21460
 N
 */
 
+/*
+table.table.dataTable > tbody > tr.selected {
+    box-shadow: inset 0 0 0 9999px #acbad4 !important;
+    color: #333;
+    background-color: #fff !important;
+}
+    */
+
 :root {
+    
+    --dt-row-selected: 209, 224, 240;
+    --dt-row-selected-text: inherit;
+    --dt-row-selected-link: inherit;
+    
     --aqua-base: #e3f2f6;
     --aqua-odd: #d8edf3;
     --aqua-hover: #cee8ef;

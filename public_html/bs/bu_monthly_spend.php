@@ -218,9 +218,13 @@
                         createdCell: function (td, cellData, rowData, row, col) {
                             var amount = DataTable.render.number(',', '.', '2', '£').display(cellData)  // See https://datatables.net/examples/basic_init/data_rendering.html
                 
-                            var filter_url_param = $(td).attr("data-filter-url-param");
-                            $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
-                           
+                            if (intVal(cellData) !== 0) {
+                                var filter_url_param = $(td).attr("data-filter-url-param");
+                                $(td).html(`<a class="no-link-color" href="bu_manage_transactions.php?${filter_url_param}">${amount}</a>`);
+                            } else {
+                                $(td).text(amount)
+                            }
+                            
                             if (intVal(cellData) < 0) {
                                 $(td).addClass('debit');
                             }
