@@ -28,6 +28,8 @@
                         Add Record
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdown-add">
+                        <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="bu_add_accounting_period.php">Accounting Period</a></li>
                         <li><a class="dropdown-item" href="bu_add_account.php">Account</a></li>
                         <li><a class="dropdown-item" href="bu_add_bank.php">Bank</a></li>
@@ -35,7 +37,6 @@
                         <li><a class="dropdown-item" href="bu_add_prefill.php">Pre-fill</a></li>
                         <li><a class="dropdown-item" href="bu_add_regular_debit.php">Regular Debit</a></li>
                         <li><a class="dropdown-item disabled" href="bu_add_regular_debit_type.php">Regular Debit Type</a></li>
-                        <li><a class="dropdown-item" href="bu_add_transaction.php">Transaction</a></li>
                         <li><a class="dropdown-item" href="bu_add_transaction_sub_type.php">Transaction Sub-Type</a></li>
                         <li><a class="dropdown-item" href="bu_add_transaction_type.php">Transaction Type</a></li>
                     </ul>

@@ -169,7 +169,7 @@
         </script>
     <!-- AJAX Update -->
         <!-- <script src="ajax/bu_ajax_update_bank.js"></script> -->
-        <script src="ajax/bu_ajax_update_form.js">
+        <script src="ajax/bu_ajax_update_form.js"></script>
     <!-- Ajax Delete -->
         <script src="ajax/bu_ajax_delete.js"></script>
     <!-- Page Script -->

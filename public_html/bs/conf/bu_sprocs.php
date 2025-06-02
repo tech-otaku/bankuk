@@ -9,11 +9,10 @@
 
     $pdo->query("
         CREATE PROCEDURE
-            bu_transactions_get_transactions(
+            bu_transactions_get_transactions (
                 IN _record TEXT
             ) 
         BEGIN
-            /* This is a comment */
             SELECT 
                 bu_transactions.`id`,
                 bu_transactions.`account_id_alpha`,
@@ -36,8 +35,6 @@
             LEFT JOIN
                 bu_accounts ON bu_transactions.`account_id_alpha` = bu_accounts.`account_id_alpha`
             LEFT JOIN
-                bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
-            LEFT JOIN
                 bu_entities ON bu_transactions.`entity_id` = bu_entities.`entity_id`
             LEFT JOIN
                 bu_transaction_types ON bu_transactions.`type_id` = bu_transaction_types.`type_id`
@@ -45,8 +42,10 @@
                 bu_transaction_sub_types ON bu_transactions.`sub_type_id` = bu_transaction_sub_types.`sub_type_id`
             LEFT JOIN
                 bu_transaction_methods ON bu_transactions.`method_id` = bu_transaction_methods.`method_id`
+            LEFT JOIN
+                bu_banks ON bu_accounts.`bank_id` = bu_banks.`bank_id`
             WHERE 
-                bu_transactions.`id` LIKE _record
+                bu_transactions.`id` LIKE _record       /* ALL records are returned if `_record` is '%' */
             ORDER BY 
                 bu_transactions.`transaction_date` DESC, 
                 bu_transactions.`id` DESC;

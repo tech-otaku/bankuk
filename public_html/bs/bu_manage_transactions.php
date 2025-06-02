@@ -129,52 +129,16 @@
                                             <?php
                                                 $counter = 1;
 
-                                                // This stored procedure uses a WHERE clause to select rows whose `status` column is equal to a specific value. This value is passed as a parameter to the procedure: 'open', 'closed' or '%' = ALL
+                                                // This stored procedure uses a WHERE clause to select rows whose `id` column is equal to a specific value. This value is passed as a parameter to the procedure: '1' or '%' = ALL
                                                 $stmt = $pdo->prepare("
                                                     CALL 
                                                         bu_transactions_get_transactions(?);
                                                 ");
                                                 $stmt->execute(
                                                     [
-                                                        '%'
+                                                        '%'     // WHERE `id` LIKE '%', selects ALL records
                                                     ]
                                                 );
-
-                                                /*
-                                                $stmt = $pdo->prepare("
-                                                    SELECT 
-                                                        t1.id,
-                                                        t1.account_id_alpha,
-                                                        b1.trading_name,
-                                                        a1.name,
-                                                        a1.sort_code,
-                                                        a1.account_number,
-                                                        a1.status,
-                                                        t1.amount,
-                                                        tt1.description AS _type,
-                                                        tt2.description AS _subtype,
-                                                        e1.entity_description,
-                                                        t1.date,
-                                                        t1.period,
-                                                        t1.tax_year,
-                                                        t1.notes
-                                                    FROM
-                                                        bu_transactions AS t1
-                                                    LEFT JOIN
-                                                        bu_accounts AS a1 ON t1.account_id_alpha = a1.account_id_alpha
-                                                    LEFT JOIN
-                                                        bu_banks AS b1 ON a1.bank_id = b1.bank_id
-                                                    LEFT JOIN
-                                                        bu_entities AS e1 ON t1.entity_id = e1.entity_id
-                                                    LEFT JOIN
-                                                        bu_transaction_types AS tt1 ON t1.type = tt1.type
-                                                    LEFT JOIN
-                                                        bu_transaction_types AS tt2 ON t1.sub_type = tt2.type
-                                                    ORDER BY 
-                                                        t1.date DESC , t1.id DESC
-                                                ");
-                                                $stmt->execute();
-                                                */
 
                                                 while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                                             ?>
@@ -276,7 +240,7 @@
                     },
                     autoWidth: false,
                     stateSave: false,
-                    //select: true,
+                    select: false,
                     pageLength: 25,
                     lengthMenu: [
                         25, 
