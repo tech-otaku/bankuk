@@ -21,7 +21,7 @@
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
     <!-- Common Head -->
         <?php include("partials/head.php"); ?>
@@ -85,7 +85,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <a class="btn btn-success" href="bu_add_transaction.php">Add Transaction</a>
-                                    <button type="button" id="clear-filters" class="btn btn-warning btn-sm float-end d-none">Clear Filters</a>  <!-- `d-none` Bootstrap class initially hides the button -->
+                                    <button type="button" id="clear-filters" class="btn btn-warning btn-sm float-end d-none">Clear Filters</button>  <!-- `d-none` Bootstrap class initially hides the button -->
                                 </div>
                                 
                                 <div class="card-body pt-0">
